@@ -30,7 +30,14 @@ export const metadata: Metadata = {
       "Hollywood, minted. 2,222 pixel-art celebrity collectibles on Robinhood Chain with iconic traits, rarity and unlockable experiences.",
     url: SITE_URL,
     siteName: "GRIFTERS",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "GRIFTERS — 2,222 Celebrity NFTs" }],
+    images: [
+      {
+        url: "/og.png",
+        width: 2400,
+        height: 1260,
+        alt: "GRIFTERS — Hollywood, minted. 2,222 pixel-art celebrity collectibles on Robinhood Chain, shown as a fan of collectible cards on a pastel premiere red carpet.",
+      },
+    ],
     type: "website",
   },
   twitter: {
