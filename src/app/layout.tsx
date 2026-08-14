@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Instrument_Sans, Silkscreen } from "next/font/google";
 import "./globals.css";
+import { SITE_URL } from "@/lib/site";
 import { Providers } from "./providers";
 
 const sans = Instrument_Sans({
@@ -16,7 +17,6 @@ const pixel = Silkscreen({
   display: "swap",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://grifters.xyz";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
