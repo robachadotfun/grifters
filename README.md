@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GRIFTERS — 2,222 Celebrity NFTs
 
-## Getting Started
+Production website for the GRIFTERS collection: 2,222 pixel-art celebrity collectibles on Robinhood Chain. Light-theme "Pixel Hollywood" editorial design.
 
-First, run the development server:
+## Stack
+
+Next.js 14 (App Router) · TypeScript · Tailwind CSS · Framer Motion · wagmi v3 / viem · TanStack Query
+
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm start        # serve production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Configuration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+All collection/chain settings live in [src/config/collection.ts](src/config/collection.ts) and environment variables (see `.env.example`):
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_GRIFTERS_CONTRACT` | Mint contract address — mint UI stays gated ("Mint opening soon") until set |
+| `NEXT_PUBLIC_CHAIN_ID` / `NEXT_PUBLIC_RPC_URL` / `NEXT_PUBLIC_EXPLORER_URL` | Robinhood Chain params. Defaults use the official testnet values from [docs.robinhood.com/chain](https://docs.robinhood.com/chain/connecting) (chain id 46630) |
+| `OPENAI_API_KEY` | Server-side only; used by the asset generation script. Never shipped to the browser |
 
-## Learn More
+Mint phase is controlled by `COLLECTION.phase`: `PRELAUNCH · LIVE · SOLD_OUT · REVEAL_PENDING · REVEALED`. Mint price and reveal date render as TBA until real values are configured — nothing is invented.
 
-To learn more about Next.js, take a look at the following resources:
+Sample display metadata (names/traits/rarity on cards) is placeholder layout data in `collection.ts` — replace with real collection metadata before launch.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Assets
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `public/nfts/` — collection artwork + pre-reveal art
+- `public/generated/` — supporting pixel graphics (hero environment, lore divider, chain graphic)
+- `public/generated/grifters/` — the full world-building system (31 assets): section environments (Hollywood panorama, photo studio, dressing room, memorabilia collage, archive vault, premiere stage, pixel financial district, showroom, clouds, sunset) and transparent props (rarity gems, access-pass art, trait wardrobe pieces, the gold key, floating collectibles, success rays). All served as optimized WebP (~2.6 MB total)
+- `public/brand/` — **official Robinhood feather logo**, fetched from Robinhood's CDN (chain docsite) and the chain explorer favicon. Do not recolor or redraw.
 
-## Deploy on Vercel
+Regenerate missing assets (skips existing files, fails gracefully without a key):
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npx tsx scripts/generate-assets.ts   # artwork via OpenAI Images API
+npx tsx scripts/generate-icons.ts    # favicon, apple-touch-icon, OG image
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Web3
+
+- Wallet connect (injected), network detect + switch to Robinhood Chain, quantity select, simulate-free `mint(uint256)` write, pending/confirm states, explorer link, pack-tear success animation.
+- No transactions are ever faked. With no contract configured the terminal shows "Mint opening soon".
+- Minted supply reads `totalSupply()` live and drives the 2,222-pixel supply visualization.
+
+## Notes
+
+- `image-rendering: pixelated` keeps NFT art crisp at all sizes.
+- All motion respects `prefers-reduced-motion`.
+- SEO: OpenGraph/Twitter metadata, sitemap, robots, OG image composed from collection art.

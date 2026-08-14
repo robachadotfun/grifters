@@ -3,25 +3,386 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --cream: #fdfbf7;
+  --pearl: #f7f3ec;
+  --sky: #e3f0fb;
+  --powder: #cde3f7;
+  --lavender: #e9e4f8;
+  --blush: #f9dfe9;
+  --champagne: #f4e7cd;
+  --gold: #c9a24b;
+  --gold-soft: #e5cf9a;
+  --mint: #e0f4e9;
+  --rh-green: #2ebd6b;
+  --rh-pale: #eafaf1;
+  --ink: #2a2a33;
+  --ink-soft: #6b6b78;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+  font-feature-settings: "ss01" on, "cv01" on;
+  -webkit-font-smoothing: antialiased;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+::selection {
+  background: var(--blush);
+  color: var(--ink);
+}
+
+.pixelated {
+  image-rendering: pixelated;
+}
+
+.font-pixel {
+  font-family: var(--font-pixel), monospace;
+  letter-spacing: 0.04em;
+}
+
+/* Pixel-stepped border: collectible plate look without images */
+:where(.pixel-frame) {
+  position: relative;
+}
+.pixel-frame {
+  background: #fff;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 4px rgba(42, 42, 51, 0.9),
+    8px 8px 0 0 rgba(42, 42, 51, 0.08);
+}
+/* printed-card registration marks */
+.pixel-frame::before,
+.pixel-frame::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  pointer-events: none;
+  z-index: 5;
+}
+.pixel-frame::before {
+  top: 3px;
+  left: 3px;
+  border-top: 2px solid rgba(42, 42, 51, 0.22);
+  border-left: 2px solid rgba(42, 42, 51, 0.22);
+}
+.pixel-frame::after {
+  bottom: 3px;
+  right: 3px;
+  border-bottom: 2px solid rgba(42, 42, 51, 0.22);
+  border-right: 2px solid rgba(42, 42, 51, 0.22);
+}
+
+.pixel-chip {
+  box-shadow:
+    0 0 0 2px currentColor;
+}
+
+/* dotted "perforation" for tickets */
+.ticket-notch {
+  --notch-bg: var(--cream);
+  background-image: radial-gradient(circle at 50% 50%, var(--notch-bg) 5px, transparent 5.5px);
+  background-size: 14px 14px;
+  background-position: center;
+}
+
+/* soft checker texture like the NFT backgrounds */
+.pixel-checker {
+  background-image:
+    linear-gradient(45deg, rgba(255, 255, 255, 0.35) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.35) 75%),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.35) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.35) 75%);
+  background-size: 12px 12px;
+  background-position: 0 0, 6px 6px;
+}
+
+.ticker-mask {
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+@keyframes ticker-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-ticker {
+  animation: ticker-x 48s linear infinite;
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float {
+  animation: float-y 7s ease-in-out infinite;
+}
+.animate-float-slow {
+  animation: float-y 10s ease-in-out infinite;
+}
+
+@keyframes sparkle-pop {
+  0% { opacity: 0; transform: scale(0.2) rotate(0deg); }
+  40% { opacity: 1; transform: scale(1) rotate(20deg); }
+  100% { opacity: 0; transform: scale(0.3) rotate(45deg); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+.animate-twinkle {
+  animation: twinkle 3.4s ease-in-out infinite;
+}
+
+@keyframes flashbulb {
+  0% { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+.flashbulb {
+  animation: flashbulb 0.55s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ticker { animation-duration: 160s; }
+  .animate-float,
+  .animate-float-slow,
+  .animate-twinkle {
+    animation: none;
   }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ——— GRIFTERS pixel UI system ——— */
+
+/* printed-paper grain, ~2% */
+.grain {
+  position: relative;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* the overlay is pointer-transparent and ~2% opacity, so content may paint beneath it */
+
+/* pixel-stepped section edge (place at top of a section; --edge = color of the section above) */
+.pixel-edge {
+  height: 24px;
+  background-image: repeating-linear-gradient(90deg, var(--edge) 0 12px, transparent 12px 24px),
+    repeating-linear-gradient(90deg, transparent 0 12px, var(--edge) 12px 24px);
+  background-size: 100% 12px, 100% 12px;
+  background-position: 0 0, 0 12px;
+  background-repeat: repeat-x;
+}
+
+/* collectible cartridge/tag buttons */
+.cartridge {
+  position: relative;
+  border: 2px solid rgba(42, 42, 51, 0.9);
+  background: #fff;
+  box-shadow: 3px 3px 0 0 rgba(42, 42, 51, 0.14);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+}
+.cartridge:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 0 rgba(42, 42, 51, 0.14);
+}
+.cartridge[aria-pressed="true"] {
+  background: var(--ink);
+  color: #fff;
+}
+
+/* buttons press down 2px */
+.btn-pixel {
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease, border-color 0.15s ease;
+  box-shadow: 4px 4px 0 0 rgba(42, 42, 51, 0.85);
+}
+.btn-pixel:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 0 rgba(42, 42, 51, 0.85);
+}
+
+/* shimmer sweep for sealed artwork + legendary gems */
+@keyframes shimmer-x {
+  0% { transform: translateX(-120%) skewX(-12deg); }
+  100% { transform: translateX(240%) skewX(-12deg); }
+}
+.shimmer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+.shimmer-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 34%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  animation: shimmer-x 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes paparazzi {
+  0%, 88%, 100% { opacity: 0; }
+  90% { opacity: 0.85; }
+  93% { opacity: 0.1; }
+  95% { opacity: 0.5; }
+  97% { opacity: 0; }
+}
+.paparazzi-flash {
+  animation: paparazzi 9s linear infinite;
+}
+
+/* film strip crawl */
+@keyframes film-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-film {
+  animation: film-x 70s linear infinite;
+}
+.film-rail:hover .animate-film {
+  animation-play-state: paused;
+}
+
+@keyframes gem-shimmer {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.35); }
+}
+.animate-gem {
+  animation: gem-shimmer 2.8s ease-in-out infinite;
+}
+
+/* pack shake, then tear open */
+@keyframes pack-tear {
+  0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+  10% { transform: translate(-3px, 0) rotate(-1.5deg); opacity: 1; }
+  20% { transform: translate(3px, 0) rotate(1.5deg); opacity: 1; }
+  30% { transform: translate(-2px, 0) rotate(-1deg); opacity: 1; }
+  40% { transform: translate(0, -4px) rotate(0); opacity: 1; }
+  100% { transform: translate(0, -80px) rotate(-10deg); opacity: 0; }
+}
+.animate-pack-tear {
+  animation: pack-tear 1.3s ease-in 0.35s forwards;
+}
+.burst-sparkle {
+  opacity: 0;
+  animation: sparkle-pop 0.8s ease-out forwards;
+}
+@keyframes pack-reveal {
+  0%, 55% { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.animate-pack-reveal {
+  animation: pack-reveal 1.6s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer-bar,
+  .paparazzi-flash,
+  .animate-film,
+  .animate-gem {
+    animation: none;
+  }
+  .animate-pack-tear {
+    animation-duration: 0.01s;
+    animation-delay: 0s;
+  }
+  .animate-pack-reveal {
+    animation-duration: 0.01s;
+  }
+}
+
+/* ——— world-layer motion ——— */
+
+@keyframes drift-a {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(6px, -8px) rotate(2deg); }
+}
+@keyframes drift-b {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-7px, 6px) rotate(-2deg); }
+}
+.animate-drift-a { animation: drift-a 9s ease-in-out infinite; }
+.animate-drift-b { animation: drift-b 12s ease-in-out infinite; }
+
+/* mystery orbit around the sealed pack (desktop only) */
+@keyframes orbit-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes orbit-unspin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+.orbit-ring { animation: orbit-spin 52s linear infinite; }
+.orbit-item { animation: orbit-unspin 52s linear infinite; }
+
+/* curtain edges easing inward/outward on reveal */
+.curtain-left,
+.curtain-right {
+  transition: transform 2.4s ease-out;
+}
+
+/* rarity gem idle motion */
+@keyframes glint {
+  0%, 92%, 100% { filter: brightness(1); }
+  95% { filter: brightness(1.4); }
+}
+.animate-glint { animation: glint 6s ease-in-out infinite; }
+@keyframes foil-sweep {
+  0%, 78%, 100% { filter: brightness(1) saturate(1); }
+  86% { filter: brightness(1.3) saturate(1.15); }
+}
+.animate-foil { animation: foil-sweep 8s ease-in-out infinite; }
+
+/* mint particles */
+@keyframes particle-rise {
+  0% { transform: translateY(12px); opacity: 0; }
+  25% { opacity: 0.7; }
+  75% { opacity: 0.7; }
+  100% { transform: translateY(-26px); opacity: 0; }
+}
+.animate-particle { animation: particle-rise 8s ease-in-out infinite; }
+
+/* success rays */
+@keyframes rays-in {
+  from { transform: scale(0.94); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.animate-rays { animation: rays-in 0.5s ease-out 1.2s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-drift-a,
+  .animate-drift-b,
+  .orbit-ring,
+  .orbit-item,
+  .animate-glint,
+  .animate-foil,
+  .animate-particle {
+    animation: none;
+  }
+  .curtain-left,
+  .curtain-right {
+    transition: none;
+  }
+}
+
+/* focus visibility on a light theme */
+:focus-visible {
+  outline: 2px solid var(--rh-green);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
