@@ -50,7 +50,7 @@ async function endCard() {
   <g shape-rendering="crispEdges">
     <path transform="translate(${W / 2 - 33},492) scale(4.6)" fill="#c9a24b" opacity="0.9" d="M0 5h2v2h2V5h2V3h2v2h2v2h2V5h2v6H0z"/>
   </g>
-  <text x="${W / 2}" y="622" text-anchor="middle" font-family="Courier, monospace" font-size="22" font-weight="bold" fill="#a3a3ad" letter-spacing="8">2,222 · ROBINHOOD CHAIN · REVEAL PENDING</text>
+  <text x="${W / 2}" y="622" text-anchor="middle" font-family="Courier, monospace" font-size="22" font-weight="bold" fill="#a3a3ad" letter-spacing="8">2,222 · COMING SOON ON ROBINHOOD CHAIN</text>
 </svg>`);
   await sharp(svg).png().toFile(path.join(DIR, "card-end.png"));
   console.log("card-end.png");

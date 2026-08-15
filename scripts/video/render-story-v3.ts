@@ -71,13 +71,14 @@ async function main() {
   const barBot = await png(
     `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${BAR}"><rect width="${W}" height="${BAR}" fill="${INK}"/><rect width="${W}" height="3" fill="#c9a24b" fill-opacity="0.5"/></svg>`,
   );
-  const caption = (text: string, color: string) =>
+  // floating caption: ink text with a soft warm halo so it reads on any footage
+  const caption = (text: string) =>
     png(
-      `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${BAR}"><text x="${W / 2}" y="${BAR / 2 + 8}" text-anchor="middle" font-family="Courier, monospace" font-size="21" font-weight="bold" fill="${color}" letter-spacing="9">${text}</text></svg>`,
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${BAR}"><text x="${W / 2}" y="${BAR / 2 + 8}" text-anchor="middle" font-family="Courier, monospace" font-size="21" font-weight="bold" fill="${INK}" stroke="#fdf6e0" stroke-width="7" stroke-opacity="0.85" paint-order="stroke" letter-spacing="9">${text}</text></svg>`,
     );
-  const capFlash = await caption("EVERY FLASH CAPTURES AN ICON", "#f4e7cd");
-  const capSeal = await caption("IDENTITY SEALED", "#e5cf9a");
-  const capChain = await caption("MINTED ON ROBINHOOD CHAIN", "#8fd4ae");
+  const capFlash = await caption("EVERY FLASH CAPTURES AN ICON");
+  const capSeal = await caption("IDENTITY SEALED");
+  const capChain = await caption("MINTED ON ROBINHOOD CHAIN");
 
   const flashLv: Buffer[] = [];
   for (let i = 1; i <= 10; i++)
@@ -209,7 +210,7 @@ async function main() {
   <text x="${x1}" y="336" text-anchor="start" font-family="Courier, monospace" font-size="50" font-weight="bold" fill="${INK}" letter-spacing="6">${c1}</text>
   <text x="${x2}" y="416" text-anchor="start" font-family="Courier, monospace" font-size="50" font-weight="bold" fill="#c9a24b" letter-spacing="6">${c2}</text>
   ${caretSvg}
-  ${footer ? `<g shape-rendering="crispEdges"><path transform="translate(${W / 2 - 32},486) scale(4.6)" fill="#c9a24b" opacity="0.9" d="M0 5h2v2h2V5h2V3h2v2h2v2h2V5h2v6H0z"/></g><text x="${W / 2}" y="608" text-anchor="middle" font-family="Courier, monospace" font-size="21" font-weight="bold" fill="#a3a3ad" letter-spacing="8">2,222 · ROBINHOOD CHAIN · REVEAL PENDING</text>` : ""}
+  ${footer ? `<g shape-rendering="crispEdges"><path transform="translate(${W / 2 - 32},486) scale(4.6)" fill="#c9a24b" opacity="0.9" d="M0 5h2v2h2V5h2V3h2v2h2v2h2V5h2v6H0z"/></g><text x="${W / 2}" y="608" text-anchor="middle" font-family="Courier, monospace" font-size="21" font-weight="bold" fill="#a3a3ad" letter-spacing="8">2,222 · COMING SOON ON ROBINHOOD CHAIN</text>` : ""}
 </svg>`);
   };
 
@@ -476,12 +477,8 @@ async function main() {
       if (f === F.sting || f === F.sting + 1) layers.push({ input: flashAt(0.5 - 0.25 * (f - F.sting)), left: 0, top: 0 });
     }
 
-    /* ————— global finishing: letterbox, caption, vignette, grain ————— */
-    if (letterbox) {
-      layers.push({ input: barTop, left: 0, top: 0 });
-      layers.push({ input: barBot, left: 0, top: H - BAR });
-      if (capBuf) layers.push({ input: capBuf, left: 0, top: H - BAR });
-    }
+    /* ————— global finishing: caption, vignette, grain (no letterbox) ————— */
+    if (letterbox && capBuf) layers.push({ input: capBuf, left: 0, top: H - BAR - 12 });
     layers.push({ input: vignette, left: 0, top: 0 });
     layers.push({ input: grains[f % 3], left: 0, top: 0 });
 
