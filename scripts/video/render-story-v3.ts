@@ -108,8 +108,9 @@ async function main() {
     .resize(1480, 987, { fit: "cover" }).modulate({ brightness: 1.06, saturation: 0.92 }).png().toBuffer();
   const bgCity = await sharp(path.join(PUB, "generated", "grifters", "robinhood-pixel-city.png"))
     .resize(1800, 760, { fit: "cover" }).modulate({ brightness: 1.05 }).png().toBuffer();
+  // warm apricot-sand gradient matched to the journey clip's opening sky
   const bgCream = await png(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fdfbf7"/><stop offset="0.55" stop-color="#f7f3ec"/><stop offset="1" stop-color="#f4e7cd"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#bg)"/></svg>`,
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf0d0"/><stop offset="0.5" stop-color="#f6e3b4"/><stop offset="1" stop-color="#ecd09b"/></linearGradient><radialGradient id="sun" cx="0.5" cy="0.34" r="0.6"><stop offset="0" stop-color="#fdf7dd" stop-opacity="0.85"/><stop offset="1" stop-color="#fdf7dd" stop-opacity="0"/></radialGradient></defs><rect width="${W}" height="${H}" fill="url(#bg)"/><rect width="${W}" height="${H}" fill="url(#sun)"/></svg>`,
   );
 
   /* ————— title parts ————— */
@@ -199,7 +200,12 @@ async function main() {
       : "";
     return png(`
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
-  <rect width="${W}" height="${H}" fill="#fdfbf7"/>
+  <defs>
+    <linearGradient id="ebg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf5e3"/><stop offset="0.6" stop-color="#f6ecd4"/><stop offset="1" stop-color="#f0e0bd"/></linearGradient>
+    <radialGradient id="eglow" cx="0.5" cy="0.42" r="0.62"><stop offset="0" stop-color="#fdf9e8" stop-opacity="0.9"/><stop offset="1" stop-color="#fdf9e8" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="${W}" height="${H}" fill="url(#ebg)"/>
+  <rect width="${W}" height="${H}" fill="url(#eglow)"/>
   <text x="${x1}" y="336" text-anchor="start" font-family="Courier, monospace" font-size="50" font-weight="bold" fill="${INK}" letter-spacing="6">${c1}</text>
   <text x="${x2}" y="416" text-anchor="start" font-family="Courier, monospace" font-size="50" font-weight="bold" fill="#c9a24b" letter-spacing="6">${c2}</text>
   ${caretSvg}
