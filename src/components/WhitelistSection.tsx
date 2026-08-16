@@ -5,6 +5,7 @@ import { GrifterPack } from "./GrifterPack";
 import { PixelCrown, PixelSparkle } from "./pixel/PixelIcons";
 import { PixelEdge, DecoField } from "./pixel/Decor";
 import { WhitelistForm } from "./WhitelistForm";
+import { AutoWhitelist } from "./AutoWhitelist";
 
 export function WhitelistSection() {
   return (
@@ -45,6 +46,13 @@ export function WhitelistSection() {
             <div className="border-4 border-ink/90" style={{ boxShadow: "12px 12px 0 0 rgba(46,189,107,0.2)" }}>
               <WhitelistForm />
             </div>
+          </Reveal>
+        </div>
+
+        {/* partner communities — automatically whitelisted */}
+        <div className="relative mx-auto max-w-6xl px-4 sm:px-8 mt-12">
+          <Reveal delay={0.15}>
+            <AutoWhitelist />
           </Reveal>
         </div>
       </div>

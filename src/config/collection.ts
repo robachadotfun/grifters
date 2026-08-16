@@ -101,6 +101,28 @@ export const GRIFTERS: GrifterCard[] = [
   },
 ];
 
+/**
+ * Communities whose holders are automatically whitelisted (snapshot taken).
+ * Edit this list as partnerships are confirmed.
+ */
+export const AUTO_WHITELIST_COLLECTIONS = [
+  "H00dle",
+  "Monkeyhood",
+  "Gremlin Cartel",
+  "Quotrons",
+  "Spritehood Wisps",
+  "Stackers",
+  "Broker Punks",
+  "Script Kiddies",
+  "Robinhood Kitties",
+  "Bulls Runners",
+  "Yardkeepers",
+  "Zaibatsu Wagies",
+  "Nakamigos",
+  "Normies",
+  "Good Vibes Club",
+];
+
 export const PREREVEAL = {
   src: "/nfts/prereveal.png",
   alt: "Pre-reveal Grifter: a glamorous pixel silhouette behind translucent pearl curtains with a golden question mark",

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { WhitelistForm } from "./WhitelistForm";
+import { AutoWhitelist } from "./AutoWhitelist";
 
 export const OPEN_WHITELIST_EVENT = "grifters:open-whitelist";
 
@@ -61,6 +62,7 @@ export function WhitelistModal() {
           ✕
         </button>
         <WhitelistForm />
+        <AutoWhitelist compact />
       </div>
     </div>
   );
