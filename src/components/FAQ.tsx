@@ -34,8 +34,8 @@ export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="relative" style={{ background: "var(--sky)" }}>
-      <PixelEdge color="var(--pearl)" />
+    <section id="faq" className="relative" style={{ background: "var(--rh-pale)" }}>
+      <PixelEdge color="var(--sky)" />
       {/* faint pixel clouds */}
       <div aria-hidden className="absolute inset-0 overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}

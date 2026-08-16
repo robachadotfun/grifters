@@ -12,6 +12,7 @@ import { PreReveal } from "@/components/PreReveal";
 import { ChainSection } from "@/components/ChainSection";
 import { HowItWorks } from "@/components/HowItWorks";
 import { MintSection } from "@/components/MintSection";
+import { WhitelistSection } from "@/components/WhitelistSection";
 import { FAQ } from "@/components/FAQ";
 import { Footer } from "@/components/Footer";
 
@@ -33,6 +34,7 @@ export default function Home() {
         <ChainSection />
         <HowItWorks />
         <MintSection />
+        <WhitelistSection />
         <FAQ />
       </main>
       <Footer />

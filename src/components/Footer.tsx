@@ -5,7 +5,7 @@ import { RobinhoodFeather } from "./RobinhoodMark";
 export function Footer() {
   return (
     <footer className="bg-cream">
-      <PixelEdge color="var(--sky)" />
+      <PixelEdge color="var(--rh-pale)" />
       {/* the universe ends where it began — pale Hollywood sunset */}
       <div aria-hidden className="relative h-32 sm:h-48 overflow-hidden border-b-2 border-ink/10">
         {/* eslint-disable-next-line @next/next/no-img-element */}

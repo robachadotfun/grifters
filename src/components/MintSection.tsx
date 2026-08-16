@@ -316,6 +316,13 @@ export function MintSection() {
                       <p className="mt-2.5 text-base text-ink-soft">
                         Follow the drop — minting goes live on Robinhood Chain.
                       </p>
+                      <a
+                        href="#whitelist"
+                        className="btn-pixel mt-5 inline-flex items-center justify-center min-h-[52px] px-7 font-pixel text-xs border-2 border-ink transition-colors"
+                        style={{ background: "var(--rh-green)", color: "#10321f" }}
+                      >
+                        JOIN THE WHITELIST ↓
+                      </a>
                     </div>
                   ) : soldOut ? (
                     <div className="text-center border-2 border-ink py-9 px-4 bg-champagne/60">
