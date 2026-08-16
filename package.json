@@ -14,6 +14,7 @@
     "@tanstack/react-query": "^5.101.4",
     "framer-motion": "^13.1.0",
     "next": "14.2.35",
+    "pg": "^8.23.0",
     "react": "^18",
     "react-dom": "^18",
     "viem": "^2.55.15",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/pg": "^8.21.0",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",

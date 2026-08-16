@@ -36,6 +36,26 @@ type Entry = {
   ts: string;
 };
 
+async function saveSupabaseDB(entry: Entry): Promise<boolean> {
+  const dbUrl = process.env.SUPABASE_DB_URL;
+  if (!dbUrl) return false;
+  const { Client } = await import("pg");
+  const client = new Client({ connectionString: dbUrl, ssl: { rejectUnauthorized: false } });
+  try {
+    await client.connect();
+    // duplicate wallet (case-insensitive) = already whitelisted, still a success
+    await client.query(
+      `insert into whitelist (wallet, twitter, tweet_url)
+       select $1, $2, $3
+       where not exists (select 1 from whitelist where lower(wallet) = lower($1))`,
+      [entry.wallet, entry.twitter, entry.tweetUrl],
+    );
+    return true;
+  } finally {
+    await client.end().catch(() => {});
+  }
+}
+
 async function saveSupabase(entry: Entry): Promise<boolean> {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -153,6 +173,7 @@ export async function POST(req: Request) {
   };
 
   const stored =
+    (await saveSupabaseDB(entry).catch(() => false)) ||
     (await saveSupabase(entry).catch(() => false)) ||
     (await saveKV(entry).catch(() => false)) ||
     (await saveWebhook(entry).catch(() => false)) ||
