@@ -7,10 +7,23 @@ export const runtime = "nodejs";
 
 /**
  * Whitelist submissions. Sinks, in order:
- * 1. Vercel KV / Upstash (KV_REST_API_URL + KV_REST_API_TOKEN)
- * 2. Webhook (WHITELIST_WEBHOOK_URL — Discord webhook or any JSON endpoint)
- * 3. Local JSONL file (development)
- * Configure at least one of 1/2 in production.
+ * 1. Supabase (SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY) — primary store
+ * 2. Vercel KV / Upstash (KV_REST_API_URL + KV_REST_API_TOKEN)
+ * 3. Webhook (WHITELIST_WEBHOOK_URL — Discord webhook or any JSON endpoint)
+ * 4. Local JSONL file (development)
+ * Configure at least one of 1–3 in production.
+ *
+ * Supabase table (run once in the SQL editor):
+ *   create table whitelist (
+ *     id bigint generated always as identity primary key,
+ *     wallet text not null,
+ *     twitter text not null,
+ *     tweet_url text,
+ *     created_at timestamptz not null default now()
+ *   );
+ *   create unique index whitelist_wallet_key on whitelist (lower(wallet));
+ *   alter table whitelist enable row level security;
+ * (no RLS policies needed — only the service role writes, from this route)
  */
 
 const HANDLE_RE = /^@?[A-Za-z0-9_]{1,15}$/;
@@ -22,6 +35,28 @@ type Entry = {
   tweetUrl: string | null;
   ts: string;
 };
+
+async function saveSupabase(entry: Entry): Promise<boolean> {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return false;
+  const res = await fetch(`${url.replace(/\/$/, "")}/rest/v1/whitelist`, {
+    method: "POST",
+    headers: {
+      apikey: key,
+      Authorization: `Bearer ${key}`,
+      "Content-Type": "application/json",
+      Prefer: "return=minimal",
+    },
+    body: JSON.stringify({
+      wallet: entry.wallet,
+      twitter: entry.twitter,
+      tweet_url: entry.tweetUrl,
+    }),
+  });
+  // 409 = wallet already whitelisted — that's a success from the user's view
+  return res.ok || res.status === 409;
+}
 
 async function saveKV(entry: Entry): Promise<boolean> {
   const url = process.env.KV_REST_API_URL;
@@ -118,6 +153,7 @@ export async function POST(req: Request) {
   };
 
   const stored =
+    (await saveSupabase(entry).catch(() => false)) ||
     (await saveKV(entry).catch(() => false)) ||
     (await saveWebhook(entry).catch(() => false)) ||
     (process.env.NODE_ENV !== "production" && saveFile(entry));
