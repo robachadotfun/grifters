@@ -161,7 +161,10 @@ export async function POST(req: Request) {
   if (!HANDLE_RE.test(twitter)) {
     return NextResponse.json({ ok: false, error: "That doesn't look like a valid X username." }, { status: 400 });
   }
-  if (tweetUrlRaw && !TWEET_RE.test(tweetUrlRaw)) {
+  if (!tweetUrlRaw) {
+    return NextResponse.json({ ok: false, error: "Tweet about GRIFTERS and paste your tweet link — it's required." }, { status: 400 });
+  }
+  if (!TWEET_RE.test(tweetUrlRaw)) {
     return NextResponse.json({ ok: false, error: "The tweet link should be an x.com/…/status/… URL." }, { status: 400 });
   }
 

@@ -4,9 +4,26 @@ import { useState } from "react";
 import { useAccount } from "wagmi";
 import { PixelCrown, PixelSparkle, PixelWallet } from "./pixel/PixelIcons";
 
-export const TWEET_TEXT = encodeURIComponent(
-  "Fame was always collectible. 👑\n\n2,222 pixel celebrity collectibles, sealed on Robinhood Chain. Identity hidden until reveal.\n\nGRIFTERS is coming. @griftersonchain\n",
-);
+const SITE = "https://www.grifters.market";
+
+/**
+ * Pre-written tweet pool — every visitor gets a random one, and every tweet
+ * carries the site link so X unfurls the GRIFTERS premiere card as a graphic.
+ */
+const TWEETS = [
+  `Fame was always collectible. 👑\n\n2,222 pixel celebrity collectibles, sealed on Robinhood Chain. Identity hidden until reveal.\n\n@griftersonchain is coming.\n${SITE}`,
+  `The cameras caught something. 📸\n\n2,222 identities sealed in packs on Robinhood Chain. Nobody knows which icon they'll pull.\n\n@griftersonchain\n${SITE}`,
+  `Hollywood, minted. 👑\n\nPixel icons, rare traits, real-world unlocks — and every identity stays sealed until reveal.\n\n@griftersonchain\n${SITE}`,
+  `Beyond the rope, already. 🎟️\n\nJust joined the @griftersonchain whitelist — 2,222 sealed icons coming to Robinhood Chain.\n\n${SITE}`,
+  `Posters. Autographs. Trading cards. Now packs. 👑\n\nEvery generation collected its icons — @griftersonchain brings them onchain.\n\n${SITE}`,
+  `Some pixels open real doors. 🚪✨\n\n2,222 celebrity collectibles with real-world unlocks, sealed until reveal on Robinhood Chain.\n\n@griftersonchain\n${SITE}`,
+  `I'm on the guest list. 👑\n\n@griftersonchain — 2,222 sealed celebrity icons on Robinhood Chain. Which one will you pull?\n\n${SITE}`,
+  `Identity sealed. Reveal pending. 🤫\n\nThe most fun mint mechanic I've seen — you don't know your icon until the curtain opens.\n\n@griftersonchain\n${SITE}`,
+];
+
+export function pickTweet() {
+  return encodeURIComponent(TWEETS[Math.floor(Math.random() * TWEETS.length)]);
+}
 
 type Phase = "FORM" | "SUBMITTING" | "DONE";
 
@@ -18,6 +35,8 @@ export function WhitelistForm() {
   const [tweetUrl, setTweetUrl] = useState("");
   const [phase, setPhase] = useState<Phase>("FORM");
   const [error, setError] = useState<string | null>(null);
+  // one random pre-written tweet per visitor (stable for the session)
+  const [tweetText] = useState(() => pickTweet());
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,7 +86,7 @@ export function WhitelistForm() {
           We&apos;ll see you on the carpet. Identity stays sealed until reveal.
         </p>
         <a
-          href={`https://x.com/intent/tweet?text=${TWEET_TEXT}`}
+          href={`https://x.com/intent/tweet?text=${pickTweet()}`}
           target="_blank"
           rel="noopener noreferrer"
           className="btn-pixel mt-6 inline-flex items-center justify-center min-h-[48px] px-6 font-pixel text-[11px] border-2 border-ink bg-ink text-white hover:bg-rh-green hover:border-rh-green transition-colors"
@@ -124,28 +143,33 @@ export function WhitelistForm() {
         />
       </label>
 
-      <label className="block mb-2">
-        <span className="font-pixel text-[10px] text-ink-soft block mb-2">YOUR TWEET ABOUT GRIFTERS</span>
+      <div className="mb-4 border-2 border-dashed border-rh-green/50 bg-rh-pale/50 p-3.5">
+        <p className="font-pixel text-[10px] text-ink mb-2.5">STEP 1 — POST YOUR TWEET (ONE CLICK)</p>
+        <a
+          href={`https://x.com/intent/tweet?text=${tweetText}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-pixel inline-flex items-center justify-center w-full min-h-[46px] px-4 font-pixel text-[11px] border-2 border-ink bg-ink text-white hover:bg-rh-green hover:border-rh-green transition-colors"
+        >
+          TWEET ABOUT GRIFTERS →
+        </a>
+        <p className="mt-2 font-pixel text-[8px] text-ink-soft leading-relaxed">
+          WE WROTE IT FOR YOU — JUST HIT POST, THEN COPY YOUR TWEET&apos;S LINK.
+        </p>
+      </div>
+
+      <label className="block mb-5">
+        <span className="font-pixel text-[10px] text-ink-soft block mb-2">STEP 2 — PASTE YOUR TWEET LINK *</span>
         <input
           className={input}
           value={tweetUrl}
           onChange={(e) => setTweetUrl(e.target.value)}
           placeholder="https://x.com/…/status/…"
+          required
           spellCheck={false}
           autoComplete="off"
         />
       </label>
-      <p className="font-pixel text-[9px] text-ink-soft/80 mb-5 leading-relaxed">
-        OPTIONAL — BUT ICONS WHO TWEET WALK THE CARPET FIRST.{" "}
-        <a
-          href={`https://x.com/intent/tweet?text=${TWEET_TEXT}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-rh-green underline"
-        >
-          TWEET NOW →
-        </a>
-      </p>
 
       {/* honeypot */}
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />

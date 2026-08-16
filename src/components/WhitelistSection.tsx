@@ -26,8 +26,8 @@ export function WhitelistSection() {
                 a <span className="text-rh-green">guest list.</span>
               </h2>
               <p className="mt-6 text-lg sm:text-xl text-ink-soft max-w-md mx-auto lg:mx-0 leading-relaxed">
-                Get whitelisted before mint opens. Drop your wallet, your X handle,
-                and — if you want to move up the carpet — a tweet about GRIFTERS.
+                Get whitelisted before mint opens: drop your wallet, your X handle,
+                and one tweet about GRIFTERS — we&apos;ve already written it for you.
               </p>
               <div className="mt-7 hidden lg:flex items-center gap-5">
                 <div className="animate-float-slow">
