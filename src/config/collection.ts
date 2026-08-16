@@ -121,6 +121,15 @@ export const AUTO_WHITELIST_COLLECTIONS = [
   "Nakamigos",
   "Normies",
   "Good Vibes Club",
+  "Funkari",
+  "Cash Cats",
+  "RH Machines",
+  "OnchainHoodies",
+  "NPC",
+  "Pyopyopyo",
+  "Chain Mancers",
+  "Pitboys",
+  "Stonkbrokers",
 ];
 
 export const PREREVEAL = {
