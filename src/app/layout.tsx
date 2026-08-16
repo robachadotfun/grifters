@@ -42,6 +42,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@griftersonchain",
+    creator: "@griftersonchain",
     title: "GRIFTERS — 2,222 Celebrity NFTs",
     description:
       "Hollywood, minted. 2,222 pixel-art celebrity collectibles on Robinhood Chain.",

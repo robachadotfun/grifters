@@ -47,7 +47,7 @@ export function Footer() {
             <div className="flex flex-col gap-3">
               <span className="font-pixel text-[9px] text-ink-soft">SOCIAL</span>
               <a
-                href="https://x.com"
+                href="https://x.com/griftersonchain"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm hover:text-rh-green py-1"

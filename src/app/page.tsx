@@ -13,6 +13,7 @@ import { ChainSection } from "@/components/ChainSection";
 import { HowItWorks } from "@/components/HowItWorks";
 import { MintSection } from "@/components/MintSection";
 import { WhitelistSection } from "@/components/WhitelistSection";
+import { WhitelistModal } from "@/components/WhitelistModal";
 import { FAQ } from "@/components/FAQ";
 import { Footer } from "@/components/Footer";
 
@@ -38,6 +39,7 @@ export default function Home() {
         <FAQ />
       </main>
       <Footer />
+      <WhitelistModal />
     </>
   );
 }

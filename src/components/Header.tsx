@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { PixelCrown } from "./pixel/PixelIcons";
 import { ConnectButton } from "./ConnectButton";
+import { openWhitelist } from "./WhitelistModal";
 
 const NAV = [
   { href: "#collection", label: "Collection" },
@@ -27,17 +28,28 @@ export function Header() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-6" aria-label="Main">
-            {NAV.map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                className={`font-pixel text-[11px] py-2 hover:text-rh-green transition-colors ${
-                  n.label === "Mint" ? "text-rh-green" : "text-ink"
-                }`}
-              >
-                {n.label.toUpperCase()}
-              </a>
-            ))}
+            {NAV.map((n) =>
+              n.href === "#whitelist" ? (
+                <button
+                  key={n.href}
+                  type="button"
+                  onClick={() => openWhitelist()}
+                  className="font-pixel text-[11px] py-2 text-rh-green hover:text-gold transition-colors"
+                >
+                  {n.label.toUpperCase()}
+                </button>
+              ) : (
+                <a
+                  key={n.href}
+                  href={n.href}
+                  className={`font-pixel text-[11px] py-2 hover:text-rh-green transition-colors ${
+                    n.label === "Mint" ? "text-rh-green" : "text-ink"
+                  }`}
+                >
+                  {n.label.toUpperCase()}
+                </a>
+              ),
+            )}
           </nav>
 
           <div className="flex items-center gap-2">
@@ -59,16 +71,30 @@ export function Header() {
             className="md:hidden mt-2 border-2 border-ink bg-white/95 backdrop-blur-md p-4 flex flex-col gap-1 shadow-[6px_6px_0_0_rgba(42,42,51,0.07)]"
             aria-label="Mobile"
           >
-            {NAV.map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                onClick={() => setOpen(false)}
-                className="font-pixel text-xs py-3 border-b border-pearl last:border-0 hover:text-rh-green"
-              >
-                {n.label.toUpperCase()}
-              </a>
-            ))}
+            {NAV.map((n) =>
+              n.href === "#whitelist" ? (
+                <button
+                  key={n.href}
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    openWhitelist();
+                  }}
+                  className="font-pixel text-xs py-3 text-left text-rh-green border-b border-pearl hover:text-gold"
+                >
+                  {n.label.toUpperCase()}
+                </button>
+              ) : (
+                <a
+                  key={n.href}
+                  href={n.href}
+                  onClick={() => setOpen(false)}
+                  className="font-pixel text-xs py-3 border-b border-pearl last:border-0 hover:text-rh-green"
+                >
+                  {n.label.toUpperCase()}
+                </a>
+              ),
+            )}
             <ConnectButton className="mt-3 w-full" />
           </nav>
         )}

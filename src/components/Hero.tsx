@@ -8,6 +8,7 @@ import { PixelSparkle, PixelPalm, PixelFlash, PixelCrown, PixelStar } from "./pi
 import { SparkleCursor } from "./SparkleCursor";
 import { RobinhoodFeather } from "./RobinhoodMark";
 import { PaparazziFlash } from "./PaparazziFlash";
+import { openWhitelist } from "./WhitelistModal";
 
 function HeroCard({
   g,
@@ -162,12 +163,14 @@ export function Hero() {
             <span>ROBINHOOD CHAIN</span>
           </p>
           <div className="mt-8 sm:mt-10 flex flex-wrap items-center gap-4">
-            <a
-              href="#mint"
-              className="btn-pixel font-pixel text-xs sm:text-sm min-h-[52px] inline-flex items-center px-8 bg-ink text-white border-2 border-ink hover:bg-rh-green hover:border-rh-green transition-colors"
+            <button
+              type="button"
+              onClick={() => openWhitelist()}
+              className="btn-pixel font-pixel text-xs sm:text-sm min-h-[52px] inline-flex items-center px-8 border-2 border-ink transition-colors hover:brightness-105"
+              style={{ background: "var(--rh-green)", color: "#10321f" }}
             >
-              MINT A GRIFTER
-            </a>
+              JOIN THE WHITELIST
+            </button>
             <a
               href="#collection"
               className="btn-pixel font-pixel text-xs sm:text-sm min-h-[52px] inline-flex items-center px-8 bg-white/90 border-2 border-ink hover:bg-blush transition-colors"
