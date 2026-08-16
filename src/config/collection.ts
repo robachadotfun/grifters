@@ -103,33 +103,37 @@ export const GRIFTERS: GrifterCard[] = [
 
 /**
  * Communities whose holders are automatically whitelisted (snapshot taken).
- * Edit this list as partnerships are confirmed.
+ * Edit this list as partnerships are confirmed. OpenSea slugs verified 2026-08.
+ *
+ * NOTE (internal): holder eligibility is enforced at mint time — when the user
+ * connects their wallet on mint day, the mint flow checks holdings and routes
+ * holders straight into the whitelisted mint. No pre-registration needed.
  */
-export const AUTO_WHITELIST_COLLECTIONS = [
-  "H00dle",
-  "Monkeyhood",
-  "Gremlin Cartel",
-  "Quotrons",
-  "Spritehood Wisps",
-  "Stackers",
-  "Broker Punks",
-  "Script Kiddies",
-  "Robinhood Kitties",
-  "Bulls Runners",
-  "Yardkeepers",
-  "Zaibatsu Wagies",
-  "Nakamigos",
-  "Normies",
-  "Good Vibes Club",
-  "Funkari",
-  "Cash Cats",
-  "RH Machines",
-  "OnchainHoodies",
-  "NPC",
-  "Pyopyopyo",
-  "Chain Mancers",
-  "Pitboys",
-  "Stonkbrokers",
+export const AUTO_WHITELIST_COLLECTIONS: { name: string; url: string }[] = [
+  { name: "H00dle", url: "https://opensea.io/collection/h00dle" },
+  { name: "Monkeyhood", url: "https://opensea.io/collection/monkeyhood" },
+  { name: "Gremlin Cartel", url: "https://opensea.io/collection/gremlin-cartel" },
+  { name: "Quotrons", url: "https://opensea.io/collection/quotrons" },
+  { name: "Spritehood Wisps", url: "https://opensea.io/collection/spritehood-wisps" },
+  { name: "Stackers", url: "https://opensea.io/collection/stackersxyz" },
+  { name: "Broker Punks", url: "https://opensea.io/collection/broker-punks-nft" },
+  { name: "Script Kiddies", url: "https://opensea.io/collection/script-kiddies" },
+  { name: "Robinhood Kitties", url: "https://opensea.io/collection/robinhood-kitties" },
+  { name: "Bulls Runners", url: "https://opensea.io/collection/bulls-runners" },
+  { name: "Yardkeepers", url: "https://opensea.io/collection/yardkeepers" },
+  { name: "Zaibatsu Wagies", url: "https://opensea.io/collection/zaibatsu-wagies" },
+  { name: "Nakamigos", url: "https://opensea.io/collection/nakamigos" },
+  { name: "Normies", url: "https://opensea.io/collection/normies" },
+  { name: "Good Vibes Club", url: "https://opensea.io/collection/good-vibes-club" },
+  { name: "Funkari", url: "https://opensea.io/collection/funkari-nft" },
+  { name: "Cash Cats", url: "https://opensea.io/collection/cash-cats-nft" },
+  { name: "RH Machines", url: "https://opensea.io/collection/rh-machines" },
+  { name: "OnchainHoodies", url: "https://opensea.io/collection/hoodies-onchain" },
+  { name: "NPC", url: "https://opensea.io/collection/npc-nft" },
+  { name: "Pyopyopyo", url: "https://opensea.io/collection/pyopyopyo" },
+  { name: "Chain Mancers", url: "https://opensea.io/collection/chain-mancers" },
+  { name: "Pitboys", url: "https://opensea.io/collection/pitboys" },
+  { name: "Stonkbrokers", url: "https://opensea.io/collection/stonkbrokersnft" },
 ];
 
 export const PREREVEAL = {

@@ -3,7 +3,8 @@ import { PixelCrown, PixelSparkle } from "./pixel/PixelIcons";
 
 /**
  * "Already in" notice — holders of partner communities are automatically
- * whitelisted via snapshot; no form needed.
+ * whitelisted via snapshot; no form needed. Chips link to each collection
+ * on OpenSea.
  */
 export function AutoWhitelist({ compact = false }: { compact?: boolean }) {
   if (compact) {
@@ -14,7 +15,19 @@ export function AutoWhitelist({ compact = false }: { compact?: boolean }) {
           ALREADY WHITELISTED — SNAPSHOT TAKEN, NOTHING TO DO.
         </p>
         <p className="mt-2 font-pixel text-[8px] text-ink-soft leading-relaxed">
-          {AUTO_WHITELIST_COLLECTIONS.join(" · ")}
+          {AUTO_WHITELIST_COLLECTIONS.map((c, i) => (
+            <span key={c.name}>
+              {i > 0 && " · "}
+              <a
+                href={c.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-rh-green underline decoration-ink/20 underline-offset-2"
+              >
+                {c.name}
+              </a>
+            </span>
+          ))}
         </p>
       </div>
     );
@@ -32,18 +45,23 @@ export function AutoWhitelist({ compact = false }: { compact?: boolean }) {
         no signature, nothing to do.
       </p>
       <ul className="mt-4 flex flex-wrap gap-2">
-        {AUTO_WHITELIST_COLLECTIONS.map((name) => (
-          <li
-            key={name}
-            className="font-pixel text-[9px] px-2.5 py-1.5 border-2 border-ink/25 bg-white inline-flex items-center gap-1.5"
-          >
-            <PixelSparkle className="w-2 h-2 text-rh-green" />
-            {name.toUpperCase()}
+        {AUTO_WHITELIST_COLLECTIONS.map((c) => (
+          <li key={c.name}>
+            <a
+              href={c.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${c.name} on OpenSea`}
+              className="font-pixel text-[9px] px-2.5 py-1.5 border-2 border-ink/25 bg-white inline-flex items-center gap-1.5 hover:border-rh-green hover:text-rh-green hover:-translate-y-0.5 transition-all"
+            >
+              <PixelSparkle className="w-2 h-2 text-rh-green" />
+              {c.name.toUpperCase()}
+            </a>
           </li>
         ))}
       </ul>
       <p className="mt-4 font-pixel text-[8px] text-ink-soft">
-        HELD AT SNAPSHOT TIME = GUARANTEED SPOT · MORE COMMUNITIES MAY BE ADDED
+        HELD AT SNAPSHOT TIME = GUARANTEED SPOT · CHIPS LINK TO OPENSEA · MORE COMMUNITIES MAY BE ADDED
       </p>
     </div>
   );
