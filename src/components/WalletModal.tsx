@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useAccount, useBalance, useDisconnect } from "wagmi";
 import { formatEther } from "viem";
 import { COLLECTION } from "@/config/collection";
@@ -53,7 +54,9 @@ export function WalletModal({ open, onClose }: { open: boolean; onClose: () => v
     };
   }, [open, close]);
 
-  if (!open || !address) return null;
+  // rendered via portal — the fixed overlay must anchor to the viewport, and
+  // ancestors with backdrop-filter (the header) would otherwise capture it
+  if (!open || !address || typeof document === "undefined") return null;
 
   const balText = balLoading
     ? "···"
@@ -65,7 +68,7 @@ export function WalletModal({ open, onClose }: { open: boolean; onClose: () => v
     ? `${COLLECTION.explorerUrl.replace(/\/$/, "")}/address/${address}`
     : null;
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-[95] flex items-center justify-center p-4 bg-ink/40 backdrop-blur-sm"
       role="dialog"
@@ -167,6 +170,7 @@ export function WalletModal({ open, onClose }: { open: boolean; onClose: () => v
           </p>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
