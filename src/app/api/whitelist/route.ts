@@ -36,20 +36,33 @@ type Entry = {
   ts: string;
 };
 
-async function saveSupabaseDB(entry: Entry): Promise<boolean> {
+async function saveSupabaseDB(entry: Entry): Promise<boolean | "tweet_taken"> {
   const dbUrl = process.env.SUPABASE_DB_URL;
   if (!dbUrl) return false;
   const { Client } = await import("pg");
   const client = new Client({ connectionString: dbUrl, ssl: { rejectUnauthorized: false } });
   try {
     await client.connect();
-    // duplicate wallet (case-insensitive) = already whitelisted, still a success
-    await client.query(
-      `insert into whitelist (wallet, twitter, tweet_url)
-       select $1, $2, $3
-       where not exists (select 1 from whitelist where lower(wallet) = lower($1))`,
+    // one tweet = one spot: reject links already used by a different wallet
+    if (entry.tweetUrl) {
+      const dupe = await client.query(
+        "select 1 from whitelist where tweet_url = $1 and lower(wallet) <> lower($2) limit 1",
+        [entry.tweetUrl, entry.wallet],
+      );
+      if ((dupe.rowCount ?? 0) > 0) return "tweet_taken";
+    }
+    // upsert: revoked wallets (deleted tweet) can restore their spot with a new tweet
+    const updated = await client.query(
+      `update whitelist set twitter = $2, tweet_url = $3, tweet_ok = true, tweet_checked_at = now()
+       where lower(wallet) = lower($1)`,
       [entry.wallet, entry.twitter, entry.tweetUrl],
     );
+    if ((updated.rowCount ?? 0) === 0) {
+      await client.query(
+        "insert into whitelist (wallet, twitter, tweet_url, tweet_checked_at) values ($1, $2, $3, now())",
+        [entry.wallet, entry.twitter, entry.tweetUrl],
+      );
+    }
     return true;
   } finally {
     await client.end().catch(() => {});
@@ -147,7 +160,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ ok: false, whitelisted: false }, { status: 400 });
   }
 
-  let inTable = false;
+  let inTable: boolean | "revoked" = false;
   const dbUrl = process.env.SUPABASE_DB_URL;
   if (dbUrl) {
     try {
@@ -156,16 +169,16 @@ export async function GET(req: Request) {
       await client.connect();
       try {
         const r = await client.query(
-          "select 1 from whitelist where lower(wallet) = lower($1) limit 1",
+          "select tweet_ok from whitelist where lower(wallet) = lower($1) limit 1",
           [wallet],
         );
-        inTable = (r.rowCount ?? 0) > 0;
+        if ((r.rowCount ?? 0) > 0) inTable = r.rows[0].tweet_ok === false ? "revoked" : true;
       } finally {
         await client.end().catch(() => {});
       }
     } catch {}
   }
-  if (inTable) {
+  if (inTable === true) {
     return NextResponse.json({ ok: true, whitelisted: true, via: "list" });
   }
 
@@ -173,6 +186,9 @@ export async function GET(req: Request) {
   const holderOf = await checkPartnerHoldings(wallet).catch(() => null);
   if (holderOf) {
     return NextResponse.json({ ok: true, whitelisted: true, via: "holder", holderOf });
+  }
+  if (inTable === "revoked") {
+    return NextResponse.json({ ok: true, whitelisted: false, revoked: true });
   }
   return NextResponse.json({ ok: true, whitelisted: false });
 }
@@ -207,6 +223,22 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "The tweet link should be an x.com/…/status/… URL." }, { status: 400 });
   }
 
+  // the tweet must be live, authored by the given handle, and about GRIFTERS
+  const { checkTweet } = await import("@/lib/tweetcheck");
+  const tc = await checkTweet(tweetUrlRaw);
+  if (tc.status === "deleted") {
+    return NextResponse.json({ ok: false, error: "That tweet doesn't exist (or was deleted). Post it, then paste the link." }, { status: 400 });
+  }
+  if (tc.status === "ok") {
+    if (tc.author && tc.author !== twitter.toLowerCase()) {
+      return NextResponse.json({ ok: false, error: `That tweet is by @${tc.author}, not @${twitter}. Use your own tweet.` }, { status: 400 });
+    }
+    if (!tc.mentions) {
+      return NextResponse.json({ ok: false, error: "That tweet doesn't mention GRIFTERS — use the one-click tweet above." }, { status: 400 });
+    }
+  }
+  // status "unknown" (oembed hiccup) falls through — the sweep re-checks later
+
   const entry: Entry = {
     wallet,
     twitter,
@@ -214,8 +246,12 @@ export async function POST(req: Request) {
     ts: new Date().toISOString(),
   };
 
+  const dbResult = await saveSupabaseDB(entry).catch(() => false);
+  if (dbResult === "tweet_taken") {
+    return NextResponse.json({ ok: false, error: "That tweet link is already used by another wallet — post your own tweet." }, { status: 400 });
+  }
   const stored =
-    (await saveSupabaseDB(entry).catch(() => false)) ||
+    dbResult === true ||
     (await saveSupabase(entry).catch(() => false)) ||
     (await saveKV(entry).catch(() => false)) ||
     (await saveWebhook(entry).catch(() => false)) ||

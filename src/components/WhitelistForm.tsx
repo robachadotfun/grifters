@@ -48,13 +48,19 @@ export function WhitelistForm() {
   // connected wallets that are already whitelisted (by list or by holding a
   // partner collection) skip the form entirely
   const [alreadyIn, setAlreadyIn] = useState<false | { via: string; holderOf?: string }>(false);
+  const [revoked, setRevoked] = useState(false);
   useEffect(() => {
     let alive = true;
     setAlreadyIn(false);
+    setRevoked(false);
     if (!isConnected || !address) return;
     fetch(`/api/whitelist?wallet=${address}`)
       .then((r) => r.json())
-      .then((j) => alive && j.whitelisted && setAlreadyIn({ via: j.via, holderOf: j.holderOf }))
+      .then((j) => {
+        if (!alive) return;
+        if (j.whitelisted) setAlreadyIn({ via: j.via, holderOf: j.holderOf });
+        else if (j.revoked) setRevoked(true);
+      })
       .catch(() => {});
     return () => {
       alive = false;
@@ -174,10 +180,17 @@ export function WhitelistForm() {
     <form onSubmit={submit} className="bg-white p-6 sm:p-8">
       <div className="flex items-center justify-between mb-6">
         <span className="font-pixel text-sm tracking-widest flex items-center gap-2.5">
-          <PixelCrown className="w-5 h-4 text-gold" /> JOIN THE WHITELIST
+          <PixelCrown className="w-5 h-4 text-gold" /> {revoked ? "RESTORE YOUR SPOT" : "JOIN THE WHITELIST"}
         </span>
         <span className="font-pixel text-[9px] text-rh-green">FREE</span>
       </div>
+
+      {revoked && (
+        <p role="alert" className="mb-5 font-pixel text-[10px] leading-relaxed text-ink border-2 border-gold bg-champagne/50 px-3.5 py-3">
+          YOUR TWEET WENT MISSING, SO YOUR SPOT IS ON HOLD. POST A NEW ONE BELOW
+          AND YOU&apos;RE BACK ON THE LIST — AND KEEP IT UP THIS TIME. 👑
+        </p>
+      )}
 
       <label className="block mb-4">
         <span className="font-pixel text-[10px] text-ink-soft flex items-center justify-between mb-2">
@@ -263,6 +276,9 @@ export function WhitelistForm() {
       </button>
       <p className="mt-3 text-center font-pixel text-[8px] text-ink-soft">
         IDENTITY SEALED UNTIL REVEAL · NO PAYMENT · NO SIGNATURE REQUIRED
+      </p>
+      <p className="mt-2 text-center font-pixel text-[8px] text-gold">
+        KEEP YOUR TWEET LIVE UNTIL MINT — DELETED TWEETS LOSE THEIR SPOT
       </p>
     </form>
   );
