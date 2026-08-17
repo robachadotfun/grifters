@@ -1,16 +1,17 @@
 "use client";
 
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount } from "wagmi";
+import { useAppKit } from "@reown/appkit/react";
 import { useEffect, useState } from "react";
 
 export function shortAddr(a?: string) {
   return a ? `${a.slice(0, 4)}...${a.slice(-3)}` : "";
 }
 
+/** Pixel-styled trigger for the Reown AppKit modal — the only wallet entry point. */
 export function ConnectButton({ className = "" }: { className?: string }) {
   const { address, isConnected } = useAccount();
-  const { connect, connectors, isPending } = useConnect();
-  const { disconnect } = useDisconnect();
+  const { open } = useAppKit();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -24,29 +25,14 @@ export function ConnectButton({ className = "" }: { className?: string }) {
     );
   }
 
-  if (isConnected) {
-    return (
-      <button
-        type="button"
-        onClick={() => disconnect()}
-        className={cls}
-        title="Disconnect wallet"
-      >
-        {shortAddr(address)}
-      </button>
-    );
-  }
-
-  const injectedConnector = connectors[0];
   return (
     <button
       type="button"
-      onClick={() => injectedConnector && connect({ connector: injectedConnector })}
-      disabled={isPending || !injectedConnector}
+      onClick={() => open(isConnected ? { view: "Account" } : { view: "Connect" })}
       className={cls}
-      aria-label="Connect wallet"
+      aria-label={isConnected ? "Wallet account" : "Connect wallet"}
     >
-      {isPending ? "CONNECTING..." : "CONNECT WALLET"}
+      {isConnected ? shortAddr(address) : "CONNECT WALLET"}
     </button>
   );
 }

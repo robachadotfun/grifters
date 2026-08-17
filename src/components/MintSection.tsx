@@ -5,13 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 import {
   useAccount,
   useChainId,
-  useConnect,
   useReadContract,
   useSwitchChain,
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
 import { parseEther } from "viem";
+import { useAppKit } from "@reown/appkit/react";
 import { COLLECTION, GRIFTERS, PREREVEAL } from "@/config/collection";
 import { MINT_ABI } from "@/lib/mintAbi";
 import { shortAddr } from "./ConnectButton";
@@ -127,7 +127,7 @@ export function MintSection() {
   useEffect(() => setMounted(true), []);
 
   const { address, isConnected } = useAccount();
-  const { connect, connectors } = useConnect();
+  const { open } = useAppKit();
   const chainId = useChainId();
   const { switchChain, isPending: switching } = useSwitchChain();
 
@@ -332,7 +332,7 @@ export function MintSection() {
                   ) : !isConnected ? (
                     <button
                       type="button"
-                      onClick={() => connectors[0] && connect({ connector: connectors[0] })}
+                      onClick={() => open({ view: "Connect" })}
                       className="btn-pixel w-full font-pixel text-sm min-h-[60px] border-2 border-ink bg-ink text-white hover:bg-rh-green hover:border-rh-green transition-colors inline-flex items-center justify-center gap-3"
                     >
                       <PixelWallet className="w-5 h-4" /> CONNECT WALLET TO MINT
