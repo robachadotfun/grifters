@@ -17,7 +17,7 @@ export function WalletModal({ open, onClose }: { open: boolean; onClose: () => v
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
   const [copied, setCopied] = useState(false);
-  const [wlStatus, setWlStatus] = useState<"checking" | "in" | "out">("checking");
+  const [wlStatus, setWlStatus] = useState<"checking" | "in" | "holder" | "out">("checking");
 
   const { data: bal, isLoading: balLoading } = useBalance({
     address,
@@ -31,7 +31,7 @@ export function WalletModal({ open, onClose }: { open: boolean; onClose: () => v
     setWlStatus("checking");
     fetch(`/api/whitelist?wallet=${address}`)
       .then((r) => r.json())
-      .then((j) => alive && setWlStatus(j.whitelisted ? "in" : "out"))
+      .then((j) => alive && setWlStatus(j.whitelisted ? (j.via === "holder" ? "holder" : "in") : "out"))
       .catch(() => alive && setWlStatus("out"));
     return () => {
       alive = false;
@@ -127,6 +127,10 @@ export function WalletModal({ open, onClose }: { open: boolean; onClose: () => v
             ) : wlStatus === "in" ? (
               <span className="font-pixel text-[10px] text-rh-green flex items-center gap-1.5">
                 <PixelCrown className="w-3.5 h-2.5 text-gold" /> ON THE LIST ✓
+              </span>
+            ) : wlStatus === "holder" ? (
+              <span className="font-pixel text-[10px] text-rh-green flex items-center gap-1.5">
+                <PixelCrown className="w-3.5 h-2.5 text-gold" /> AUTO · PARTNER HOLDER ✓
               </span>
             ) : (
               <button

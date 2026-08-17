@@ -138,30 +138,43 @@ function saveFile(entry: Entry): boolean {
   }
 }
 
-/** Single-wallet membership check (no list enumeration). */
+/** Single-wallet membership check (no list enumeration).
+ *  A wallet counts as whitelisted if it's in the table OR holds any partner
+ *  collection NFT (checked live on-chain). */
 export async function GET(req: Request) {
   const wallet = new URL(req.url).searchParams.get("wallet") ?? "";
   if (!isAddress(wallet)) {
     return NextResponse.json({ ok: false, whitelisted: false }, { status: 400 });
   }
+
+  let inTable = false;
   const dbUrl = process.env.SUPABASE_DB_URL;
-  if (!dbUrl) return NextResponse.json({ ok: true, whitelisted: false });
-  try {
-    const { Client } = await import("pg");
-    const client = new Client({ connectionString: dbUrl, ssl: { rejectUnauthorized: false } });
-    await client.connect();
+  if (dbUrl) {
     try {
-      const r = await client.query(
-        "select 1 from whitelist where lower(wallet) = lower($1) limit 1",
-        [wallet],
-      );
-      return NextResponse.json({ ok: true, whitelisted: (r.rowCount ?? 0) > 0 });
-    } finally {
-      await client.end().catch(() => {});
-    }
-  } catch {
-    return NextResponse.json({ ok: true, whitelisted: false });
+      const { Client } = await import("pg");
+      const client = new Client({ connectionString: dbUrl, ssl: { rejectUnauthorized: false } });
+      await client.connect();
+      try {
+        const r = await client.query(
+          "select 1 from whitelist where lower(wallet) = lower($1) limit 1",
+          [wallet],
+        );
+        inTable = (r.rowCount ?? 0) > 0;
+      } finally {
+        await client.end().catch(() => {});
+      }
+    } catch {}
   }
+  if (inTable) {
+    return NextResponse.json({ ok: true, whitelisted: true, via: "list" });
+  }
+
+  const { checkPartnerHoldings } = await import("@/lib/holdings");
+  const holderOf = await checkPartnerHoldings(wallet).catch(() => null);
+  if (holderOf) {
+    return NextResponse.json({ ok: true, whitelisted: true, via: "holder", holderOf });
+  }
+  return NextResponse.json({ ok: true, whitelisted: false });
 }
 
 export async function POST(req: Request) {

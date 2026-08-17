@@ -45,15 +45,16 @@ export function WhitelistForm() {
   const [error, setError] = useState<string | null>(null);
   // one random pre-written tweet per visitor (stable for the session)
   const [tweetText] = useState(() => pickTweet());
-  // connected wallets that are already whitelisted skip the form entirely
-  const [alreadyIn, setAlreadyIn] = useState(false);
+  // connected wallets that are already whitelisted (by list or by holding a
+  // partner collection) skip the form entirely
+  const [alreadyIn, setAlreadyIn] = useState<false | { via: string; holderOf?: string }>(false);
   useEffect(() => {
     let alive = true;
     setAlreadyIn(false);
     if (!isConnected || !address) return;
     fetch(`/api/whitelist?wallet=${address}`)
       .then((r) => r.json())
-      .then((j) => alive && j.whitelisted && setAlreadyIn(true))
+      .then((j) => alive && j.whitelisted && setAlreadyIn({ via: j.via, holderOf: j.holderOf }))
       .catch(() => {});
     return () => {
       alive = false;
@@ -105,14 +106,20 @@ export function WhitelistForm() {
   }
 
   if (alreadyIn && phase !== "DONE") {
+    const isHolder = alreadyIn.via === "holder";
     return (
       <div className="relative bg-white p-8 text-center">
         <PixelCrown className="w-12 h-9 text-gold mx-auto" />
-        <h3 className="mt-4 text-3xl font-bold tracking-tight">YOU&apos;RE ALREADY ON THE LIST.</h3>
-        <p className="mt-3 font-pixel text-[10px] text-rh-green">{shortAddrWl(address)} · WHITELISTED</p>
+        <h3 className="mt-4 text-3xl font-bold tracking-tight">
+          {isHolder ? "YOU'RE ALREADY IN." : "YOU'RE ALREADY ON THE LIST."}
+        </h3>
+        <p className="mt-3 font-pixel text-[10px] text-rh-green">
+          {shortAddrWl(address)} · {isHolder ? `${(alreadyIn.holderOf ?? "PARTNER").toUpperCase()} HOLDER` : "WHITELISTED"}
+        </p>
         <p className="mt-4 text-sm text-ink-soft leading-relaxed">
-          This wallet is locked in for early mint access. Nothing else to do —
-          see you on the carpet.
+          {isHolder
+            ? `This wallet holds ${alreadyIn.holderOf} — partner community holders are automatically whitelisted. Nothing to do.`
+            : "This wallet is locked in for early mint access. Nothing else to do — see you on the carpet."}
         </p>
         <a
           href={`https://x.com/intent/tweet?text=${pickTweet()}`}
