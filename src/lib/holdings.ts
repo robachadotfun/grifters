@@ -43,20 +43,39 @@ function balanceOfData(owner: string) {
   return `0x70a08231000000000000000000000000${owner.slice(2).toLowerCase()}`;
 }
 
-async function ethCall(rpc: string, to: string, data: string, timeoutMs = 6000): Promise<bigint | null> {
+/** One batched JSON-RPC request per chain — rate-limit friendly from serverless IPs. */
+async function batchBalances(
+  rpc: string,
+  items: { name: string; contract: string }[],
+  wallet: string,
+  timeoutMs = 8000,
+): Promise<string | null> {
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
+    const data = balanceOfData(wallet);
+    const batch = items.map((c, i) => ({
+      jsonrpc: "2.0",
+      id: i,
+      method: "eth_call",
+      params: [{ to: c.contract, data }, "latest"],
+    }));
     const res = await fetch(rpc, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_call", params: [{ to, data }, "latest"] }),
+      body: JSON.stringify(batch),
       signal: ctrl.signal,
     });
-    const j = (await res.json()) as { result?: string };
-    if (!j.result || j.result === "0x") return null;
-    return BigInt(j.result);
-  } catch {
+    const arr = (await res.json()) as { id: number; result?: string }[];
+    if (!Array.isArray(arr)) return null;
+    for (const r of arr) {
+      if (r.result && r.result !== "0x" && BigInt(r.result) > BigInt(0)) {
+        return items[r.id]?.name ?? null;
+      }
+    }
+    return null;
+  } catch (e) {
+    console.log("HOLDINGS_RPC_FAIL", rpc.split("/")[2], e instanceof Error ? e.name : "err");
     return null;
   } finally {
     clearTimeout(t);
@@ -65,12 +84,13 @@ async function ethCall(rpc: string, to: string, data: string, timeoutMs = 6000):
 
 /** Returns the first partner collection the wallet holds, or null. */
 export async function checkPartnerHoldings(wallet: string): Promise<string | null> {
-  const data = balanceOfData(wallet);
+  const byChain = new Map<string, { name: string; contract: string }[]>();
+  for (const c of HOLDER_CONTRACTS) {
+    if (!byChain.has(c.chain)) byChain.set(c.chain, []);
+    byChain.get(c.chain)!.push(c);
+  }
   const results = await Promise.allSettled(
-    HOLDER_CONTRACTS.map(async (c) => {
-      const bal = await ethCall(RPC[c.chain], c.contract, data);
-      return bal && bal > BigInt(0) ? c.name : null;
-    }),
+    Array.from(byChain.entries()).map(([chain, items]) => batchBalances(RPC[chain], items, wallet)),
   );
   for (const r of results) {
     if (r.status === "fulfilled" && r.value) return r.value;
