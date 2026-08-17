@@ -26,8 +26,9 @@ export const robinhoodChain: Chain | null =
       })
     : null;
 
+/** Robinhood Chain is the only supported network once configured. */
 export const networks = (robinhoodChain
-  ? [robinhoodChain, mainnet]
+  ? [robinhoodChain]
   : [mainnet]) as unknown as [AppKitNetwork, ...AppKitNetwork[]];
 
 export const wagmiAdapter = new WagmiAdapter({

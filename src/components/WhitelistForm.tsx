@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { useAccount } from "wagmi";
+import { useEffect, useState } from "react";
+import { useAccount, useChainId, useSwitchChain } from "wagmi";
+import { COLLECTION } from "@/config/collection";
+import { RobinhoodFeather } from "./RobinhoodMark";
 import { PixelCrown, PixelSparkle, PixelWallet } from "./pixel/PixelIcons";
 
 const SITE = "https://www.grifters.market";
@@ -21,6 +23,10 @@ const TWEETS = [
   `Identity sealed. Reveal pending. 🤫\n\nThe most fun mint mechanic I've seen — you don't know your icon until the curtain opens.\n\n@griftersonchain\n${SITE}`,
 ];
 
+function shortAddrWl(a?: string) {
+  return a ? `${a.slice(0, 6)}...${a.slice(-4)}` : "";
+}
+
 export function pickTweet() {
   return encodeURIComponent(TWEETS[Math.floor(Math.random() * TWEETS.length)]);
 }
@@ -30,6 +36,8 @@ type Phase = "FORM" | "SUBMITTING" | "DONE";
 /** The whitelist form + success state — shared by the landing section and the hero modal. */
 export function WhitelistForm() {
   const { address, isConnected } = useAccount();
+  const chainId = useChainId();
+  const { switchChain, isPending: switching } = useSwitchChain();
   const [wallet, setWallet] = useState("");
   const [twitter, setTwitter] = useState("");
   const [tweetUrl, setTweetUrl] = useState("");
@@ -37,6 +45,20 @@ export function WhitelistForm() {
   const [error, setError] = useState<string | null>(null);
   // one random pre-written tweet per visitor (stable for the session)
   const [tweetText] = useState(() => pickTweet());
+  // connected wallets that are already whitelisted skip the form entirely
+  const [alreadyIn, setAlreadyIn] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    setAlreadyIn(false);
+    if (!isConnected || !address) return;
+    fetch(`/api/whitelist?wallet=${address}`)
+      .then((r) => r.json())
+      .then((j) => alive && j.whitelisted && setAlreadyIn(true))
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [address, isConnected]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,6 +81,50 @@ export function WhitelistForm() {
 
   const input =
     "w-full min-h-[52px] px-4 font-pixel text-[12px] bg-white border-2 border-ink/80 placeholder:text-ink/30 focus:border-rh-green focus:outline-none transition-colors";
+
+  // connected wallets must be on Robinhood Chain
+  if (isConnected && COLLECTION.chainId && chainId !== COLLECTION.chainId) {
+    return (
+      <div className="relative bg-white p-8 text-center">
+        <RobinhoodFeather size={34} className="mx-auto" />
+        <h3 className="mt-4 text-2xl font-bold tracking-tight">WRONG NETWORK.</h3>
+        <p className="mt-3 text-sm text-ink-soft leading-relaxed">
+          GRIFTERS lives on Robinhood Chain — switch your wallet&apos;s network to continue.
+        </p>
+        <button
+          type="button"
+          onClick={() => switchChain({ chainId: COLLECTION.chainId! })}
+          disabled={switching}
+          className="btn-pixel mt-6 inline-flex items-center justify-center gap-2.5 min-h-[52px] px-6 font-pixel text-[11px] border-2 border-gold bg-champagne hover:bg-gold-soft transition-colors disabled:opacity-60"
+        >
+          <RobinhoodFeather size={13} />
+          {switching ? "SWITCHING..." : "SWITCH TO ROBINHOOD CHAIN"}
+        </button>
+      </div>
+    );
+  }
+
+  if (alreadyIn && phase !== "DONE") {
+    return (
+      <div className="relative bg-white p-8 text-center">
+        <PixelCrown className="w-12 h-9 text-gold mx-auto" />
+        <h3 className="mt-4 text-3xl font-bold tracking-tight">YOU&apos;RE ALREADY ON THE LIST.</h3>
+        <p className="mt-3 font-pixel text-[10px] text-rh-green">{shortAddrWl(address)} · WHITELISTED</p>
+        <p className="mt-4 text-sm text-ink-soft leading-relaxed">
+          This wallet is locked in for early mint access. Nothing else to do —
+          see you on the carpet.
+        </p>
+        <a
+          href={`https://x.com/intent/tweet?text=${pickTweet()}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-pixel mt-6 inline-flex items-center justify-center min-h-[48px] px-6 font-pixel text-[11px] border-2 border-ink bg-ink text-white hover:bg-rh-green hover:border-rh-green transition-colors"
+        >
+          SHARE ON X
+        </a>
+      </div>
+    );
+  }
 
   if (phase === "DONE") {
     return (

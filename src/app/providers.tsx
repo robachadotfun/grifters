@@ -13,6 +13,8 @@ if (REOWN_PROJECT_ID) {
     adapters: [wagmiAdapter],
     projectId: REOWN_PROJECT_ID,
     networks,
+    defaultNetwork: networks[0],
+    enableNetworkSwitch: true,
     metadata: {
       name: "GRIFTERS",
       description: "2,222 pixel celebrity collectibles on Robinhood Chain.",
