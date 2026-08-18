@@ -274,8 +274,11 @@ export function WhitelistForm() {
       >
         {phase === "SUBMITTING" ? "JOINING..." : "GET WHITELISTED"}
       </button>
-      <p className="mt-3 text-center font-pixel text-[8px] text-ink-soft">
-        IDENTITY SEALED UNTIL REVEAL · NO PAYMENT · NO SIGNATURE REQUIRED
+      <p className="mt-3 text-center font-pixel text-[8px] text-rh-green">
+        MINT PREMIERES AUG 21 · 18:00 UTC · $20 PER GRIFTER
+      </p>
+      <p className="mt-2 text-center font-pixel text-[8px] text-ink-soft">
+        IDENTITY SEALED UNTIL REVEAL · NO PAYMENT NOW · NO SIGNATURE REQUIRED
       </p>
       <p className="mt-2 text-center font-pixel text-[8px] text-gold">
         KEEP YOUR TWEET LIVE UNTIL MINT — DELETED TWEETS LOSE THEIR SPOT

@@ -3,12 +3,13 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
-import { GRIFTERS, type GrifterCard } from "@/config/collection";
+import { COLLECTION, GRIFTERS, type GrifterCard } from "@/config/collection";
 import { PixelSparkle, PixelPalm, PixelFlash, PixelCrown, PixelStar } from "./pixel/PixelIcons";
 import { SparkleCursor } from "./SparkleCursor";
 import { RobinhoodFeather } from "./RobinhoodMark";
 import { PaparazziFlash } from "./PaparazziFlash";
 import { openWhitelist } from "./WhitelistModal";
+import { Countdown } from "./Countdown";
 
 function HeroCard({
   g,
@@ -162,6 +163,19 @@ export function Hero() {
             <RobinhoodFeather size={12} className="inline-block" />
             <span>ROBINHOOD CHAIN</span>
           </p>
+          <div className="mt-4 inline-block border-2 border-ink/80 bg-white/90 px-5 py-3.5"
+            style={{ boxShadow: "6px 6px 0 0 rgba(46,189,107,0.25)" }}>
+            <p className="font-pixel text-[10px] sm:text-[11px] flex items-center gap-2 flex-wrap">
+              <span className="text-gold">MINT PREMIERES AUG 21 · 18:00 UTC</span>
+              <span className="text-ink-soft">·</span>
+              <span className="text-rh-green">$20 PER GRIFTER</span>
+            </p>
+            {COLLECTION.mintDate && (
+              <div className="mt-2.5">
+                <Countdown to={COLLECTION.mintDate} />
+              </div>
+            )}
+          </div>
           <div className="mt-8 sm:mt-10 flex flex-wrap items-center gap-4">
             <button
               type="button"

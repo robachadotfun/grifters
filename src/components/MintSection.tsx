@@ -22,6 +22,7 @@ import { PixelCrown, PixelSparkle, PixelWallet, PixelStar } from "./pixel/PixelI
 import { PixelEdge, DecoField } from "./pixel/Decor";
 import { RobinhoodFeather } from "./RobinhoodMark";
 import { MysteryOrbit } from "./MysteryOrbit";
+import { Countdown } from "./Countdown";
 import { PixelDiamond } from "./pixel/PixelIcons";
 
 function MintSuccess({ hash, onClose }: { hash?: string; onClose: () => void }) {
@@ -291,7 +292,11 @@ export function MintSection() {
                   {[
                     { dt: "SUPPLY", dd: "2,222", cls: "" },
                     { dt: "NETWORK", dd: "", chain: true, cls: "" },
-                    { dt: "PRICE", dd: price ? `${price} ETH` : "TBA", cls: "text-gold" },
+                    {
+                      dt: "PRICE",
+                      dd: COLLECTION.mintPriceUsd != null ? `$${COLLECTION.mintPriceUsd}` : price ? `${price} ETH` : "TBA",
+                      cls: "text-gold",
+                    },
                     { dt: "MINTED", dd: `${minted.toLocaleString()} / 2,222`, cls: "text-rh-green" },
                   ].map((s) => (
                     <div key={s.dt} className="border-2 border-ink/20 bg-cream px-3 py-3 text-center">
@@ -312,7 +317,14 @@ export function MintSection() {
                 <div className="mt-2">
                   {!mounted ? null : COLLECTION.phase === "PRELAUNCH" || !hasContract ? (
                     <div className="text-center border-2 border-dashed border-ink/30 py-9 px-4 bg-cream/60">
-                      <p className="font-pixel text-base text-ink">MINT OPENING SOON</p>
+                      <p className="font-pixel text-base text-ink">
+                        {COLLECTION.mintDate ? "MINT PREMIERES AUG 21 · 18:00 UTC" : "MINT OPENING SOON"}
+                      </p>
+                      {COLLECTION.mintDate && (
+                        <div className="mt-5">
+                          <Countdown to={COLLECTION.mintDate} />
+                        </div>
+                      )}
                       <p className="mt-2.5 text-base text-ink-soft">
                         Follow the drop — minting goes live on Robinhood Chain.
                       </p>

@@ -17,6 +17,10 @@ export const COLLECTION = {
   chainName: "Robinhood Chain",
   /** ETH string, e.g. "0.05" — null renders as TBA */
   mintPrice: null as string | null,
+  /** USD display price per mint — null renders as TBA */
+  mintPriceUsd: 20 as number | null,
+  /** Mint premiere — ISO instant. Countdown targets this. */
+  mintDate: "2026-08-21T18:00:00Z" as string | null,
   contractAddress: (process.env.NEXT_PUBLIC_GRIFTERS_CONTRACT || null) as
     | `0x${string}`
     | null,
