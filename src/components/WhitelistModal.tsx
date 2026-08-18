@@ -50,7 +50,7 @@ export function WhitelistModal() {
     >
       <div
         ref={cardRef}
-        className="relative w-full max-w-md my-8 border-4 border-ink/90 bg-white"
+        className="relative w-full max-w-md sm:max-w-2xl my-8 border-4 border-ink/90 bg-white"
         style={{ boxShadow: "14px 14px 0 0 rgba(46,189,107,0.3)" }}
       >
         <button

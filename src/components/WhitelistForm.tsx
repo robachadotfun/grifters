@@ -193,6 +193,8 @@ export function WhitelistForm() {
         </p>
       )}
 
+      <div className="sm:grid sm:grid-cols-2 sm:gap-x-6">
+      <div>
       <label className="block mb-4">
         <span className="font-pixel text-[10px] text-ink-soft flex items-center justify-between mb-2">
           WALLET ADDRESS *
@@ -257,7 +259,9 @@ export function WhitelistForm() {
           </span>
         </label>
       </div>
+      </div>
 
+      <div>
       <div className="mb-4 border-2 border-dashed border-rh-green/50 bg-rh-pale/50 p-3.5">
         <p className="font-pixel text-[10px] text-ink mb-2.5">STEP 2 — POST YOUR TWEET (ONE CLICK)</p>
         <a
@@ -285,6 +289,8 @@ export function WhitelistForm() {
           autoComplete="off"
         />
       </label>
+      </div>
+      </div>
 
       {/* honeypot */}
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
