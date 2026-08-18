@@ -11,12 +11,20 @@ import { PaparazziFlash } from "./PaparazziFlash";
 const LAYOUT: { i: number; size: number; rotate: number; crop?: boolean; lift?: string }[] = [
   { i: 0, size: 470, rotate: -2, lift: "mt-0" },
   { i: 3, size: 340, rotate: 3, lift: "mt-16" },
-  { i: 1, size: 560, rotate: -1, lift: "mt-4" },
+  { i: 5, size: 560, rotate: -1, lift: "mt-4" },
   { i: 2, size: 280, rotate: 4, crop: true, lift: "mt-24" },
-  { i: 4, size: 470, rotate: -3, lift: "mt-8" },
-  { i: 2, size: 370, rotate: 2, lift: "mt-20" },
+  { i: 10, size: 470, rotate: -3, lift: "mt-8" },
+  { i: 6, size: 370, rotate: 2, lift: "mt-20" },
   { i: 1, size: 290, rotate: -4, crop: true, lift: "mt-2" },
-  { i: 3, size: 520, rotate: 1, lift: "mt-12" },
+  { i: 15, size: 520, rotate: 1, lift: "mt-12" },
+  { i: 8, size: 350, rotate: -3, lift: "mt-20" },
+  { i: 11, size: 480, rotate: 2, lift: "mt-4" },
+  { i: 7, size: 300, rotate: 4, crop: true, lift: "mt-24" },
+  { i: 12, size: 540, rotate: -1, lift: "mt-8" },
+  { i: 4, size: 360, rotate: 3, lift: "mt-16" },
+  { i: 13, size: 460, rotate: -2, lift: "mt-2" },
+  { i: 9, size: 320, rotate: 2, lift: "mt-20" },
+  { i: 14, size: 500, rotate: -3, lift: "mt-10" },
 ];
 
 function Card({ i, size, rotate, crop, lift, idx }: (typeof LAYOUT)[number] & { idx: number }) {
