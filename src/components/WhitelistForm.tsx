@@ -41,6 +41,7 @@ export function WhitelistForm() {
   const [wallet, setWallet] = useState("");
   const [twitter, setTwitter] = useState("");
   const [tweetUrl, setTweetUrl] = useState("");
+  const [following, setFollowing] = useState(false);
   const [phase, setPhase] = useState<Phase>("FORM");
   const [error, setError] = useState<string | null>(null);
   // one random pre-written tweet per visitor (stable for the session)
@@ -230,7 +231,35 @@ export function WhitelistForm() {
       </label>
 
       <div className="mb-4 border-2 border-dashed border-rh-green/50 bg-rh-pale/50 p-3.5">
-        <p className="font-pixel text-[10px] text-ink mb-2.5">STEP 1 — POST YOUR TWEET (ONE CLICK)</p>
+        <p className="font-pixel text-[10px] text-ink mb-2.5">STEP 1 — FOLLOW @GRIFTERSONCHAIN + TURN ON NOTIFICATIONS</p>
+        <a
+          href="https://x.com/intent/follow?screen_name=griftersonchain"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-pixel inline-flex items-center justify-center w-full min-h-[46px] px-4 font-pixel text-[11px] border-2 border-ink bg-ink text-white hover:bg-rh-green hover:border-rh-green transition-colors"
+        >
+          FOLLOW @GRIFTERSONCHAIN →
+        </a>
+        <p className="mt-2 font-pixel text-[8px] text-ink-soft leading-relaxed">
+          THEN TAP THE 🔔 ON OUR PROFILE — MINT OPENS AUG 21 · 18:00 UTC AND THE
+          BELL IS HOW YOU HEAR IT FIRST.
+        </p>
+        <label className="mt-3 flex items-start gap-2.5 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            required
+            checked={following}
+            onChange={(e) => setFollowing(e.target.checked)}
+            className="mt-0.5 w-4 h-4 accent-[#2ebd6b] border-2 border-ink"
+          />
+          <span className="font-pixel text-[9px] text-ink leading-relaxed">
+            I FOLLOW @GRIFTERSONCHAIN AND NOTIFICATIONS ARE ON *
+          </span>
+        </label>
+      </div>
+
+      <div className="mb-4 border-2 border-dashed border-rh-green/50 bg-rh-pale/50 p-3.5">
+        <p className="font-pixel text-[10px] text-ink mb-2.5">STEP 2 — POST YOUR TWEET (ONE CLICK)</p>
         <a
           href={`https://x.com/intent/tweet?text=${tweetText}`}
           target="_blank"
@@ -245,7 +274,7 @@ export function WhitelistForm() {
       </div>
 
       <label className="block mb-5">
-        <span className="font-pixel text-[10px] text-ink-soft block mb-2">STEP 2 — PASTE YOUR TWEET LINK *</span>
+        <span className="font-pixel text-[10px] text-ink-soft block mb-2">STEP 3 — PASTE YOUR TWEET LINK *</span>
         <input
           className={input}
           value={tweetUrl}
