@@ -9,6 +9,7 @@ const TICKETS: { tag: string; title: string; desc: string; art: string; tint: st
   { tag: "MEMORABILIA", title: "Signed & exclusive drops", desc: "Physical pieces with provenance.", art: "/generated/grifters/pass-memorabilia.webp", tint: "var(--champagne)", rotate: -1 },
   { tag: "EXPERIENCES", title: "Celebrity-related experiences", desc: "Moments money can't usually reach.", art: "/generated/grifters/pass-experience.webp", tint: "var(--sky)", rotate: 2 },
   { tag: "DIGITAL", title: "Private digital access", desc: "Content and channels for holders only.", art: "/generated/grifters/pass-digital.webp", tint: "var(--mint)", rotate: -1.5 },
+  { tag: "LIVE SHOWS", title: "Concert ticket giveaways", desc: "Tickets to major tours, raffled to holders every season.", art: "/generated/grifters/pass-tickets.webp", tint: "var(--rh-pale)", rotate: 1 },
 ];
 
 function VipPass({ t, i }: { t: (typeof TICKETS)[number]; i: number }) {

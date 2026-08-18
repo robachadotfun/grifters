@@ -42,8 +42,9 @@ export function CelebrityUniverse() {
             </div>
           </Reveal>
 
-          {/* trading cards scattered across an editorial desk */}
-          <div className="flex flex-wrap justify-center lg:flex-nowrap gap-6 sm:gap-4 lg:-space-x-20 items-start">
+          {/* trading cards scattered across an editorial desk — wraps into
+              overlapping rows now that the roster is bigger than one hand */}
+          <div className="flex flex-wrap justify-center gap-6 sm:gap-4 lg:-mx-8 items-start">
             {GRIFTERS.map((g, i) => {
               const s = SPREAD[i % SPREAD.length];
               return (
