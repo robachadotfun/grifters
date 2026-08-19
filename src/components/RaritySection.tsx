@@ -37,10 +37,10 @@ export function RaritySection() {
             </div>
           </Reveal>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 items-end">
             {ORDER.map((r, i) => {
               const m = RARITY_META[r];
-              const legendary = r === "LEGENDARY";
+              const legendary = r === "ICONIC";
               return (
                 <Reveal key={r} delay={i * 0.08}>
                   <div
