@@ -9,6 +9,7 @@ import { CelebrityUniverse } from "@/components/CelebrityUniverse";
 import { RaritySection } from "@/components/RaritySection";
 import { Unlocks } from "@/components/Unlocks";
 import { PreReveal } from "@/components/PreReveal";
+import { ProvablySealed } from "@/components/ProvablySealed";
 import { ChainSection } from "@/components/ChainSection";
 import { HowItWorks } from "@/components/HowItWorks";
 import { MintSection } from "@/components/MintSection";
@@ -32,6 +33,7 @@ export default function Home() {
         <RaritySection />
         <Unlocks />
         <PreReveal />
+        <ProvablySealed />
         <ChainSection />
         <HowItWorks />
         <MintSection />
