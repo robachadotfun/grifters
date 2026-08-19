@@ -1,0 +1,344 @@
+{
+ "abi": [
+  {
+   "inputs": [
+    {
+     "internalType": "address",
+     "name": "conductor_",
+     "type": "address"
+    },
+    {
+     "internalType": "bytes32",
+     "name": "manifestHash_",
+     "type": "bytes32"
+    },
+    {
+     "internalType": "uint256",
+     "name": "revealNotBefore_",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "nonpayable",
+   "type": "constructor"
+  },
+  {
+   "inputs": [],
+   "name": "AlreadyRequested",
+   "type": "error"
+  },
+  {
+   "inputs": [],
+   "name": "AlreadyRevealed",
+   "type": "error"
+  },
+  {
+   "inputs": [],
+   "name": "BadToken",
+   "type": "error"
+  },
+  {
+   "inputs": [],
+   "name": "NotConductor",
+   "type": "error"
+  },
+  {
+   "inputs": [],
+   "name": "NotReady",
+   "type": "error"
+  },
+  {
+   "inputs": [],
+   "name": "NotRequested",
+   "type": "error"
+  },
+  {
+   "inputs": [],
+   "name": "TooEarly",
+   "type": "error"
+  },
+  {
+   "anonymous": false,
+   "inputs": [
+    {
+     "indexed": true,
+     "internalType": "uint256",
+     "name": "requestId",
+     "type": "uint256"
+    },
+    {
+     "indexed": true,
+     "internalType": "address",
+     "name": "caller",
+     "type": "address"
+    },
+    {
+     "indexed": false,
+     "internalType": "uint256",
+     "name": "feePaid",
+     "type": "uint256"
+    }
+   ],
+   "name": "RevealRequested",
+   "type": "event"
+  },
+  {
+   "anonymous": false,
+   "inputs": [
+    {
+     "indexed": true,
+     "internalType": "uint256",
+     "name": "requestId",
+     "type": "uint256"
+    }
+   ],
+   "name": "RevealRescued",
+   "type": "event"
+  },
+  {
+   "anonymous": false,
+   "inputs": [
+    {
+     "indexed": false,
+     "internalType": "bytes32",
+     "name": "word",
+     "type": "bytes32"
+    }
+   ],
+   "name": "Revealed",
+   "type": "event"
+  },
+  {
+   "inputs": [],
+   "name": "MIN_SETTLE_DELAY",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "MIN_TAPES",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "N_PRINTS",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "SUPPLY",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "beginReveal",
+   "outputs": [],
+   "stateMutability": "payable",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "conductor",
+   "outputs": [
+    {
+     "internalType": "contract IConductor",
+     "name": "",
+     "type": "address"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [
+    {
+     "internalType": "uint256",
+     "name": "tokenId",
+     "type": "uint256"
+    }
+   ],
+   "name": "identityIndexOf",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "isRevealed",
+   "outputs": [
+    {
+     "internalType": "bool",
+     "name": "",
+     "type": "bool"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "manifestHash",
+   "outputs": [
+    {
+     "internalType": "bytes32",
+     "name": "",
+     "type": "bytes32"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [
+    {
+     "internalType": "uint256",
+     "name": "id",
+     "type": "uint256"
+    },
+    {
+     "internalType": "bytes32",
+     "name": "word",
+     "type": "bytes32"
+    }
+   ],
+   "name": "rawFulfillEntropy",
+   "outputs": [],
+   "stateMutability": "nonpayable",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "requestId",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "requestedAt",
+   "outputs": [
+    {
+     "internalType": "uint40",
+     "name": "",
+     "type": "uint40"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "rescueReveal",
+   "outputs": [],
+   "stateMutability": "nonpayable",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "revealNotBefore",
+   "outputs": [
+    {
+     "internalType": "uint256",
+     "name": "",
+     "type": "uint256"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "revealWord",
+   "outputs": [
+    {
+     "internalType": "bytes32",
+     "name": "",
+     "type": "bytes32"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
+  },
+  {
+   "inputs": [],
+   "name": "settleReveal",
+   "outputs": [],
+   "stateMutability": "nonpayable",
+   "type": "function"
+  },
+  {
+   "stateMutability": "payable",
+   "type": "receive"
+  }
+ ],
+ "bytecode": "0x60e060405234801561000f575f80fd5b50604051610b3a380380610b3a83398101604081905261002e91610047565b6001600160a01b0390921660805260a05260c052610086565b5f805f60608486031215610059575f80fd5b83516001600160a01b038116811461006f575f80fd5b602085015160409095015190969495509392505050565b60805160a05160c051610a526100e85f395f8181610167015261064701525f8181610134015261074e01525f818161020c01528181610337015281816103cb015281816104ed015281816105a9015281816106ca01526107f00152610a525ff3fe6080604052600436106100f1575f3560e01c8063709f770411610087578063c50497ae11610057578063c50497ae146102b7578063c52dcc7c146102cc578063c6b7b2bf146102e0578063ed7f8e57146102f5575f80fd5b8063709f7704146101fb5780637b53d17b14610246578063a4acafba14610279578063bb97b14b14610298575f80fd5b806350c300fe116100c257806350c300fe1461019d57806354214f69146101b257806363ea61c0146101d157806368fa32d4146101e5575f80fd5b80626d6cae146100fc578063337f3f32146101235780633ac2f1c0146101565780635028e7a214610189575f80fd5b366100f857005b5f80fd5b348015610107575f80fd5b506101105f5481565b6040519081526020015b60405180910390f35b34801561012e575f80fd5b506101107f000000000000000000000000000000000000000000000000000000000000000081565b348015610161575f80fd5b506101107f000000000000000000000000000000000000000000000000000000000000000081565b348015610194575f80fd5b50610110601081565b3480156101a8575f80fd5b5061011061012c81565b3480156101bd575f80fd5b50600254604051901515815260200161011a565b3480156101dc575f80fd5b50610110600281565b3480156101f0575f80fd5b506101f96102fd565b005b348015610206575f80fd5b5061022e7f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b03909116815260200161011a565b348015610251575f80fd5b506001546102639064ffffffffff1681565b60405164ffffffffff909116815260200161011a565b348015610284575f80fd5b50610110610293366004610945565b610472565b3480156102a3575f80fd5b506101f96102b236600461095c565b6104e2565b3480156102c2575f80fd5b506101106108ae81565b3480156102d7575f80fd5b506101f9610550565b3480156102eb575f80fd5b5061011060025481565b6101f9610645565b5f545f0361031d576040516294861760e21b815260040160405180910390fd5b5f80546040516311c7a4d360e21b815260048101919091527f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03169063471e934c90602401602060405180830381865afa158015610384573d5f803e3d5ffd5b505050506040513d601f19601f820116820180604052508101906103a8919061097c565b905080610466575f8054604051639206ea7560e01b815282916001600160a01b037f00000000000000000000000000000000000000000000000000000000000000001691639206ea75916104029160040190815260200190565b6040805180830381865afa15801561041c573d5f803e3d5ffd5b505050506040513d601f19601f820116820180604052508101906104409190610993565b915091508161046257604051634a44555360e11b815260040160405180910390fd5b9150505b61046f816108b2565b50565b6002545f9061049457604051634a44555360e11b815260040160405180910390fd5b6108ae82106104b657604051637401d93160e01b815260040160405180910390fd5b6002546108ae906104c89082906109c3565b6104d290846109f6565b6104dc91906109c3565b92915050565b336001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000161461052b5760405163453a273b60e01b815260040160405180910390fd5b5f548214158061053a57505f54155b15610543575050565b61054c816108b2565b5050565b5f545f03610570576040516294861760e21b815260040160405180910390fd5b600254156105915760405163a89ac15160e01b815260040160405180910390fd5b5f546040516340e58ee560e01b8152600481018290527f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316906340e58ee5906024015f604051808303815f87803b1580156105f2575f80fd5b505af1158015610604573d5f803e3d5ffd5b50505f8080556001805464ffffffffff191690556040518493507f6625cec41f0dc0f96a592defd4ca9aaef726d7773fa931f65399a9c6a5d46f0d9250a250565b7f00000000000000000000000000000000000000000000000000000000000000004210156106865760405163085de62560e01b815260040160405180910390fd5b5f54156106a657604051632981f6c160e11b815260040160405180910390fd5b600254156106c75760405163a89ac15160e01b815260040160405180910390fd5b5f7f00000000000000000000000000000000000000000000000000000000000000006001600160a01b031663eb2e578b6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610724573d5f803e3d5ffd5b505050506040513d601f19601f82011682018060405250810190610748919061097c565b90505f307f0000000000000000000000000000000000000000000000000000000000000000610778600143610a09565b60405160609390931b6bffffffffffffffffffffffff19166020840152603483019190915240605482015242607482015260940160408051601f1981840301815290829052805160209091012063182e744960e31b825260106004830152602482018190526002604483015291506001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000169063c173a24890849060640160206040518083038185885af1158015610838573d5f803e3d5ffd5b50505050506040513d601f19601f8201168201806040525081019061085d919061097c565b5f8190556001805464ffffffffff19164264ffffffffff161790556040518381523391907f3d93bc40cfb9a7502c1ada761c920d47436014ce605b05671077df7141bb1eba9060200160405180910390a35050565b600254156108d35760405163a89ac15160e01b815260040160405180910390fd5b6001546108ea9061012c9064ffffffffff166109f6565b42101561090a5760405163085de62560e01b815260040160405180910390fd5b60028190556040518181527fd5e62fe0c4e6bd40a7736fb2ab572a9a0f5e742f27741505011b9bc89c7ead199060200160405180910390a150565b5f60208284031215610955575f80fd5b5035919050565b5f806040838503121561096d575f80fd5b50508035926020909101359150565b5f6020828403121561098c575f80fd5b5051919050565b5f80604083850312156109a4575f80fd5b825180151581146109b3575f80fd5b6020939093015192949293505050565b5f826109dd57634e487b7160e01b5f52601260045260245ffd5b500690565b634e487b7160e01b5f52601160045260245ffd5b808201808211156104dc576104dc6109e2565b818103818111156104dc576104dc6109e256fea26469706673582212204866be97cfa22388c89d3d0e6c14db16dc650bd5d96d92b231368958ac1fa8e564736f6c63430008180033",
+ "compiler": "0.8.24",
+ "optimizer": {
+  "enabled": true,
+  "runs": 200
+ },
+ "standardInput": {
+  "language": "Solidity",
+  "sources": {
+   "GriftersReveal.sol": {
+    "content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.24;\n\n/// GRIFTERS reveal — DERP conductor, shape C: one mined word assigns all\n/// 2,222 sealed identities.\n///\n/// Trust model (the honest line, per StonkPit standards): the word is\n/// sealed by real mining work and economically secured — not VRF-grade.\n/// The manifest commitment below is what makes resampling blind: the\n/// ordered identity list is hashed on-chain BEFORE any entropy exists,\n/// kept secret until the word lands, then published so anyone can check\n/// (a) the list matches the pre-committed hash and (b) every token's\n/// identity is exactly `identityIndexOf(tokenId)`.\n///\n/// Ownerless by construction: no admin functions, no levers. The only\n/// timing control is the immutable `revealNotBefore` gate; after it,\n/// anyone may crank `beginReveal` and anyone may settle or rescue.\n///\n/// Conductor (verified on robinhoodchain.blockscout.com):\n///   MultiConductor 0x003e29260EF2f762e7f2d95C3d2b7A7f6234BcDE\n/// Signatures below match the verified source (checked 2026-08-19):\n///   requestFee() / maxRequestFee() / requestWithMinTapes(uint256,bytes32,uint256)\n///   isReady(uint256) / previewWord(uint256) / wordOf(uint256) / cancel(uint256)\n/// Consumer callback surface matches PitBonesTable (production reference):\n///   rawFulfillEntropy(uint256,bytes32)\ninterface IConductor {\n    function requestFee() external view returns (uint256);\n    function maxRequestFee() external view returns (uint256);\n    function requestWithMinTapes(uint256 nPrints, bytes32 seed, uint256 minTapes)\n        external\n        payable\n        returns (uint256);\n    function isReady(uint256 requestId) external view returns (bool);\n    function previewWord(uint256 requestId) external view returns (bool ready, bytes32 word);\n    function wordOf(uint256 requestId) external view returns (bytes32);\n    function cancel(uint256 requestId) external;\n}\n\ncontract GriftersReveal {\n    error AlreadyRequested();\n    error AlreadyRevealed();\n    error NotConductor();\n    error NotRequested();\n    error NotReady();\n    error TooEarly();\n    error BadToken();\n\n    uint256 public constant SUPPLY = 2222;\n    /// One word carries the whole collection: buy the delay (doc §4).\n    uint256 public constant N_PRINTS = 16;\n    uint256 public constant MIN_TAPES = 2;\n    /// Wall-clock settle floor — cheap insurance for a one-time event.\n    uint256 public constant MIN_SETTLE_DELAY = 300;\n\n    IConductor public immutable conductor;\n    /// Rolling hash h[n+1] = keccak256(abi.encodePacked(h[n], item[n]))\n    /// over the ordered, sealed metadata list (h[0] = 0). Committed at\n    /// deploy — strictly before any entropy exists.\n    bytes32 public immutable manifestHash;\n    /// Earliest moment anyone may open the reveal request.\n    uint256 public immutable revealNotBefore;\n\n    uint256 public requestId;\n    uint40 public requestedAt;\n    bytes32 public revealWord; // zero until revealed\n\n    event RevealRequested(uint256 indexed requestId, address indexed caller, uint256 feePaid);\n    event Revealed(bytes32 word);\n    event RevealRescued(uint256 indexed requestId);\n\n    constructor(address conductor_, bytes32 manifestHash_, uint256 revealNotBefore_) {\n        conductor = IConductor(conductor_);\n        manifestHash = manifestHash_;\n        revealNotBefore = revealNotBefore_;\n    }\n\n    /// One request, ever. Permissionless after the time gate. Callable\n    /// with the fee in msg.value, or fund the contract beforehand at\n    /// maxRequestFee() and call with zero — the live quote is read and\n    /// paid atomically either way; any surplus stays for a re-arm.\n    function beginReveal() external payable {\n        if (block.timestamp < revealNotBefore) revert TooEarly();\n        if (requestId != 0) revert AlreadyRequested();\n        if (revealWord != bytes32(0)) revert AlreadyRevealed();\n\n        uint256 fee = conductor.requestFee();\n        bytes32 seed = keccak256(\n            abi.encodePacked(address(this), manifestHash, blockhash(block.number - 1), block.timestamp)\n        );\n        requestId = conductor.requestWithMinTapes{value: fee}(N_PRINTS, seed, MIN_TAPES);\n        requestedAt = uint40(block.timestamp);\n        emit RevealRequested(requestId, msg.sender, fee);\n    }\n\n    /// Conductor callback — guarded, best-effort. The pull backstop\n    /// below makes delivery a convenience, never a dependency.\n    function rawFulfillEntropy(uint256 id, bytes32 word) external {\n        if (msg.sender != address(conductor)) revert NotConductor();\n        if (id != requestId || requestId == 0) return;\n        _reveal(word);\n    }\n\n    /// Permissionless pull backstop — settles even if the callback\n    /// never lands.\n    function settleReveal() external {\n        if (requestId == 0) revert NotRequested();\n        bytes32 word = conductor.wordOf(requestId);\n        if (word == bytes32(0)) {\n            (bool ready, bytes32 preview) = conductor.previewWord(requestId);\n            if (!ready) revert NotReady();\n            word = preview;\n        }\n        _reveal(word);\n    }\n\n    function _reveal(bytes32 word) private {\n        if (revealWord != bytes32(0)) revert AlreadyRevealed();\n        if (block.timestamp < uint256(requestedAt) + MIN_SETTLE_DELAY) revert TooEarly();\n        revealWord = word;\n        emit Revealed(word);\n    }\n\n    /// Quiet-floor escape: after the conductor's cancel timeout on an\n    /// undetermined request, recover the fee and re-arm. Permissionless;\n    /// `cancel` itself reverts unless genuinely timed out.\n    function rescueReveal() external {\n        if (requestId == 0) revert NotRequested();\n        if (revealWord != bytes32(0)) revert AlreadyRevealed();\n        uint256 id = requestId;\n        conductor.cancel(id);\n        requestId = 0;\n        requestedAt = 0;\n        emit RevealRescued(id);\n    }\n\n    /// The entire assignment: tokenId -> manifest index, pure function\n    /// of the word. Offset rotation composes with the sealed manifest\n    /// order (which nobody could choose against) — the classic\n    /// provenance-hash reveal, recomputable by anyone forever.\n    function identityIndexOf(uint256 tokenId) external view returns (uint256) {\n        if (revealWord == bytes32(0)) revert NotReady();\n        if (tokenId >= SUPPLY) revert BadToken();\n        return (tokenId + (uint256(revealWord) % SUPPLY)) % SUPPLY;\n    }\n\n    function isRevealed() external view returns (bool) {\n        return revealWord != bytes32(0);\n    }\n\n    /// Fee funding + conductor cancel refunds.\n    receive() external payable {}\n}\n"
+   }
+  },
+  "settings": {
+   "optimizer": {
+    "enabled": true,
+    "runs": 200
+   },
+   "outputSelection": {
+    "*": {
+     "*": [
+      "abi",
+      "evm.bytecode.object"
+     ]
+    }
+   }
+  }
+ }
+}
