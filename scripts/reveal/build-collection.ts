@@ -37,8 +37,10 @@ const seed = arg("seed") ?? "grifters-v1";
 const limit = arg("limit") ? Number(arg("limit")) : SUPPLY;
 
 // ——— trait tables ————————————————————————————————————————————————
-// Display name + archetype label per portrait file (site roster + wave 3).
-const ARCHETYPES: { file: string; name: string; label: string }[] = [
+// Full roster lives in roster.json (written by generate-nfts-wave4.ts);
+// the inline table below is the pre-wave-4 fallback.
+const ROSTER_PATH = path.join(process.cwd(), "scripts/reveal/roster.json");
+const FALLBACK: { file: string; name: string; label: string }[] = [
   { file: "grifter-icon.png", name: "PARIS", label: "THE ICON" },
   { file: "grifter-champion.png", name: "FLOYD", label: "THE CHAMPION" },
   { file: "grifter-original.png", name: "LINDSAY", label: "THE ORIGINAL" },
@@ -97,6 +99,14 @@ const GEMS = [
   { key: "LEGENDARY", file: "gem-legendary.png", weight: 4 },
 ];
 
+/** ICONIC — 22 one-of-one gold editions (1% of supply) reserved for the
+ *  biggest names. Gold pixel frame, crown seal, no duplicate exists. */
+const ICONIC_NAMES = [
+  "TAYLOR", "DRAKE", "BEY", "ABEL", "KIM", "KYLIE", "YE", "PARIS", "FLOYD",
+  "ROBYN", "JUSTIN", "ARIANA", "BILLIE", "LEO", "CRISTIANO", "LEBRON",
+  "MICHAEL", "BRADY", "SRK", "VIRAT", "ELON", "JIMMY",
+];
+
 const PROPS = [
   { key: "NONE", file: null as string | null, weight: 46 },
   { key: "CHAMPAGNE", file: "pixel-champagne.png", weight: 16 },
@@ -136,6 +146,9 @@ function weightedPick<T extends { weight: number }>(table: T[]): T {
 }
 
 // ——— sample 2,222 unique tokens ————————————————————————————————————
+const ARCHETYPES: { file: string; name: string; label: string }[] = fs.existsSync(ROSTER_PATH)
+  ? JSON.parse(fs.readFileSync(ROSTER_PATH, "utf8"))
+  : FALLBACK;
 const available = ARCHETYPES.filter((a) => fs.existsSync(path.join(NFT_DIR, a.file)));
 if (available.length < ARCHETYPES.length) {
   console.log(`note: ${ARCHETYPES.length - available.length} archetype files missing — sampling from ${available.length}`);
@@ -147,16 +160,33 @@ type Token = {
   gem: (typeof GEMS)[number];
   prop: (typeof PROPS)[number];
   finish: (typeof FINISHES)[number];
+  iconic?: boolean;
 };
-// No forced combo-uniqueness: rejection sampling would skew the rarity
-// weights (rare combos survive rejection more often). Tokens with the
-// same traits differ by serial, as in any layered PFP collection.
-const tokens: Token[] = Array.from({ length: SUPPLY }, () => ({
-  archetype: available[Math.floor(rand() * available.length)],
-  gem: weightedPick(GEMS),
-  prop: weightedPick(PROPS),
-  finish: weightedPick(FINISHES),
+// 22 ICONIC one-of-ones first (identity order is irrelevant — the sealed
+// manifest shuffle randomizes token assignment anyway)…
+const iconicRoster = ICONIC_NAMES.map((n) => {
+  const a = available.find((x) => x.name === n);
+  if (!a) console.log(`WARNING: ICONIC name ${n} not in available roster — skipped`);
+  return a;
+}).filter(Boolean) as typeof available;
+const tokens: Token[] = iconicRoster.map((archetype) => ({
+  archetype,
+  gem: { key: "ICONIC", file: "ultra-crown.png", weight: 0 },
+  prop: PROPS[0],
+  finish: { key: "GOLD EDITION", weight: 0, mod: { tint: [255, 232, 180] as [number, number, number] } },
+  iconic: true,
 }));
+// …then the regular supply. No forced combo-uniqueness: rejection
+// sampling would skew the rarity weights. Tokens with the same traits
+// differ by serial, as in any layered PFP collection.
+while (tokens.length < SUPPLY) {
+  tokens.push({
+    archetype: available[Math.floor(rand() * available.length)],
+    gem: weightedPick(GEMS),
+    prop: weightedPick(PROPS),
+    finish: weightedPick(FINISHES),
+  });
+}
 
 // ——— render ————————————————————————————————————————————————————————
 fs.mkdirSync(path.join(OUT_DIR, "images"), { recursive: true });
@@ -182,8 +212,30 @@ async function renderToken(i: number, t: Token) {
       input: { create: { width: 1024, height: 1024, channels: 4, background: { r, g, b, alpha: 0.13 } } },
     });
   }
-  layers.push({ input: await propBuf(t.gem.file, 128), left: 28, top: 28 });
-  if (t.prop.file) layers.push({ input: await propBuf(t.prop.file, 220), left: 1024 - 240, top: 1024 - 240 });
+  if (t.iconic) {
+    // gold pixel frame: outer + inner border, stepped corners
+    const B = 22;
+    const gold = { r: 201, g: 162, b: 75, alpha: 1 };
+    const cream = { r: 255, g: 244, b: 214, alpha: 1 };
+    for (const [inset, col] of [
+      [0, gold],
+      [B, cream],
+      [B + 8, gold],
+    ] as const) {
+      const w = 1024 - inset * 2;
+      const t2 = col === gold ? B : 8;
+      layers.push(
+        { input: { create: { width: w, height: t2, channels: 4, background: col } }, left: inset, top: inset },
+        { input: { create: { width: w, height: t2, channels: 4, background: col } }, left: inset, top: 1024 - inset - t2 },
+        { input: { create: { width: t2, height: w, channels: 4, background: col } }, left: inset, top: inset },
+        { input: { create: { width: t2, height: w, channels: 4, background: col } }, left: 1024 - inset - t2, top: inset },
+      );
+    }
+    layers.push({ input: await propBuf("ultra-crown.png", 168), left: 52, top: 52 });
+  } else {
+    layers.push({ input: await propBuf(t.gem.file, 128), left: 28, top: 28 });
+    if (t.prop.file) layers.push({ input: await propBuf(t.prop.file, 220), left: 1024 - 240, top: 1024 - 240 });
+  }
   await img.composite(layers).png().toFile(out);
 }
 
@@ -197,12 +249,13 @@ async function main() {
     meta.push(
       JSON.stringify({
         identity: i,
-        name: `${t.archetype.name} #${counts[t.archetype.name]}`,
+        name: t.iconic ? `${t.archetype.name} — ICONIC 1/1` : `${t.archetype.name} #${counts[t.archetype.name]}`,
         archetype: t.archetype.label,
         celebrity: t.archetype.name,
         gem: t.gem.key,
-        prop: t.prop.key,
+        prop: t.iconic ? "GOLD FRAME" : t.prop.key,
         finish: t.finish.key,
+        ...(t.iconic ? { edition: "1 OF 1" } : {}),
         image: `images/${i}.png`,
       }),
     );

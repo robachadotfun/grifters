@@ -1,0 +1,1432 @@
+[
+ {
+  "file": "grifter-icon.png",
+  "name": "PARIS",
+  "label": "THE ICON"
+ },
+ {
+  "file": "grifter-champion.png",
+  "name": "FLOYD",
+  "label": "THE CHAMPION"
+ },
+ {
+  "file": "grifter-original.png",
+  "name": "LINDSAY",
+  "label": "THE ORIGINAL"
+ },
+ {
+  "file": "grifter-internet.png",
+  "name": "MIA",
+  "label": "THE INTERNET"
+ },
+ {
+  "file": "grifter-legacy.png",
+  "name": "CAITLYN",
+  "label": "THE LEGACY"
+ },
+ {
+  "file": "grifter-hitmaker.png",
+  "name": "DRAKE",
+  "label": "THE HITMAKER"
+ },
+ {
+  "file": "grifter-starboy.png",
+  "name": "ABEL",
+  "label": "THE STARBOY"
+ },
+ {
+  "file": "grifter-popprince.png",
+  "name": "JUSTIN",
+  "label": "THE POP PRINCE"
+ },
+ {
+  "file": "grifter-mogul.png",
+  "name": "KYLIE",
+  "label": "THE MOGUL"
+ },
+ {
+  "file": "grifter-momager.png",
+  "name": "KRIS",
+  "label": "THE MOMAGER"
+ },
+ {
+  "file": "grifter-runway.png",
+  "name": "KENDALL",
+  "label": "THE RUNWAY"
+ },
+ {
+  "file": "grifter-empire.png",
+  "name": "KIM",
+  "label": "THE EMPIRE"
+ },
+ {
+  "file": "grifter-visionary.png",
+  "name": "YE",
+  "label": "THE VISIONARY"
+ },
+ {
+  "file": "grifter-plug.png",
+  "name": "NAV",
+  "label": "THE PLUG"
+ },
+ {
+  "file": "grifter-heartthrob.png",
+  "name": "ZAYN",
+  "label": "THE HEARTTHROB"
+ },
+ {
+  "file": "grifter-songbird.png",
+  "name": "TAYLOR",
+  "label": "THE SONGBIRD"
+ },
+ {
+  "file": "grifter-empress.png",
+  "name": "ROBYN",
+  "label": "THE EMPRESS"
+ },
+ {
+  "file": "grifter-queen.png",
+  "name": "BEY",
+  "label": "THE QUEEN"
+ },
+ {
+  "file": "grifter-dynasty.png",
+  "name": "SHAWN",
+  "label": "THE DYNASTY"
+ },
+ {
+  "file": "grifter-king.png",
+  "name": "LEBRON",
+  "label": "THE KING"
+ },
+ {
+  "file": "grifter-ace.png",
+  "name": "SERENA",
+  "label": "THE ACE"
+ },
+ {
+  "file": "grifter-phenom.png",
+  "name": "CRISTIANO",
+  "label": "THE PHENOM"
+ },
+ {
+  "file": "grifter-maestro.png",
+  "name": "LEO",
+  "label": "THE MAESTRO"
+ },
+ {
+  "file": "grifter-smooth.png",
+  "name": "CALVIN",
+  "label": "THE SMOOTH"
+ },
+ {
+  "file": "grifter-lyricist.png",
+  "name": "MARSHALL",
+  "label": "THE LYRICIST"
+ },
+ {
+  "file": "grifter-voice.png",
+  "name": "ADELE",
+  "label": "THE VOICE"
+ },
+ {
+  "file": "grifter-whisper.png",
+  "name": "BILLIE",
+  "label": "THE WHISPER"
+ },
+ {
+  "file": "grifter-disco.png",
+  "name": "DUA",
+  "label": "THE DISCO"
+ },
+ {
+  "file": "grifter-ponytail.png",
+  "name": "ARIANA",
+  "label": "THE PONYTAIL"
+ },
+ {
+  "file": "grifter-sweetheart.png",
+  "name": "SELENA",
+  "label": "THE SWEETHEART"
+ },
+ {
+  "file": "grifter-rebel.png",
+  "name": "MILEY",
+  "label": "THE REBEL"
+ },
+ {
+  "file": "grifter-shapeshifter.png",
+  "name": "DOJA",
+  "label": "THE SHAPESHIFTER"
+ },
+ {
+  "file": "grifter-rager.png",
+  "name": "TRAVIS",
+  "label": "THE RAGER"
+ },
+ {
+  "file": "grifter-firecracker.png",
+  "name": "CARDI",
+  "label": "THE FIRECRACKER"
+ },
+ {
+  "file": "grifter-barb.png",
+  "name": "NICKI",
+  "label": "THE BARB"
+ },
+ {
+  "file": "grifter-popprincess.png",
+  "name": "BRITNEY",
+  "label": "THE POP PRINCESS"
+ },
+ {
+  "file": "grifter-material.png",
+  "name": "MADONNA",
+  "label": "THE MATERIAL GIRL"
+ },
+ {
+  "file": "grifter-oracle.png",
+  "name": "OPRAH",
+  "label": "THE ORACLE"
+ },
+ {
+  "file": "grifter-rock.png",
+  "name": "DWAYNE",
+  "label": "THE ROCK"
+ },
+ {
+  "file": "grifter-notorious.png",
+  "name": "CONOR",
+  "label": "THE NOTORIOUS"
+ },
+ {
+  "file": "grifter-masters.png",
+  "name": "ELDRICK",
+  "label": "THE MASTERS"
+ },
+ {
+  "file": "grifter-lightning.png",
+  "name": "USAIN",
+  "label": "THE LIGHTNING"
+ },
+ {
+  "file": "grifter-martian.png",
+  "name": "ELON",
+  "label": "THE MARTIAN"
+ },
+ {
+  "file": "grifter-benefactor.png",
+  "name": "JIMMY",
+  "label": "THE BENEFACTOR"
+ },
+ {
+  "file": "grifter-arthouse.png",
+  "name": "TIMOTHEE",
+  "label": "THE ARTHOUSE"
+ },
+ {
+  "file": "grifter-itgirl.png",
+  "name": "ZENDAYA",
+  "label": "THE IT GIRL"
+ },
+ {
+  "file": "grifter-oscar.png",
+  "name": "LEONARDO",
+  "label": "THE OSCAR"
+ },
+ {
+  "file": "grifter-monster.png",
+  "name": "GAGA",
+  "label": "THE MONSTER"
+ },
+ {
+  "file": "grifter-conejo.png",
+  "name": "BENITO",
+  "label": "THE CONEJO"
+ },
+ {
+  "file": "grifter-shakira.png",
+  "name": "SHAKIRA",
+  "label": "THE HIPS"
+ },
+ {
+  "file": "grifter-sza.png",
+  "name": "SZA",
+  "label": "THE SIREN"
+ },
+ {
+  "file": "grifter-kendrick.png",
+  "name": "KENDRICK",
+  "label": "THE POET"
+ },
+ {
+  "file": "grifter-cole.png",
+  "name": "COLE",
+  "label": "THE PROFESSOR"
+ },
+ {
+  "file": "grifter-future.png",
+  "name": "FUTURE",
+  "label": "THE PLUTO"
+ },
+ {
+  "file": "grifter-wayne.png",
+  "name": "WAYNE",
+  "label": "THE CARTER"
+ },
+ {
+  "file": "grifter-savage.png",
+  "name": "SAVAGE",
+  "label": "THE 21"
+ },
+ {
+  "file": "grifter-uzi.png",
+  "name": "UZI",
+  "label": "THE ROCKSTAR"
+ },
+ {
+  "file": "grifter-post.png",
+  "name": "POST",
+  "label": "THE POSTY"
+ },
+ {
+  "file": "grifter-bruno.png",
+  "name": "BRUNO",
+  "label": "THE 24K"
+ },
+ {
+  "file": "grifter-usher.png",
+  "name": "USHER",
+  "label": "THE CONFESSION"
+ },
+ {
+  "file": "grifter-megan.png",
+  "name": "MEGAN",
+  "label": "THE STALLION"
+ },
+ {
+  "file": "grifter-tyler.png",
+  "name": "TYLER",
+  "label": "THE CREATOR"
+ },
+ {
+  "file": "grifter-rocky.png",
+  "name": "ROCKY",
+  "label": "THE FLACKO"
+ },
+ {
+  "file": "grifter-gunna.png",
+  "name": "GUNNA",
+  "label": "THE DRIP"
+ },
+ {
+  "file": "grifter-baby.png",
+  "name": "BABY",
+  "label": "THE 4PF"
+ },
+ {
+  "file": "grifter-jack.png",
+  "name": "JACK",
+  "label": "THE HARLOW"
+ },
+ {
+  "file": "grifter-dre.png",
+  "name": "DRE",
+  "label": "THE DOCTOR"
+ },
+ {
+  "file": "grifter-curtis.png",
+  "name": "CURTIS",
+  "label": "THE FIFTY"
+ },
+ {
+  "file": "grifter-cube.png",
+  "name": "CUBE",
+  "label": "THE CUBE"
+ },
+ {
+  "file": "grifter-ed.png",
+  "name": "ED",
+  "label": "THE SHAPE"
+ },
+ {
+  "file": "grifter-harry.png",
+  "name": "HARRY",
+  "label": "THE STYLES"
+ },
+ {
+  "file": "grifter-niall.png",
+  "name": "NIALL",
+  "label": "THE GOLDEN"
+ },
+ {
+  "file": "grifter-sam.png",
+  "name": "SAM",
+  "label": "THE UNHOLY"
+ },
+ {
+  "file": "grifter-charlie.png",
+  "name": "CHARLIE",
+  "label": "THE ATTENTION"
+ },
+ {
+  "file": "grifter-demi.png",
+  "name": "DEMI",
+  "label": "THE PHOENIX"
+ },
+ {
+  "file": "grifter-camila.png",
+  "name": "CAMILA",
+  "label": "THE HAVANA"
+ },
+ {
+  "file": "grifter-halsey.png",
+  "name": "HALSEY",
+  "label": "THE BADLANDS"
+ },
+ {
+  "file": "grifter-lizzo.png",
+  "name": "LIZZO",
+  "label": "THE FLUTE"
+ },
+ {
+  "file": "grifter-lorde.png",
+  "name": "LORDE",
+  "label": "THE ROYAL"
+ },
+ {
+  "file": "grifter-lana.png",
+  "name": "LANA",
+  "label": "THE VIDEOGAME"
+ },
+ {
+  "file": "grifter-olivia.png",
+  "name": "OLIVIA",
+  "label": "THE SOUR"
+ },
+ {
+  "file": "grifter-sabrina.png",
+  "name": "SABRINA",
+  "label": "THE ESPRESSO"
+ },
+ {
+  "file": "grifter-chappell.png",
+  "name": "CHAPPELL",
+  "label": "THE FEMININOMENON"
+ },
+ {
+  "file": "grifter-ice.png",
+  "name": "ICE",
+  "label": "THE SPICE"
+ },
+ {
+  "file": "grifter-katy.png",
+  "name": "KATY",
+  "label": "THE FIREWORK"
+ },
+ {
+  "file": "grifter-pink.png",
+  "name": "PINK",
+  "label": "THE ACROBAT"
+ },
+ {
+  "file": "grifter-kesha.png",
+  "name": "KESHA",
+  "label": "THE ANIMAL"
+ },
+ {
+  "file": "grifter-avril.png",
+  "name": "AVRIL",
+  "label": "THE SK8ER"
+ },
+ {
+  "file": "grifter-gwen.png",
+  "name": "GWEN",
+  "label": "THE HOLLABACK"
+ },
+ {
+  "file": "grifter-fergie.png",
+  "name": "FERGIE",
+  "label": "THE DUTCHESS"
+ },
+ {
+  "file": "grifter-ciara.png",
+  "name": "CIARA",
+  "label": "THE GOODIES"
+ },
+ {
+  "file": "grifter-alicia.png",
+  "name": "ALICIA",
+  "label": "THE KEYS"
+ },
+ {
+  "file": "grifter-mariah.png",
+  "name": "MARIAH",
+  "label": "THE BUTTERFLY"
+ },
+ {
+  "file": "grifter-celine.png",
+  "name": "CELINE",
+  "label": "THE HEART"
+ },
+ {
+  "file": "grifter-jlo.png",
+  "name": "JLO",
+  "label": "THE JENNY"
+ },
+ {
+  "file": "grifter-jt.png",
+  "name": "JT",
+  "label": "THE MIRRORS"
+ },
+ {
+  "file": "grifter-maluma.png",
+  "name": "MALUMA",
+  "label": "THE PRETTY BOY"
+ },
+ {
+  "file": "grifter-jose.png",
+  "name": "JOSE",
+  "label": "THE BALVIN"
+ },
+ {
+  "file": "grifter-karol.png",
+  "name": "KAROL",
+  "label": "THE BICHOTA"
+ },
+ {
+  "file": "grifter-rosalia.png",
+  "name": "ROSALIA",
+  "label": "THE MOTOMAMI"
+ },
+ {
+  "file": "grifter-peso.png",
+  "name": "PESO",
+  "label": "THE DOBLE P"
+ },
+ {
+  "file": "grifter-anitta.png",
+  "name": "ANITTA",
+  "label": "THE FUNK"
+ },
+ {
+  "file": "grifter-jungkook.png",
+  "name": "JUNGKOOK",
+  "label": "THE GOLDEN MAKNAE"
+ },
+ {
+  "file": "grifter-jimin.png",
+  "name": "JIMIN",
+  "label": "THE FILTER"
+ },
+ {
+  "file": "grifter-lisa.png",
+  "name": "LISA",
+  "label": "THE LALISA"
+ },
+ {
+  "file": "grifter-jennie.png",
+  "name": "JENNIE",
+  "label": "THE SOLO"
+ },
+ {
+  "file": "grifter-rose.png",
+  "name": "ROSE",
+  "label": "THE APT"
+ },
+ {
+  "file": "grifter-jisoo.png",
+  "name": "JISOO",
+  "label": "THE FLOWER"
+ },
+ {
+  "file": "grifter-psy.png",
+  "name": "PSY",
+  "label": "THE GANGNAM"
+ },
+ {
+  "file": "grifter-mick.png",
+  "name": "MICK",
+  "label": "THE LIPS"
+ },
+ {
+  "file": "grifter-paul.png",
+  "name": "PAUL",
+  "label": "THE BEATLE"
+ },
+ {
+  "file": "grifter-elton.png",
+  "name": "ELTON",
+  "label": "THE ROCKETMAN"
+ },
+ {
+  "file": "grifter-bono.png",
+  "name": "BONO",
+  "label": "THE ONE"
+ },
+ {
+  "file": "grifter-slash.png",
+  "name": "SLASH",
+  "label": "THE RIFF"
+ },
+ {
+  "file": "grifter-bruce.png",
+  "name": "BRUCE",
+  "label": "THE BOSS"
+ },
+ {
+  "file": "grifter-tiesto.png",
+  "name": "TIESTO",
+  "label": "THE GODFATHER"
+ },
+ {
+  "file": "grifter-diplo.png",
+  "name": "DIPLO",
+  "label": "THE MAJOR"
+ },
+ {
+  "file": "grifter-sonny.png",
+  "name": "SONNY",
+  "label": "THE DROP"
+ },
+ {
+  "file": "grifter-mello.png",
+  "name": "MELLO",
+  "label": "THE HELMET"
+ },
+ {
+  "file": "grifter-kygo.png",
+  "name": "KYGO",
+  "label": "THE TROPICAL"
+ },
+ {
+  "file": "grifter-zedd.png",
+  "name": "ZEDD",
+  "label": "THE CLARITY"
+ },
+ {
+  "file": "grifter-wallen.png",
+  "name": "WALLEN",
+  "label": "THE WHISKEY"
+ },
+ {
+  "file": "grifter-luke.png",
+  "name": "LUKE",
+  "label": "THE COMBS"
+ },
+ {
+  "file": "grifter-dolly.png",
+  "name": "DOLLY",
+  "label": "THE JOLENE"
+ },
+ {
+  "file": "grifter-shania.png",
+  "name": "SHANIA",
+  "label": "THE IMPRESSED"
+ },
+ {
+  "file": "grifter-carrie.png",
+  "name": "CARRIE",
+  "label": "THE IDOL"
+ },
+ {
+  "file": "grifter-steph.png",
+  "name": "STEPH",
+  "label": "THE SPLASH"
+ },
+ {
+  "file": "grifter-kevin.png",
+  "name": "KEVIN",
+  "label": "THE SLIM REAPER"
+ },
+ {
+  "file": "grifter-giannis.png",
+  "name": "GIANNIS",
+  "label": "THE FREAK"
+ },
+ {
+  "file": "grifter-luka.png",
+  "name": "LUKA",
+  "label": "THE WONDERBOY"
+ },
+ {
+  "file": "grifter-nikola.png",
+  "name": "NIKOLA",
+  "label": "THE JOKER"
+ },
+ {
+  "file": "grifter-shaq.png",
+  "name": "SHAQ",
+  "label": "THE DIESEL"
+ },
+ {
+  "file": "grifter-michael.png",
+  "name": "MICHAEL",
+  "label": "THE AIRNESS"
+ },
+ {
+  "file": "grifter-magic.png",
+  "name": "MAGIC",
+  "label": "THE SHOWTIME"
+ },
+ {
+  "file": "grifter-kyrie.png",
+  "name": "KYRIE",
+  "label": "THE HANDLES"
+ },
+ {
+  "file": "grifter-wemby.png",
+  "name": "WEMBY",
+  "label": "THE ALIEN"
+ },
+ {
+  "file": "grifter-brady.png",
+  "name": "BRADY",
+  "label": "THE SEVEN RINGS"
+ },
+ {
+  "file": "grifter-patrick.png",
+  "name": "PATRICK",
+  "label": "THE SHOWTIME ARM"
+ },
+ {
+  "file": "grifter-kelce.png",
+  "name": "KELCE",
+  "label": "THE TIGHT END"
+ },
+ {
+  "file": "grifter-lamar.png",
+  "name": "LAMAR",
+  "label": "THE ERA 8"
+ },
+ {
+  "file": "grifter-odell.png",
+  "name": "ODELL",
+  "label": "THE CATCH"
+ },
+ {
+  "file": "grifter-neymar.png",
+  "name": "NEYMAR",
+  "label": "THE JOGA"
+ },
+ {
+  "file": "grifter-kylian.png",
+  "name": "KYLIAN",
+  "label": "THE TURTLE"
+ },
+ {
+  "file": "grifter-erling.png",
+  "name": "ERLING",
+  "label": "THE CYBORG"
+ },
+ {
+  "file": "grifter-jude.png",
+  "name": "JUDE",
+  "label": "THE BELLINGHAM"
+ },
+ {
+  "file": "grifter-vini.png",
+  "name": "VINI",
+  "label": "THE DANCE"
+ },
+ {
+  "file": "grifter-lamine.png",
+  "name": "LAMINE",
+  "label": "THE 304"
+ },
+ {
+  "file": "grifter-zlatan.png",
+  "name": "ZLATAN",
+  "label": "THE LION"
+ },
+ {
+  "file": "grifter-becks.png",
+  "name": "BECKS",
+  "label": "THE FREE KICK"
+ },
+ {
+  "file": "grifter-ronaldinho.png",
+  "name": "RONALDINHO",
+  "label": "THE SMILE"
+ },
+ {
+  "file": "grifter-mo.png",
+  "name": "MO",
+  "label": "THE PHARAOH"
+ },
+ {
+  "file": "grifter-son.png",
+  "name": "SON",
+  "label": "THE SONNY"
+ },
+ {
+  "file": "grifter-kane.png",
+  "name": "KANE",
+  "label": "THE HURRICANE"
+ },
+ {
+  "file": "grifter-robert.png",
+  "name": "ROBERT",
+  "label": "THE NINE"
+ },
+ {
+  "file": "grifter-modric.png",
+  "name": "MODRIC",
+  "label": "THE METRONOME"
+ },
+ {
+  "file": "grifter-roger.png",
+  "name": "ROGER",
+  "label": "THE MAESTRO OF SW19"
+ },
+ {
+  "file": "grifter-rafa.png",
+  "name": "RAFA",
+  "label": "THE BULL"
+ },
+ {
+  "file": "grifter-novak.png",
+  "name": "NOVAK",
+  "label": "THE DJOKER"
+ },
+ {
+  "file": "grifter-naomi.png",
+  "name": "NAOMI",
+  "label": "THE HAMAICHI"
+ },
+ {
+  "file": "grifter-coco.png",
+  "name": "COCO",
+  "label": "THE NEW GUARD"
+ },
+ {
+  "file": "grifter-carlos.png",
+  "name": "CARLOS",
+  "label": "THE CHARISMA"
+ },
+ {
+  "file": "grifter-venus.png",
+  "name": "VENUS",
+  "label": "THE PIONEER"
+ },
+ {
+  "file": "grifter-lewisf1.png",
+  "name": "LEWIS",
+  "label": "THE 44"
+ },
+ {
+  "file": "grifter-max.png",
+  "name": "MAX",
+  "label": "THE LIMIT"
+ },
+ {
+  "file": "grifter-charles.png",
+  "name": "CHARLES",
+  "label": "THE PREDESTINATO"
+ },
+ {
+  "file": "grifter-lando.png",
+  "name": "LANDO",
+  "label": "THE PAPAYA"
+ },
+ {
+  "file": "grifter-fernando.png",
+  "name": "FERNANDO",
+  "label": "THE SAMURAI"
+ },
+ {
+  "file": "grifter-mike.png",
+  "name": "MIKE",
+  "label": "THE BADDEST"
+ },
+ {
+  "file": "grifter-canelo.png",
+  "name": "CANELO",
+  "label": "THE CINNAMON"
+ },
+ {
+  "file": "grifter-fury.png",
+  "name": "FURY",
+  "label": "THE GYPSY KING"
+ },
+ {
+  "file": "grifter-khabib.png",
+  "name": "KHABIB",
+  "label": "THE EAGLE"
+ },
+ {
+  "file": "grifter-ronda.png",
+  "name": "RONDA",
+  "label": "THE ARMBAR"
+ },
+ {
+  "file": "grifter-jon.png",
+  "name": "JON",
+  "label": "THE BONES"
+ },
+ {
+  "file": "grifter-cena.png",
+  "name": "CENA",
+  "label": "THE INVISIBLE"
+ },
+ {
+  "file": "grifter-rory.png",
+  "name": "RORY",
+  "label": "THE GRAND SLAM"
+ },
+ {
+  "file": "grifter-tony.png",
+  "name": "TONY",
+  "label": "THE 900"
+ },
+ {
+  "file": "grifter-simone.png",
+  "name": "SIMONE",
+  "label": "THE GOAT VAULT"
+ },
+ {
+  "file": "grifter-phelps.png",
+  "name": "PHELPS",
+  "label": "THE FISH"
+ },
+ {
+  "file": "grifter-shaun.png",
+  "name": "SHAUN",
+  "label": "THE TOMATO"
+ },
+ {
+  "file": "grifter-virat.png",
+  "name": "VIRAT",
+  "label": "THE CHASE MASTER"
+ },
+ {
+  "file": "grifter-dhoni.png",
+  "name": "DHONI",
+  "label": "THE FINISHER"
+ },
+ {
+  "file": "grifter-sachin.png",
+  "name": "SACHIN",
+  "label": "THE MASTER BLASTER"
+ },
+ {
+  "file": "grifter-srk.png",
+  "name": "SRK",
+  "label": "THE BAADSHAH"
+ },
+ {
+  "file": "grifter-salman.png",
+  "name": "SALMAN",
+  "label": "THE BHAI"
+ },
+ {
+  "file": "grifter-aamir.png",
+  "name": "AAMIR",
+  "label": "THE PERFECTIONIST"
+ },
+ {
+  "file": "grifter-amitabh.png",
+  "name": "AMITABH",
+  "label": "THE SHAHENSHAH"
+ },
+ {
+  "file": "grifter-deepika.png",
+  "name": "DEEPIKA",
+  "label": "THE MASTANI"
+ },
+ {
+  "file": "grifter-priyanka.png",
+  "name": "PRIYANKA",
+  "label": "THE GLOBAL"
+ },
+ {
+  "file": "grifter-alia.png",
+  "name": "ALIA",
+  "label": "THE GULLY GIRL"
+ },
+ {
+  "file": "grifter-ranveer.png",
+  "name": "RANVEER",
+  "label": "THE ENERGY"
+ },
+ {
+  "file": "grifter-hrithik.png",
+  "name": "HRITHIK",
+  "label": "THE GREEK GOD"
+ },
+ {
+  "file": "grifter-akshay.png",
+  "name": "AKSHAY",
+  "label": "THE KHILADI"
+ },
+ {
+  "file": "grifter-katrina.png",
+  "name": "KATRINA",
+  "label": "THE SHEILA"
+ },
+ {
+  "file": "grifter-diljit.png",
+  "name": "DILJIT",
+  "label": "THE PANJAB"
+ },
+ {
+  "file": "grifter-ap.png",
+  "name": "AP",
+  "label": "THE BROWN MUNDE"
+ },
+ {
+  "file": "grifter-brad.png",
+  "name": "BRAD",
+  "label": "THE GOLDEN BOY"
+ },
+ {
+  "file": "grifter-cruise.png",
+  "name": "CRUISE",
+  "label": "THE MAVERICK"
+ },
+ {
+  "file": "grifter-hanks.png",
+  "name": "HANKS",
+  "label": "THE NICEST"
+ },
+ {
+  "file": "grifter-holland.png",
+  "name": "HOLLAND",
+  "label": "THE WEB"
+ },
+ {
+  "file": "grifter-denzel.png",
+  "name": "DENZEL",
+  "label": "THE EQUALIZER"
+ },
+ {
+  "file": "grifter-will.png",
+  "name": "WILL",
+  "label": "THE FRESH PRINCE"
+ },
+ {
+  "file": "grifter-keanu.png",
+  "name": "KEANU",
+  "label": "THE ONE WHO KNOWS"
+ },
+ {
+  "file": "grifter-gosling.png",
+  "name": "GOSLING",
+  "label": "THE LITERALLY ME"
+ },
+ {
+  "file": "grifter-reynolds.png",
+  "name": "REYNOLDS",
+  "label": "THE FOURTH WALL"
+ },
+ {
+  "file": "grifter-hugh.png",
+  "name": "HUGH",
+  "label": "THE CLAWS"
+ },
+ {
+  "file": "grifter-rdj.png",
+  "name": "RDJ",
+  "label": "THE GENIUS"
+ },
+ {
+  "file": "grifter-hemsworth.png",
+  "name": "HEMSWORTH",
+  "label": "THE HAMMER"
+ },
+ {
+  "file": "grifter-evans.png",
+  "name": "EVANS",
+  "label": "THE SHIELD"
+ },
+ {
+  "file": "grifter-pratt.png",
+  "name": "PRATT",
+  "label": "THE LORD"
+ },
+ {
+  "file": "grifter-matt.png",
+  "name": "MATT",
+  "label": "THE GOOD WILL"
+ },
+ {
+  "file": "grifter-ben.png",
+  "name": "BEN",
+  "label": "THE GONE GIRL"
+ },
+ {
+  "file": "grifter-george.png",
+  "name": "GEORGE",
+  "label": "THE SILVER FOX"
+ },
+ {
+  "file": "grifter-johnny.png",
+  "name": "JOHNNY",
+  "label": "THE PIRATE"
+ },
+ {
+  "file": "grifter-freeman.png",
+  "name": "FREEMAN",
+  "label": "THE NARRATOR"
+ },
+ {
+  "file": "grifter-samuel.png",
+  "name": "SAMUEL",
+  "label": "THE COOLEST"
+ },
+ {
+  "file": "grifter-momoa.png",
+  "name": "MOMOA",
+  "label": "THE AQUA"
+ },
+ {
+  "file": "grifter-statham.png",
+  "name": "STATHAM",
+  "label": "THE TRANSPORTER"
+ },
+ {
+  "file": "grifter-vin.png",
+  "name": "VIN",
+  "label": "THE FAMILY"
+ },
+ {
+  "file": "grifter-hart.png",
+  "name": "HART",
+  "label": "THE LITTLE BIG MAN"
+ },
+ {
+  "file": "grifter-adam.png",
+  "name": "ADAM",
+  "label": "THE SANDMAN"
+ },
+ {
+  "file": "grifter-jim.png",
+  "name": "JIM",
+  "label": "THE RUBBERFACE"
+ },
+ {
+  "file": "grifter-eddie.png",
+  "name": "EDDIE",
+  "label": "THE RAW"
+ },
+ {
+  "file": "grifter-jackie.png",
+  "name": "JACKIE",
+  "label": "THE STUNTMAN"
+ },
+ {
+  "file": "grifter-pedro.png",
+  "name": "PEDRO",
+  "label": "THE DADDY"
+ },
+ {
+  "file": "grifter-cillian.png",
+  "name": "CILLIAN",
+  "label": "THE BLINDER"
+ },
+ {
+  "file": "grifter-austin.png",
+  "name": "AUSTIN",
+  "label": "THE ELVIS"
+ },
+ {
+  "file": "grifter-margot.png",
+  "name": "MARGOT",
+  "label": "THE BARBIE"
+ },
+ {
+  "file": "grifter-scarlett.png",
+  "name": "SCARLETT",
+  "label": "THE WIDOW"
+ },
+ {
+  "file": "grifter-angelina.png",
+  "name": "ANGELINA",
+  "label": "THE FEMME"
+ },
+ {
+  "file": "grifter-jlaw.png",
+  "name": "JLAW",
+  "label": "THE GIRL ON FIRE"
+ },
+ {
+  "file": "grifter-aniston.png",
+  "name": "ANISTON",
+  "label": "THE RACHEL"
+ },
+ {
+  "file": "grifter-emma.png",
+  "name": "EMMA",
+  "label": "THE LALA"
+ },
+ {
+  "file": "grifter-watson.png",
+  "name": "WATSON",
+  "label": "THE BRIGHTEST"
+ },
+ {
+  "file": "grifter-anne.png",
+  "name": "ANNE",
+  "label": "THE PRINCESS DIARY"
+ },
+ {
+  "file": "grifter-natalie.png",
+  "name": "NATALIE",
+  "label": "THE SWAN"
+ },
+ {
+  "file": "grifter-gal.png",
+  "name": "GAL",
+  "label": "THE WONDER"
+ },
+ {
+  "file": "grifter-charlize.png",
+  "name": "CHARLIZE",
+  "label": "THE FURIOSA"
+ },
+ {
+  "file": "grifter-julia.png",
+  "name": "JULIA",
+  "label": "THE PRETTY WOMAN"
+ },
+ {
+  "file": "grifter-meryl.png",
+  "name": "MERYL",
+  "label": "THE STREEP"
+ },
+ {
+  "file": "grifter-sandra.png",
+  "name": "SANDRA",
+  "label": "THE SPEED"
+ },
+ {
+  "file": "grifter-nicole.png",
+  "name": "NICOLE",
+  "label": "THE PORCELAIN"
+ },
+ {
+  "file": "grifter-anya.png",
+  "name": "ANYA",
+  "label": "THE QUEENS GAMBIT"
+ },
+ {
+  "file": "grifter-florence.png",
+  "name": "FLORENCE",
+  "label": "THE MIDSOMMAR"
+ },
+ {
+  "file": "grifter-sydney.png",
+  "name": "SYDNEY",
+  "label": "THE EUPHORIC"
+ },
+ {
+  "file": "grifter-jenna.png",
+  "name": "JENNA",
+  "label": "THE WEDNESDAY"
+ },
+ {
+  "file": "grifter-millie.png",
+  "name": "MILLIE",
+  "label": "THE ELEVEN"
+ },
+ {
+  "file": "grifter-salma.png",
+  "name": "SALMA",
+  "label": "THE FRIDA"
+ },
+ {
+  "file": "grifter-penelope.png",
+  "name": "PENELOPE",
+  "label": "THE MADRE"
+ },
+ {
+  "file": "grifter-fox.png",
+  "name": "FOX",
+  "label": "THE TRANSFORMER"
+ },
+ {
+  "file": "grifter-chappelle.png",
+  "name": "CHAPPELLE",
+  "label": "THE TRUTH"
+ },
+ {
+  "file": "grifter-gigi.png",
+  "name": "GIGI",
+  "label": "THE HADID"
+ },
+ {
+  "file": "grifter-bella.png",
+  "name": "BELLA",
+  "label": "THE MUSE"
+ },
+ {
+  "file": "grifter-cara.png",
+  "name": "CARA",
+  "label": "THE BROWS"
+ },
+ {
+  "file": "grifter-campbell.png",
+  "name": "CAMPBELL",
+  "label": "THE WALK"
+ },
+ {
+  "file": "grifter-heidi.png",
+  "name": "HEIDI",
+  "label": "THE HALLOWEEN"
+ },
+ {
+  "file": "grifter-tyra.png",
+  "name": "TYRA",
+  "label": "THE SMIZE"
+ },
+ {
+  "file": "grifter-emrata.png",
+  "name": "EMRATA",
+  "label": "THE BODY"
+ },
+ {
+  "file": "grifter-hailey.png",
+  "name": "HAILEY",
+  "label": "THE RHODE"
+ },
+ {
+  "file": "grifter-kate.png",
+  "name": "KATE",
+  "label": "THE MOSS"
+ },
+ {
+  "file": "grifter-cindy.png",
+  "name": "CINDY",
+  "label": "THE SUPER"
+ },
+ {
+  "file": "grifter-gisele.png",
+  "name": "GISELE",
+  "label": "THE BOSSA"
+ },
+ {
+  "file": "grifter-ellen.png",
+  "name": "ELLEN",
+  "label": "THE DANCE HOST"
+ },
+ {
+  "file": "grifter-fallon.png",
+  "name": "FALLON",
+  "label": "THE GIGGLE"
+ },
+ {
+  "file": "grifter-kimmel.png",
+  "name": "KIMMEL",
+  "label": "THE ROAST"
+ },
+ {
+  "file": "grifter-trevor.png",
+  "name": "TREVOR",
+  "label": "THE DAILY"
+ },
+ {
+  "file": "grifter-joe.png",
+  "name": "JOE",
+  "label": "THE PODFATHER"
+ },
+ {
+  "file": "grifter-gordon.png",
+  "name": "GORDON",
+  "label": "THE IDIOT SANDWICH"
+ },
+ {
+  "file": "grifter-martha.png",
+  "name": "MARTHA",
+  "label": "THE HOMEMAKER"
+ },
+ {
+  "file": "grifter-khloe.png",
+  "name": "KHLOE",
+  "label": "THE GOOD AMERICAN"
+ },
+ {
+  "file": "grifter-kourtney.png",
+  "name": "KOURTNEY",
+  "label": "THE POOSH"
+ },
+ {
+  "file": "grifter-speed.png",
+  "name": "SPEED",
+  "label": "THE SEWEY"
+ },
+ {
+  "file": "grifter-kai.png",
+  "name": "KAI",
+  "label": "THE MAFIA BOSS"
+ },
+ {
+  "file": "grifter-logan.png",
+  "name": "LOGAN",
+  "label": "THE MAVERICK BIRD"
+ },
+ {
+  "file": "grifter-jake.png",
+  "name": "JAKE",
+  "label": "THE PROBLEM CHILD"
+ },
+ {
+  "file": "grifter-ksi.png",
+  "name": "KSI",
+  "label": "THE NIGHTMARE"
+ },
+ {
+  "file": "grifter-felix.png",
+  "name": "FELIX",
+  "label": "THE BRO FIST"
+ },
+ {
+  "file": "grifter-charli.png",
+  "name": "CHARLI",
+  "label": "THE RENEGADE"
+ },
+ {
+  "file": "grifter-addison.png",
+  "name": "ADDISON",
+  "label": "THE OBSESSED"
+ },
+ {
+  "file": "grifter-jeff.png",
+  "name": "JEFF",
+  "label": "THE EVERYTHING STORE"
+ },
+ {
+  "file": "grifter-mark.png",
+  "name": "MARK",
+  "label": "THE METAVERSE"
+ },
+ {
+  "file": "grifter-bill.png",
+  "name": "BILL",
+  "label": "THE WINDOWS"
+ },
+ {
+  "file": "grifter-warren.png",
+  "name": "WARREN",
+  "label": "THE ORACLE OF OMAHA"
+ },
+ {
+  "file": "grifter-tim.png",
+  "name": "TIM",
+  "label": "THE APPLE"
+ },
+ {
+  "file": "grifter-altman.png",
+  "name": "ALTMAN",
+  "label": "THE AGI"
+ },
+ {
+  "file": "grifter-jensen.png",
+  "name": "JENSEN",
+  "label": "THE LEATHER JACKET"
+ },
+ {
+  "file": "grifter-vitalik.png",
+  "name": "VITALIK",
+  "label": "THE ETHEREAL"
+ }
+]

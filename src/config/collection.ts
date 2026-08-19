@@ -34,7 +34,7 @@ export const COLLECTION = {
   phase: "PRELAUNCH" as MintPhase,
 };
 
-export type Rarity = "COMMON" | "RARE" | "EPIC" | "LEGENDARY";
+export type Rarity = "COMMON" | "RARE" | "EPIC" | "LEGENDARY" | "ICONIC";
 
 /**
  * Sample display metadata for the supplied artwork.
@@ -290,5 +290,13 @@ export const RARITY_META: Record<
     gem: "#C9A24B",
     density: 4,
     unlockOdds: "Experience eligible",
+  },
+  ICONIC: {
+    label: "Iconic · 1/1",
+    bg: "linear-gradient(160deg,#FFF6DF,#F2DCA4)",
+    ring: "#C9A24B",
+    gem: "#A8842F",
+    density: 5,
+    unlockOdds: "22 gold editions — every unlock",
   },
 };
