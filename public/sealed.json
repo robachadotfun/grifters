@@ -1,0 +1,6 @@
+{
+  "name": "GRIFTERS — Sealed",
+  "description": "One of 2,222 sealed celebrity collectibles on Robinhood Chain. Identity hidden until the reveal — assigned by one word of mined entropy via the StonkPit DERP conductor, against a pre-committed sealed manifest.",
+  "image": "https://www.grifters.market/nfts/prereveal.png",
+  "attributes": [{ "trait_type": "Status", "value": "SEALED" }]
+}
