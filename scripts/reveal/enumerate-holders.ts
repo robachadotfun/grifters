@@ -37,7 +37,7 @@ async function enumerate(name: string, chain: string, contract: string) {
     for (let attempt = 0; attempt < 4 && !ok; attempt++) {
       try {
         const res = await fetch(`${base}/api/v2/tokens/${contract}/holders${params}`, {
-          signal: AbortSignal.timeout(15000),
+          signal: AbortSignal.timeout(45000),
           headers: { "User-Agent": "grifters-allowlist/1.0" },
         });
         if (res.status === 429) {
