@@ -42,3 +42,6 @@ next-env.d.ts
 /.manifest/
 /.collection/
 /.allowlist/holders*.json
+/contracts/out/
+/contracts/cache/
+/cache/
