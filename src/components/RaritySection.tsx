@@ -4,7 +4,7 @@ import { Reveal } from "./Reveal";
 import { PixelSparkle, PixelCrown } from "./pixel/PixelIcons";
 import { PixelEdge, DecoField } from "./pixel/Decor";
 
-const ORDER: Rarity[] = ["COMMON", "RARE", "EPIC", "LEGENDARY"];
+const ORDER: Rarity[] = ["COMMON", "RARE", "EPIC", "LEGENDARY", "ICONIC"];
 
 /** generated gemstone per tier with its idle-motion class */
 const GEMS: Record<Rarity, { src: string; motion: string }> = {
@@ -12,6 +12,7 @@ const GEMS: Record<Rarity, { src: string; motion: string }> = {
   RARE: { src: "/generated/grifters/gem-rare.webp", motion: "animate-glint" },
   EPIC: { src: "/generated/grifters/gem-epic.webp", motion: "animate-glint [animation-delay:2s]" },
   LEGENDARY: { src: "/generated/grifters/gem-legendary.webp", motion: "animate-foil" },
+  ICONIC: { src: "/generated/grifters/ultra-crown.webp", motion: "animate-foil" },
 };
 
 export function RaritySection() {
@@ -27,7 +28,7 @@ export function RaritySection() {
                 <PixelSparkle className="w-3 h-3" /> RARITY
               </p>
               <h2 className="text-5xl sm:text-7xl font-bold tracking-[-0.03em] leading-[0.95]">
-                Four tiers of shine.
+                Five tiers of shine.
               </h2>
               <p className="mt-5 text-xl text-ink-soft">
                 Rarity shapes trait density and unlock eligibility — the ladder climbs
