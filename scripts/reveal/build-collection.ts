@@ -148,22 +148,15 @@ type Token = {
   prop: (typeof PROPS)[number];
   finish: (typeof FINISHES)[number];
 };
-const seen = new Set<string>();
-const tokens: Token[] = [];
-while (tokens.length < SUPPLY) {
-  const t: Token = {
-    archetype: available[Math.floor(rand() * available.length)],
-    gem: weightedPick(GEMS),
-    prop: weightedPick(PROPS),
-    finish: weightedPick(FINISHES),
-  };
-  const k = `${t.archetype.file}|${t.gem.key}|${t.prop.key}|${t.finish.key}`;
-  // combos are ~3,900 (49×4×5×4) so uniqueness is feasible but tight at
-  // 2,222 — allow serial duplicates once the space thins out
-  if (seen.has(k) && seen.size < available.length * GEMS.length * PROPS.length * FINISHES.length * 0.9) continue;
-  seen.add(k);
-  tokens.push(t);
-}
+// No forced combo-uniqueness: rejection sampling would skew the rarity
+// weights (rare combos survive rejection more often). Tokens with the
+// same traits differ by serial, as in any layered PFP collection.
+const tokens: Token[] = Array.from({ length: SUPPLY }, () => ({
+  archetype: available[Math.floor(rand() * available.length)],
+  gem: weightedPick(GEMS),
+  prop: weightedPick(PROPS),
+  finish: weightedPick(FINISHES),
+}));
 
 // ——— render ————————————————————————————————————————————————————————
 fs.mkdirSync(path.join(OUT_DIR, "images"), { recursive: true });
