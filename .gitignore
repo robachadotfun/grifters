@@ -37,3 +37,6 @@ next-env.d.ts
 
 # local whitelist submissions
 .whitelist/
+
+# sealed reveal manifest — SECRET until reveal day (treat like a private key)
+/.manifest/
