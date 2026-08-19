@@ -40,3 +40,4 @@ next-env.d.ts
 
 # sealed reveal manifest — SECRET until reveal day (treat like a private key)
 /.manifest/
+/.collection/
