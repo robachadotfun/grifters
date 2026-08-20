@@ -10,7 +10,7 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
-import { parseEther } from "viem";
+
 import { useAppKit } from "@reown/appkit/react";
 import { COLLECTION, GRIFTERS, PREREVEAL } from "@/config/collection";
 import { MINT_ABI, PHASE_TIMES } from "@/lib/mintAbi";
