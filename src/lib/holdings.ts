@@ -36,6 +36,7 @@ export const HOLDER_CONTRACTS: { name: string; chain: keyof typeof RPC; contract
   { name: "Chain Mancers", chain: "robinhood", contract: "0x797a2e030b7e49107c8f07bf0300ea9cae88ca57" },
   { name: "Pitboys", chain: "robinhood", contract: "0x57069d845701b50f41327362c1c23789043f8dec" },
   { name: "Stonkbrokers", chain: "robinhood", contract: "0xae5a9ff5b3fa64ec51baf41681ab5d567b0a07db" },
+  { name: "DerpNotes", chain: "robinhood", contract: "0xc2023ea7dc55ab1f1d205cf4874d27e5ea01a560" },
 ];
 
 /** ERC-721 balanceOf(address) selector + padded owner */

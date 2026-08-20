@@ -254,6 +254,7 @@ export const AUTO_WHITELIST_COLLECTIONS: { name: string; url: string }[] = [
   { name: "Chain Mancers", url: "https://opensea.io/collection/chain-mancers" },
   { name: "Pitboys", url: "https://opensea.io/collection/pitboys" },
   { name: "Stonkbrokers", url: "https://opensea.io/collection/stonkbrokersnft" },
+  { name: "DerpNotes", url: "https://opensea.io/collection/derpnotes" },
 ];
 
 export const PREREVEAL = {
