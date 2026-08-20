@@ -23,6 +23,98 @@ function shortAddr(a?: string) {
   return a ? `${a.slice(0, 6)}...${a.slice(-4)}` : "";
 }
 
+type ProofResult = {
+  primary?: { proof: `0x${string}`[] };
+  community?: { proof: `0x${string}`[] };
+} | null;
+
+function PhaseBadge({ result }: { result: NonNullable<ProofResult> }) {
+  const [tier, time, note] = result.primary
+    ? ["PRIMARY", "17:00 UTC", "Partner holder — you mint first."]
+    : result.community
+      ? ["COMMUNITY", "18:00 UTC", "You're on the whitelist."]
+      : ["PUBLIC", "19:00 UTC", "Not on the lists — public mint is open to everyone."];
+  const featured = Boolean(result.primary || result.community);
+  return (
+    <div
+      className={`mt-4 border-2 px-4 py-3.5 text-left ${featured ? "border-rh-green bg-rh-pale" : "border-ink/30 bg-white"}`}
+      role="status"
+    >
+      <p className={`font-pixel text-[11px] ${featured ? "text-rh-green" : "text-ink"}`}>
+        {featured ? "✓" : "•"} YOUR PHASE: {tier} — AUG 21, {time}
+      </p>
+      <p className="mt-1.5 font-pixel text-[9px] text-ink-soft leading-relaxed">{note.toUpperCase()}</p>
+    </div>
+  );
+}
+
+/** Pre-mint eligibility check: auto-checks the connected wallet, or any
+ *  pasted address — no wallet connection required. */
+function EligibilityChecker({
+  connectedAddress,
+  connectedProofs,
+  onConnect,
+}: {
+  connectedAddress?: `0x${string}`;
+  connectedProofs: ProofResult;
+  onConnect: () => void;
+}) {
+  const [input, setInput] = useState("");
+  const [lookup, setLookup] = useState<{ addr: string; result: ProofResult } | "loading" | null>(null);
+
+  const check = () => {
+    const addr = input.trim();
+    if (!/^0x[0-9a-fA-F]{40}$/.test(addr)) return;
+    setLookup("loading");
+    fetch(`/api/allowlist-proof?wallet=${addr}`)
+      .then((r) => r.json())
+      .then((j) => setLookup({ addr, result: j }))
+      .catch(() => setLookup(null));
+  };
+
+  return (
+    <div className="mt-8 mx-auto max-w-md text-left border-t-2 border-dashed border-ink/20 pt-6">
+      <p className="font-pixel text-[10px] text-ink text-center mb-3">CHECK YOUR ACCESS NOW</p>
+      {connectedAddress ? (
+        connectedProofs === null ? (
+          <p className="text-center font-pixel text-[9px] text-ink-soft">CHECKING {shortAddr(connectedAddress)}…</p>
+        ) : (
+          <PhaseBadge result={connectedProofs} />
+        )
+      ) : (
+        <>
+          <div className="flex gap-2">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="0x… paste any wallet"
+              spellCheck={false}
+              className="flex-1 min-h-[46px] px-3 font-pixel text-[10px] bg-white border-2 border-ink/60 placeholder:text-ink/30 focus:border-rh-green focus:outline-none"
+              onKeyDown={(e) => e.key === "Enter" && check()}
+            />
+            <button
+              type="button"
+              onClick={check}
+              className="btn-pixel font-pixel text-[10px] px-4 border-2 border-ink bg-ink text-white hover:bg-rh-green hover:border-rh-green transition-colors"
+            >
+              CHECK
+            </button>
+          </div>
+          {lookup === "loading" && <p className="mt-3 font-pixel text-[9px] text-ink-soft text-center">CHECKING…</p>}
+          {lookup && lookup !== "loading" && lookup.result && <PhaseBadge result={lookup.result} />}
+          <p className="mt-3 text-center font-pixel text-[8px] text-ink-soft">
+            OR{" "}
+            <button type="button" onClick={onConnect} className="underline text-rh-green">
+              CONNECT YOUR WALLET
+            </button>{" "}
+            TO CHECK AUTOMATICALLY
+          </p>
+        </>
+      )}
+    </div>
+  );
+}
+
 /** The dedicated /mint experience: phase status, streamlined mint flow,
  *  and the connected wallet's minted Grifters (sealed until reveal). */
 export function MintExperience() {
@@ -241,6 +333,7 @@ export function MintExperience() {
               <p className="mt-4 text-base text-ink-soft">
                 Partner holders first, whitelist at 18:00, everyone at 19:00.
               </p>
+              <EligibilityChecker connectedAddress={address} connectedProofs={proofs} onConnect={() => open({ view: "Connect" })} />
             </div>
           ) : soldOut ? (
             <div className="text-center py-6">
