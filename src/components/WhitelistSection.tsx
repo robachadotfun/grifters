@@ -18,16 +18,20 @@ export function WhitelistSection() {
           <div className="text-center lg:text-left">
             <Reveal>
               <p className="font-pixel text-[11px] text-rh-green mb-4 inline-flex items-center gap-2">
-                <PixelCrown className="w-4 h-3 text-gold" /> THE LIST
+                <PixelCrown className="w-4 h-3 text-gold" /> LAST CALL
               </p>
               <h2 className="font-bold tracking-[-0.03em] leading-[0.92] text-[clamp(2.8rem,6.5vw,5.5rem)]">
-                The carpet has
+                The <span className="text-rh-green">final</span>
                 <br />
-                a <span className="text-rh-green">guest list.</span>
+                whitelist.
               </h2>
               <p className="mt-6 text-lg sm:text-xl text-ink-soft max-w-md mx-auto lg:mx-0 leading-relaxed">
-                Get whitelisted before mint opens: drop your wallet, your X handle,
-                and one tweet about GRIFTERS — we&apos;ve already written it for you.
+                One last window before the doors open. Get on the final whitelist and
+                mint at <strong>18:00 UTC</strong> — an hour before the public. Wallet,
+                X handle, one tweet — we&apos;ve already written it for you.
+              </p>
+              <p className="mt-4 font-pixel text-[10px] text-gold">
+                CLOSES AUG 21 · 15:00 UTC — THEN THE LIST LOCKS ON-CHAIN
               </p>
               <div className="mt-7 hidden lg:flex items-center gap-5">
                 <div className="animate-float-slow">

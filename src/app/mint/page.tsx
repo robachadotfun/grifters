@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MintExperience } from "@/components/MintExperience";
-import { PixelCrown } from "@/components/pixel/PixelIcons";
+import { WhitelistForm } from "@/components/WhitelistForm";
+import { PixelCrown, PixelSparkle } from "@/components/pixel/PixelIcons";
 
 export const metadata: Metadata = {
   title: "Mint — GRIFTERS",
@@ -28,6 +29,26 @@ export default function MintPage() {
           </p>
         </div>
         <MintExperience />
+
+        {/* final whitelist — last call before the list locks on-chain */}
+        <div id="final-whitelist" className="mx-auto max-w-3xl px-4 sm:px-8 pb-24">
+          <div className="text-center mb-8">
+            <p className="font-pixel text-[11px] text-rh-green mb-4 inline-flex items-center gap-2">
+              <PixelSparkle className="w-3 h-3" /> LAST CALL
+            </p>
+            <h2 className="font-bold tracking-[-0.03em] leading-[0.95] text-4xl sm:text-6xl">
+              Not on the list yet?
+            </h2>
+            <p className="mt-4 text-lg text-ink-soft max-w-xl mx-auto">
+              The final whitelist is open until <strong>Aug 21, 15:00 UTC</strong> — get on
+              it and mint at 18:00, an hour before the public. Then the list locks on-chain
+              for good.
+            </p>
+          </div>
+          <div className="border-4 border-ink/90" style={{ boxShadow: "14px 14px 0 0 rgba(201,162,75,0.3)" }}>
+            <WhitelistForm />
+          </div>
+        </div>
       </main>
       <Footer />
     </>

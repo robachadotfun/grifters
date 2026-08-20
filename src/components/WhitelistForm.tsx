@@ -181,7 +181,7 @@ export function WhitelistForm() {
     <form onSubmit={submit} className="bg-white p-6 sm:p-8">
       <div className="flex items-center justify-between mb-6">
         <span className="font-pixel text-sm tracking-widest flex items-center gap-2.5">
-          <PixelCrown className="w-5 h-4 text-gold" /> {revoked ? "RESTORE YOUR SPOT" : "JOIN THE WHITELIST"}
+          <PixelCrown className="w-5 h-4 text-gold" /> {revoked ? "RESTORE YOUR SPOT" : "JOIN THE FINAL WHITELIST"}
         </span>
         <span className="font-pixel text-[9px] text-rh-green">FREE</span>
       </div>
@@ -310,7 +310,7 @@ export function WhitelistForm() {
         {phase === "SUBMITTING" ? "JOINING..." : "GET WHITELISTED"}
       </button>
       <p className="mt-3 text-center font-pixel text-[8px] text-rh-green">
-        WHITELIST MINT AUG 21 · 18:00 UTC · $20 PER GRIFTER · PARTNER HOLDERS 17:00 · PUBLIC 19:00
+        FINAL WHITELIST CLOSES AUG 21 · 15:00 UTC — WHITELIST MINTS 18:00, AN HOUR BEFORE PUBLIC
       </p>
       <p className="mt-2 text-center font-pixel text-[8px] text-ink-soft">
         IDENTITY SEALED UNTIL REVEAL · NO PAYMENT NOW · NO SIGNATURE REQUIRED
