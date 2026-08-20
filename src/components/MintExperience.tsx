@@ -28,6 +28,12 @@ type ProofResult = {
   community?: { proof: `0x${string}`[] };
 } | null;
 
+const PHASE_TWEETS: Record<string, string> = {
+  PRIMARY: `Through the velvet rope FIRST. 🎬\n\nPRIMARY access confirmed for the @griftersonchain mint — partner holders open the doors Aug 21, 17:00 UTC.\n\n2,222 sealed icons · $20 · Robinhood Chain\nhttps://www.grifters.market/mint`,
+  COMMUNITY: `I'm on the list. 🎟️\n\nCOMMUNITY access confirmed for the @griftersonchain mint — whitelist doors open Aug 21, 18:00 UTC.\n\n2,222 sealed icons · $20 · Robinhood Chain\nhttps://www.grifters.market/mint`,
+  PUBLIC: `No list, no problem. 👑\n\nDoors open for EVERYONE at the @griftersonchain mint — Aug 21, 19:00 UTC.\n\n2,222 sealed icons · $20 · Robinhood Chain\nhttps://www.grifters.market/mint`,
+};
+
 function PhaseBadge({ result }: { result: NonNullable<ProofResult> }) {
   const [tier, time, note] = result.primary
     ? ["PRIMARY", "17:00 UTC", "Partner holder — you mint first."]
@@ -44,6 +50,14 @@ function PhaseBadge({ result }: { result: NonNullable<ProofResult> }) {
         {featured ? "✓" : "•"} YOUR PHASE: {tier} — AUG 21, {time}
       </p>
       <p className="mt-1.5 font-pixel text-[9px] text-ink-soft leading-relaxed">{note.toUpperCase()}</p>
+      <a
+        href={`https://x.com/intent/tweet?text=${encodeURIComponent(PHASE_TWEETS[tier])}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="btn-pixel mt-3 inline-flex items-center justify-center w-full min-h-[42px] px-4 font-pixel text-[10px] border-2 border-ink bg-ink text-white hover:bg-rh-green hover:border-rh-green transition-colors"
+      >
+        TWEET YOUR PHASE →
+      </a>
     </div>
   );
 }
@@ -410,9 +424,17 @@ export function MintExperience() {
                 </p>
               )}
               {confirmed && (
-                <p className="mt-3 font-pixel text-[10px] text-rh-green border-2 border-rh-green/40 bg-rh-pale px-3 py-2.5" role="status">
-                  MINTED ✓ — YOUR SEALED GRIFTERS ARE BELOW
-                </p>
+                <div className="mt-3 border-2 border-rh-green/40 bg-rh-pale px-3 py-2.5" role="status">
+                  <p className="font-pixel text-[10px] text-rh-green">MINTED ✓ — YOUR SEALED GRIFTERS ARE BELOW</p>
+                  <a
+                    href={`https://x.com/intent/tweet?text=${encodeURIComponent(`Just minted my sealed GRIFTERS. 🎬 Identity hidden until the reveal — assigned by real mined entropy on Robinhood Chain.\n\n@griftersonchain · $20 · minting NOW\nhttps://www.grifters.market/mint`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-pixel mt-2.5 inline-flex items-center justify-center w-full min-h-[42px] px-4 font-pixel text-[10px] border-2 border-ink bg-ink text-white hover:bg-rh-green hover:border-rh-green transition-colors"
+                  >
+                    TWEET YOUR MINT →
+                  </a>
+                </div>
               )}
             </div>
           )}
