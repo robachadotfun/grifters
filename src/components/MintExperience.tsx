@@ -11,7 +11,7 @@ import {
   useWaitForTransactionReceipt,
 } from "wagmi";
 import { useAppKit } from "@reown/appkit/react";
-import { COLLECTION, PREREVEAL } from "@/config/collection";
+import { AUTO_WHITELIST_COLLECTIONS, COLLECTION, PREREVEAL } from "@/config/collection";
 import { MINT_ABI, PHASE_TIMES } from "@/lib/mintAbi";
 import { Countdown } from "./Countdown";
 import { RobinhoodFeather } from "./RobinhoodMark";
@@ -186,6 +186,35 @@ export function MintExperience() {
         })}
       </div>
 
+      {/* who the PRIMARY phase is for */}
+      <div className="mb-8 border-2 border-ink/40 bg-white/80 px-5 py-4">
+        <p className="font-pixel text-[9px] leading-relaxed">
+          <span className="text-rh-green">PRIMARY (17:00)</span>{" "}
+          <span className="text-ink">
+            IS FOR HOLDERS OF THESE PARTNER NFT COLLECTIONS — HOLD ANY ONE OF THEM AND YOU MINT FIRST:
+          </span>
+        </p>
+        <p className="mt-2.5 font-pixel text-[8px] text-ink-soft leading-relaxed">
+          {AUTO_WHITELIST_COLLECTIONS.map((c, i) => (
+            <span key={c.name}>
+              {i > 0 && " · "}
+              <a
+                href={c.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-rh-green underline decoration-ink/20 underline-offset-2"
+              >
+                {c.name}
+              </a>
+            </span>
+          ))}
+        </p>
+        <p className="mt-2.5 font-pixel text-[8px] text-ink-soft leading-relaxed">
+          SNAPSHOT TAKEN — CONNECT THE WALLET THAT HOLDS THEM AND ACCESS IS AUTOMATIC.
+          WHITELIST MINTS AT 18:00 · EVERYONE AT 19:00.
+        </p>
+      </div>
+
       {/* terminal card */}
       <div className="border-4 border-ink/90 bg-white" style={{ boxShadow: "14px 14px 0 0 rgba(46,189,107,0.25)" }}>
         <div
@@ -249,7 +278,7 @@ export function MintExperience() {
                 <p className="mt-3 text-base text-ink-soft">
                   {proofs?.community
                     ? "You're on the whitelist — COMMUNITY mint opens 18:00 UTC."
-                    : "PUBLIC mint opens 19:00 UTC. Everyone gets in."}
+                    : "This wallet doesn't hold a partner NFT and isn't on the whitelist — PUBLIC mint opens 19:00 UTC. Everyone gets in."}
                 </p>
               )}
             </div>
