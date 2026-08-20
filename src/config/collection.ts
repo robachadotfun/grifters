@@ -36,7 +36,7 @@ export const COLLECTION = {
   rpcUrl: process.env.NEXT_PUBLIC_RPC_URL || null,
   explorerUrl: process.env.NEXT_PUBLIC_EXPLORER_URL || null,
   revealDate: null as string | null,
-  maxPerWallet: null as number | null,
+  maxPerWallet: 50 as number | null,
   phase: "PRELAUNCH" as MintPhase,
 };
 

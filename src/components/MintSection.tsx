@@ -13,7 +13,7 @@ import {
 import { parseEther } from "viem";
 import { useAppKit } from "@reown/appkit/react";
 import { COLLECTION, GRIFTERS, PREREVEAL } from "@/config/collection";
-import { MINT_ABI } from "@/lib/mintAbi";
+import { MINT_ABI, PHASE_TIMES } from "@/lib/mintAbi";
 import { shortAddr } from "./ConnectButton";
 import { Reveal } from "./Reveal";
 import { SupplyViz } from "./SupplyViz";
@@ -145,6 +145,50 @@ export function MintSection() {
   const minted = supplyData ? Number(supplyData) : 0;
   const soldOut = minted >= COLLECTION.supply;
 
+  const { data: priceWeiData } = useReadContract({
+    address: COLLECTION.contractAddress ?? undefined,
+    abi: MINT_ABI,
+    functionName: "priceWei",
+    chainId: COLLECTION.chainId ?? undefined,
+    query: { enabled: hasContract },
+  });
+
+  // merkle proofs for the connected wallet (primary = partner holders,
+  // community = whitelist) — fetched once per address
+  const [proofs, setProofs] = useState<{
+    primary?: { proof: `0x${string}`[] };
+    community?: { proof: `0x${string}`[] };
+  } | null>(null);
+  useEffect(() => {
+    setProofs(null);
+    if (!address) return;
+    let alive = true;
+    fetch(`/api/allowlist-proof?wallet=${address}`)
+      .then((r) => r.json())
+      .then((j) => alive && setProofs(j))
+      .catch(() => alive && setProofs({}));
+    return () => {
+      alive = false;
+    };
+  }, [address]);
+
+  // live clock (1s tick only while a phase boundary is near)
+  const [nowSec, setNowSec] = useState(() => Math.floor(Date.now() / 1000));
+  useEffect(() => {
+    const id = setInterval(() => setNowSec(Math.floor(Date.now() / 1000)), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  // best mint path available to this wallet right now
+  const mintPath = useMemo(() => {
+    if (nowSec >= PHASE_TIMES.public) return { fn: "mintPublic" as const, phase: "PUBLIC" };
+    if (nowSec >= PHASE_TIMES.community && proofs?.community) return { fn: "mintCommunity" as const, phase: "COMMUNITY" };
+    if (nowSec >= PHASE_TIMES.primary && proofs?.primary) return { fn: "mintPrimary" as const, phase: "PRIMARY" };
+    return null;
+  }, [nowSec, proofs]);
+
+  const anyPhaseOpen = nowSec >= PHASE_TIMES.primary;
+
   const { writeContract, data: txHash, isPending: signing, error: writeError, reset } = useWriteContract();
   const { isLoading: confirming, isSuccess: confirmed } = useWaitForTransactionReceipt({ hash: txHash });
 
@@ -152,24 +196,37 @@ export function MintSection() {
     if (confirmed) setShowSuccess(true);
   }, [confirmed]);
 
-  const mintLive = COLLECTION.phase === "LIVE" && hasContract && !soldOut;
+  const mintLive = hasContract && !soldOut && anyPhaseOpen;
   const price = COLLECTION.mintPrice;
 
   const totalCost = useMemo(() => {
-    if (!price) return null;
-    return (Number(price) * qty).toString();
-  }, [price, qty]);
+    if (priceWeiData == null) return null;
+    return ((Number(priceWeiData) * qty) / 1e18).toFixed(4);
+  }, [priceWeiData, qty]);
 
   const onMint = () => {
-    if (!mintLive || !COLLECTION.contractAddress) return;
-    writeContract({
-      address: COLLECTION.contractAddress,
-      abi: MINT_ABI,
-      functionName: "mint",
-      args: [BigInt(qty)],
-      value: price ? parseEther((Number(price) * qty).toString() as `${number}`) : undefined,
-      chainId: COLLECTION.chainId ?? undefined,
-    });
+    if (!mintLive || !mintPath || !COLLECTION.contractAddress || priceWeiData == null) return;
+    const value = BigInt(priceWeiData) * BigInt(qty);
+    if (mintPath.fn === "mintPublic") {
+      writeContract({
+        address: COLLECTION.contractAddress,
+        abi: MINT_ABI,
+        functionName: "mintPublic",
+        args: [BigInt(qty)],
+        value,
+        chainId: COLLECTION.chainId ?? undefined,
+      });
+    } else {
+      const proof = (mintPath.fn === "mintCommunity" ? proofs?.community?.proof : proofs?.primary?.proof) ?? [];
+      writeContract({
+        address: COLLECTION.contractAddress,
+        abi: MINT_ABI,
+        functionName: mintPath.fn,
+        args: [BigInt(qty), proof],
+        value,
+        chainId: COLLECTION.chainId ?? undefined,
+      });
+    }
   };
 
   return (
@@ -315,7 +372,7 @@ export function MintSection() {
 
                 {/* controls */}
                 <div className="mt-2">
-                  {!mounted ? null : COLLECTION.phase === "PRELAUNCH" || !hasContract ? (
+                  {!mounted ? null : !anyPhaseOpen || !hasContract ? (
                     <div className="text-center border-2 border-dashed border-ink/30 py-9 px-4 bg-cream/60">
                       <p className="font-pixel text-base text-ink">
                         {COLLECTION.mintDate ? "MINT PREMIERES AUG 21" : "MINT OPENING SOON"}
@@ -368,8 +425,27 @@ export function MintSection() {
                       <RobinhoodFeather size={14} />
                       {switching ? "SWITCHING..." : "SWITCH TO ROBINHOOD CHAIN"}
                     </button>
+                  ) : !mintPath ? (
+                    <div className="text-center border-2 border-dashed border-ink/30 py-9 px-4 bg-cream/60">
+                      <p className="font-pixel text-base text-ink">
+                        {proofs === null ? "CHECKING YOUR ACCESS..." : "YOUR PHASE HASN'T OPENED YET"}
+                      </p>
+                      {proofs !== null && (
+                        <p className="mt-3 text-base text-ink-soft">
+                          {proofs?.community
+                            ? "You're on the whitelist — COMMUNITY mint opens 18:00 UTC."
+                            : "PUBLIC mint opens 19:00 UTC. Everyone gets in."}
+                        </p>
+                      )}
+                      <p className="mt-3 font-pixel text-[9px] text-ink-soft">
+                        PARTNERS 17:00 · WHITELIST 18:00 · PUBLIC 19:00 UTC
+                      </p>
+                    </div>
                   ) : (
                     <div>
+                      <p className="mb-4 text-center font-pixel text-[10px] text-rh-green">
+                        {mintPath.phase} PHASE — YOU&apos;RE IN
+                      </p>
                       <div className="flex items-center justify-center gap-5 mb-4">
                         <button
                           type="button"

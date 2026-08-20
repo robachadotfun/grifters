@@ -7,12 +7,12 @@ import { ConnectButton } from "./ConnectButton";
 import { openWhitelist } from "./WhitelistModal";
 
 const NAV = [
-  { href: "#collection", label: "Collection" },
-  { href: "#lore", label: "Lore" },
-  { href: "#unlocks", label: "Unlocks" },
-  { href: "#mint", label: "Mint" },
-  { href: "#whitelist", label: "Whitelist" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/#collection", label: "Collection" },
+  { href: "/#lore", label: "Lore" },
+  { href: "/#unlocks", label: "Unlocks" },
+  { href: "/mint", label: "Mint" },
+  { href: "/#whitelist", label: "Whitelist" },
+  { href: "/#faq", label: "FAQ" },
 ];
 
 export function Header() {
