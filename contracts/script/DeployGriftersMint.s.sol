@@ -21,12 +21,14 @@ contract DeployGriftersMint is Script {
         bytes32 primaryRoot = vm.envBytes32("PRIMARY_ROOT");
         bytes32 communityRoot = vm.envBytes32("COMMUNITY_ROOT");
         address revealAddr = vm.envAddress("REVEAL_ADDRESS");
+        address payable treasuryAddr = payable(vm.envAddress("TREASURY"));
         string memory sealedURI = vm.envString("SEALED_URI");
 
         require(priceWei > 0, "PRICE_WEI not set");
         require(primaryRoot != bytes32(0), "PRIMARY_ROOT not set");
         require(communityRoot != bytes32(0), "COMMUNITY_ROOT not set");
         require(revealAddr != address(0), "REVEAL_ADDRESS not set");
+        require(treasuryAddr != address(0), "TREASURY not set");
         require(communityOpensAt >= primaryOpensAt && publicOpensAt >= communityOpensAt, "phase order wrong");
 
         vm.startBroadcast(key);
@@ -38,9 +40,12 @@ contract DeployGriftersMint is Script {
             primaryRoot,
             communityRoot,
             revealAddr,
+            treasuryAddr,
             sealedURI
         );
         vm.stopBroadcast();
+
+        console.log("treasury:", address(mint.treasury()));
 
         console.log("GriftersMint:", address(mint));
     }

@@ -46,6 +46,9 @@ contract GriftersMint is ERC721, Ownable {
     bytes32 public immutable primaryRoot;
     bytes32 public immutable communityRoot;
     IGriftersReveal public immutable reveal;
+    /// Every mint payment forwards here in the same transaction —
+    /// immutable, so proceeds can never be redirected.
+    address payable public immutable treasury;
 
     uint256 public totalSupply;
     mapping(address => uint256) public mintedBy;
@@ -61,8 +64,10 @@ contract GriftersMint is ERC721, Ownable {
         bytes32 primaryRoot_,
         bytes32 communityRoot_,
         address reveal_,
+        address payable treasury_,
         string memory sealedURI_
     ) ERC721("GRIFTERS", "GRIFT") Ownable(msg.sender) {
+        require(treasury_ != address(0), "treasury zero");
         priceWei = priceWei_;
         primaryOpensAt = primaryOpensAt_;
         communityOpensAt = communityOpensAt_;
@@ -70,6 +75,7 @@ contract GriftersMint is ERC721, Ownable {
         primaryRoot = primaryRoot_;
         communityRoot = communityRoot_;
         reveal = IGriftersReveal(reveal_);
+        treasury = treasury_;
         sealedURI = sealedURI_;
     }
 
@@ -109,6 +115,9 @@ contract GriftersMint is ERC721, Ownable {
         for (uint256 i = 0; i < qty; i++) {
             _mint(msg.sender, start + i);
         }
+        // proceeds go straight to the treasury, same transaction
+        (bool ok, ) = treasury.call{value: msg.value}("");
+        if (!ok) revert WithdrawFailed();
     }
 
     // ——— metadata ———————————————————————————————————————————————————
