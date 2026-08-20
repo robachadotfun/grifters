@@ -1,15 +1,12 @@
 /**
- * Allowlist merkle tree for GriftersMint — leaves are
- * keccak256(abi.encodePacked(address)), pairs hashed sorted
+ * Mint allowlist merkle trees — TWO phases, two trees:
+ *   PRIMARY   — partner-collection holders (.allowlist/holders.json)
+ *   COMMUNITY — the whitelist table (tweet_ok = true)
+ * Leaves are keccak256(abi.encodePacked(address)); pairs hashed sorted
  * (OpenZeppelin MerkleProof-compatible).
  *
- * Sources:
- *  - Supabase whitelist table (tweet_ok = true)
- *  - partner-collection holders snapshot (/tmp/holders.json)
- *
- * Outputs:
- *  - .allowlist/tree.json  (addresses + layers — served by the proof API)
- *  - prints the merkle root (constructor arg for GriftersMint)
+ * Outputs .allowlist/tree-primary.json + tree-community.json and prints
+ * both roots (constructor args for GriftersMint).
  *
  * Run: set -a; source .env.local; set +a; npx tsx scripts/reveal/build-allowlist.ts
  */
@@ -19,60 +16,14 @@ import { keccak256, encodePacked, getAddress } from "viem";
 
 const OUT = path.join(process.cwd(), ".allowlist");
 
-async function loadWallets(): Promise<string[]> {
-  const set = new Set<string>();
-
-  // 1) whitelist table
-  const dbUrl = process.env.SUPABASE_DB_URL;
-  if (dbUrl) {
-    const { Client } = await import("pg");
-    const client = new Client({ connectionString: dbUrl, ssl: { rejectUnauthorized: false } });
-    await client.connect();
-    try {
-      const r = await client.query("select wallet from whitelist where tweet_ok = true");
-      for (const row of r.rows as { wallet: string }[]) {
-        try {
-          set.add(getAddress(row.wallet.trim()));
-        } catch {}
-      }
-      console.log(`whitelist table: ${r.rowCount} rows`);
-    } finally {
-      await client.end().catch(() => {});
-    }
-  } else {
-    console.log("no SUPABASE_DB_URL — skipping whitelist table");
-  }
-
-  // 2) partner holders snapshot (from enumerate-holders.ts)
-  const holdersPath = path.join(OUT, "holders.json");
-  if (fs.existsSync(holdersPath)) {
-    const { holders } = JSON.parse(fs.readFileSync(holdersPath, "utf8")) as { holders: string[] };
-    let added = 0;
-    for (const h of holders) {
-      try {
-        set.add(getAddress(h));
-        added++;
-      } catch {}
-    }
-    console.log(`partner holders: ${added}`);
-  } else {
-    console.log("WARNING: .allowlist/holders.json missing — run enumerate-holders.ts first");
-  }
-
-  return [...set].sort();
-}
-
 function hashPair(a: `0x${string}`, b: `0x${string}`): `0x${string}` {
   const [lo, hi] = a.toLowerCase() < b.toLowerCase() ? [a, b] : [b, a];
   return keccak256(encodePacked(["bytes32", "bytes32"], [lo, hi]));
 }
 
-async function main() {
-  const wallets = await loadWallets();
-  if (wallets.length === 0) throw new Error("no wallets");
-  console.log(`total unique allowlisted wallets: ${wallets.length}`);
-
-  const leaves = wallets.map((w) => keccak256(encodePacked(["address"], [w as `0x${string}`])));
+function buildTree(wallets: string[], file: string, label: string) {
+  const sorted = [...new Set(wallets)].sort();
+  const leaves = sorted.map((w) => keccak256(encodePacked(["address"], [w as `0x${string}`])));
   const layers: `0x${string}`[][] = [leaves];
   while (layers[layers.length - 1].length > 1) {
     const prev = layers[layers.length - 1];
@@ -84,26 +35,57 @@ async function main() {
   }
   const root = layers[layers.length - 1][0];
 
-  // self-check: verify a proof the same way MerkleProof.verify does
-  const proofFor = (idx: number) => {
-    const proof: `0x${string}`[] = [];
-    for (let l = 0; l < layers.length - 1; l++) {
-      const sib = idx ^ 1;
-      if (sib < layers[l].length) proof.push(layers[l][sib]);
-      idx = Math.floor(idx / 2);
-    }
-    return proof;
-  };
-  const testIdx = Math.floor(wallets.length / 2);
-  let node = leaves[testIdx];
-  for (const p of proofFor(testIdx)) node = hashPair(node, p);
-  if (node !== root) throw new Error("self-check failed");
-  console.log("proof self-check: OK");
+  // self-check a middle proof
+  let idx = Math.floor(sorted.length / 2);
+  let node = leaves[idx];
+  for (let l = 0; l < layers.length - 1; l++) {
+    const sib = idx ^ 1;
+    if (sib < layers[l].length) node = hashPair(node, layers[l][sib]);
+    idx = Math.floor(idx / 2);
+  }
+  if (node !== root) throw new Error(`${label}: self-check failed`);
 
+  fs.writeFileSync(path.join(OUT, file), JSON.stringify({ root, wallets: sorted, layers }));
+  console.log(`${label}: ${sorted.length} wallets — root ${root}`);
+  return root;
+}
+
+async function main() {
   fs.mkdirSync(OUT, { recursive: true });
-  fs.writeFileSync(path.join(OUT, "tree.json"), JSON.stringify({ root, wallets, layers }));
-  console.log("ALLOWLIST ROOT:", root);
-  console.log(`tree written: .allowlist/tree.json (${wallets.length} wallets)`);
+
+  // COMMUNITY — whitelist table
+  const community: string[] = [];
+  const dbUrl = process.env.SUPABASE_DB_URL;
+  if (!dbUrl) throw new Error("SUPABASE_DB_URL required for the community list");
+  const { Client } = await import("pg");
+  const client = new Client({ connectionString: dbUrl, ssl: { rejectUnauthorized: false } });
+  await client.connect();
+  try {
+    const r = await client.query("select wallet from whitelist where tweet_ok = true");
+    for (const row of r.rows as { wallet: string }[]) {
+      try {
+        community.push(getAddress(row.wallet.trim()));
+      } catch {}
+    }
+  } finally {
+    await client.end().catch(() => {});
+  }
+
+  // PRIMARY — partner holders snapshot
+  const holdersPath = path.join(OUT, "holders.json");
+  if (!fs.existsSync(holdersPath)) throw new Error("run enumerate-holders.ts first");
+  const { holders } = JSON.parse(fs.readFileSync(holdersPath, "utf8")) as { holders: string[] };
+  const primary: string[] = [];
+  for (const h of holders) {
+    try {
+      primary.push(getAddress(h));
+    } catch {}
+  }
+
+  const primaryRoot = buildTree(primary, "tree-primary.json", "PRIMARY (partner holders)");
+  const communityRoot = buildTree(community, "tree-community.json", "COMMUNITY (whitelist)");
+  console.log("\nPRIMARY_ROOT=" + primaryRoot);
+  console.log("COMMUNITY_ROOT=" + communityRoot);
 }
 main().catch((e) => {
   console.error(e);

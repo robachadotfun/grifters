@@ -5,20 +5,34 @@ import path from "node:path";
 
 export const runtime = "nodejs";
 
-/** Merkle proof for the mint allowlist. The tree ships with the deploy
- *  (.allowlist/tree.json). Membership itself is not a secret — the root
- *  is on-chain and the proof only works for the caller's own address. */
+/** Merkle proofs for the three-phase mint.
+ *  PRIMARY = partner-collection holders, COMMUNITY = whitelist.
+ *  Returns whichever phases the wallet qualifies for, with proofs.
+ *  Membership isn't secret — roots are on-chain and a proof only works
+ *  for the caller's own address. */
 
 type Tree = { root: string; wallets: string[]; layers: `0x${string}`[][] };
-let tree: Tree | null = null;
-function loadTree(): Tree | null {
-  if (tree) return tree;
+const cache: Record<string, Tree | null> = {};
+function loadTree(file: string): Tree | null {
+  if (file in cache) return cache[file];
   try {
-    tree = JSON.parse(fs.readFileSync(path.join(process.cwd(), ".allowlist", "tree.json"), "utf8")) as Tree;
-    return tree;
+    cache[file] = JSON.parse(fs.readFileSync(path.join(process.cwd(), ".allowlist", file), "utf8")) as Tree;
   } catch {
-    return null;
+    cache[file] = null;
   }
+  return cache[file];
+}
+
+function proofFor(t: Tree, leaf: `0x${string}`): string[] | null {
+  let idx = t.layers[0].indexOf(leaf);
+  if (idx < 0) return null;
+  const proof: string[] = [];
+  for (let l = 0; l < t.layers.length - 1; l++) {
+    const sib = idx ^ 1;
+    if (sib < t.layers[l].length) proof.push(t.layers[l][sib]);
+    idx = Math.floor(idx / 2);
+  }
+  return proof;
 }
 
 export async function GET(req: Request) {
@@ -26,19 +40,22 @@ export async function GET(req: Request) {
   if (!isAddress(wallet)) {
     return NextResponse.json({ ok: false, error: "bad wallet" }, { status: 400 });
   }
-  const t = loadTree();
-  if (!t) return NextResponse.json({ ok: false, error: "allowlist not published yet" }, { status: 503 });
+  const leaf = keccak256(encodePacked(["address"], [getAddress(wallet)]));
 
-  const addr = getAddress(wallet);
-  const leaf = keccak256(encodePacked(["address"], [addr]));
-  let idx = t.layers[0].indexOf(leaf);
-  if (idx < 0) return NextResponse.json({ ok: true, allowlisted: false });
-
-  const proof: string[] = [];
-  for (let l = 0; l < t.layers.length - 1; l++) {
-    const sib = idx ^ 1;
-    if (sib < t.layers[l].length) proof.push(t.layers[l][sib]);
-    idx = Math.floor(idx / 2);
+  const out: Record<string, unknown> = { ok: true };
+  const primary = loadTree("tree-primary.json");
+  const community = loadTree("tree-community.json");
+  if (!primary && !community) {
+    return NextResponse.json({ ok: false, error: "allowlist not published yet" }, { status: 503 });
   }
-  return NextResponse.json({ ok: true, allowlisted: true, root: t.root, proof });
+  if (primary) {
+    const p = proofFor(primary, leaf);
+    if (p) out.primary = { root: primary.root, proof: p };
+  }
+  if (community) {
+    const p = proofFor(community, leaf);
+    if (p) out.community = { root: community.root, proof: p };
+  }
+  out.eligible = Boolean(out.primary || out.community);
+  return NextResponse.json(out);
 }

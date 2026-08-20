@@ -19,8 +19,14 @@ export const COLLECTION = {
   mintPrice: null as string | null,
   /** USD display price per mint — null renders as TBA */
   mintPriceUsd: 20 as number | null,
-  /** Mint premiere — ISO instant. Countdown targets this. */
-  mintDate: "2026-08-21T18:00:00Z" as string | null,
+  /** Mint premiere (primary phase opens) — ISO instant. Countdown targets this. */
+  mintDate: "2026-08-21T17:00:00Z" as string | null,
+  /** Phase schedule, all Aug 21 UTC. */
+  phases: [
+    { key: "PRIMARY", label: "PARTNER HOLDERS", time: "17:00 UTC" },
+    { key: "COMMUNITY", label: "WHITELIST", time: "18:00 UTC" },
+    { key: "PUBLIC", label: "EVERYONE", time: "19:00 UTC" },
+  ],
   contractAddress: (process.env.NEXT_PUBLIC_GRIFTERS_CONTRACT || null) as
     | `0x${string}`
     | null,

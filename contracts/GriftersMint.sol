@@ -13,27 +13,24 @@ interface IGriftersReveal {
 
 /// GRIFTERS — 2,222 sealed celebrity collectibles on Robinhood Chain.
 ///
-/// Mint mechanics:
-///  - Allowlist window opens at `allowlistOpensAt` (merkle-gated: the
-///    frozen whitelist + partner-collection holders), public mint opens
-///    at `publicOpensAt`. Same price for both.
-///  - `priceWei` and both timestamps are immutable — set at deploy,
-///    nobody can move the goalposts afterward.
-///  - Max 50 mints per wallet across both phases.
+/// Mint runs in three phases (all immutable — nobody can move the
+/// goalposts after deploy), same price throughout, 50 per wallet total:
+///   1. PRIMARY   — partner-collection holders (merkle: primaryRoot)
+///   2. COMMUNITY — the whitelist (merkle: communityRoot)
+///   3. PUBLIC    — everyone
+/// Each phase opens at its timestamp and stays open; later phases add
+/// eligibility, never remove it.
 ///
-/// Reveal integration (DERP conductor, shape C):
-///  - `tokenURI` serves `sealedURI` until the GriftersReveal contract
-///    reports its mined word has landed; afterwards it serves
-///    `baseURI + identityIndexOf(tokenId)`. The identity assignment is
-///    a pure on-chain function of the mined word and is verifiable by
-///    anyone against the pre-committed sealed manifest.
-///  - The metadata URIs are owner-set (standard practice; same hop as
-///    BigFatMagicCats) — the *assignment* is trustless, the file
-///    hosting is not, and we say so publicly.
+/// Reveal integration (DERP conductor, shape C): `tokenURI` serves
+/// `sealedURI` until GriftersReveal reports its mined word landed, then
+/// serves `baseURI + identityIndexOf(tokenId)`. The identity assignment
+/// is a pure on-chain function of the mined word, verifiable by anyone
+/// against the pre-committed sealed manifest. Metadata URIs are
+/// owner-set (the conventional hop, same as BFMC) — the assignment is
+/// the trustless part and we say so publicly.
 contract GriftersMint is ERC721, Ownable {
     error MintNotOpen();
-    error AllowlistOnly();
-    error NotOnAllowlist();
+    error NotEligible();
     error SoldOut();
     error WalletLimit();
     error WrongPayment();
@@ -43,9 +40,11 @@ contract GriftersMint is ERC721, Ownable {
     uint256 public constant MAX_PER_WALLET = 50;
 
     uint256 public immutable priceWei;
-    uint256 public immutable allowlistOpensAt;
+    uint256 public immutable primaryOpensAt;
+    uint256 public immutable communityOpensAt;
     uint256 public immutable publicOpensAt;
-    bytes32 public immutable allowlistRoot;
+    bytes32 public immutable primaryRoot;
+    bytes32 public immutable communityRoot;
     IGriftersReveal public immutable reveal;
 
     uint256 public totalSupply;
@@ -56,32 +55,48 @@ contract GriftersMint is ERC721, Ownable {
 
     constructor(
         uint256 priceWei_,
-        uint256 allowlistOpensAt_,
+        uint256 primaryOpensAt_,
+        uint256 communityOpensAt_,
         uint256 publicOpensAt_,
-        bytes32 allowlistRoot_,
+        bytes32 primaryRoot_,
+        bytes32 communityRoot_,
         address reveal_,
         string memory sealedURI_
     ) ERC721("GRIFTERS", "GRIFT") Ownable(msg.sender) {
         priceWei = priceWei_;
-        allowlistOpensAt = allowlistOpensAt_;
+        primaryOpensAt = primaryOpensAt_;
+        communityOpensAt = communityOpensAt_;
         publicOpensAt = publicOpensAt_;
-        allowlistRoot = allowlistRoot_;
+        primaryRoot = primaryRoot_;
+        communityRoot = communityRoot_;
         reveal = IGriftersReveal(reveal_);
         sealedURI = sealedURI_;
     }
 
     // ——— minting ————————————————————————————————————————————————————
 
-    function mintAllowlist(uint256 qty, bytes32[] calldata proof) external payable {
-        if (block.timestamp < allowlistOpensAt) revert MintNotOpen();
-        bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
-        if (!MerkleProof.verifyCalldata(proof, allowlistRoot, leaf)) revert NotOnAllowlist();
+    /// Partner-collection holders. Open from primaryOpensAt onward.
+    function mintPrimary(uint256 qty, bytes32[] calldata proof) external payable {
+        if (block.timestamp < primaryOpensAt) revert MintNotOpen();
+        if (!_proven(proof, primaryRoot)) revert NotEligible();
         _mintQty(qty);
     }
 
-    function mintPublic(uint256 qty) external payable {
-        if (block.timestamp < publicOpensAt) revert AllowlistOnly();
+    /// Whitelist. Open from communityOpensAt onward.
+    function mintCommunity(uint256 qty, bytes32[] calldata proof) external payable {
+        if (block.timestamp < communityOpensAt) revert MintNotOpen();
+        if (!_proven(proof, communityRoot)) revert NotEligible();
         _mintQty(qty);
+    }
+
+    /// Everyone. Open from publicOpensAt onward.
+    function mintPublic(uint256 qty) external payable {
+        if (block.timestamp < publicOpensAt) revert MintNotOpen();
+        _mintQty(qty);
+    }
+
+    function _proven(bytes32[] calldata proof, bytes32 root) private view returns (bool) {
+        return MerkleProof.verifyCalldata(proof, root, keccak256(abi.encodePacked(msg.sender)));
     }
 
     function _mintQty(uint256 qty) private {

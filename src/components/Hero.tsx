@@ -166,9 +166,12 @@ export function Hero() {
           <div className="mt-4 inline-block border-2 border-ink/80 bg-white/90 px-5 py-3.5"
             style={{ boxShadow: "6px 6px 0 0 rgba(46,189,107,0.25)" }}>
             <p className="font-pixel text-[10px] sm:text-[11px] flex items-center gap-2 flex-wrap">
-              <span className="text-gold">MINT PREMIERES AUG 21 · 18:00 UTC</span>
+              <span className="text-gold">MINT PREMIERES AUG 21</span>
               <span className="text-ink-soft">·</span>
               <span className="text-rh-green">$20 PER GRIFTER</span>
+            </p>
+            <p className="mt-2 font-pixel text-[9px] text-ink-soft">
+              PARTNERS 17:00 · WHITELIST 18:00 · PUBLIC 19:00 UTC
             </p>
             {COLLECTION.mintDate && (
               <div className="mt-2.5">

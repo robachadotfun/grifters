@@ -318,8 +318,17 @@ export function MintSection() {
                   {!mounted ? null : COLLECTION.phase === "PRELAUNCH" || !hasContract ? (
                     <div className="text-center border-2 border-dashed border-ink/30 py-9 px-4 bg-cream/60">
                       <p className="font-pixel text-base text-ink">
-                        {COLLECTION.mintDate ? "MINT PREMIERES AUG 21 · 18:00 UTC" : "MINT OPENING SOON"}
+                        {COLLECTION.mintDate ? "MINT PREMIERES AUG 21" : "MINT OPENING SOON"}
                       </p>
+                      <div className="mt-4 flex flex-wrap justify-center gap-2.5">
+                        {COLLECTION.phases.map((p) => (
+                          <span key={p.key} className="font-pixel text-[9px] border-2 border-ink/30 bg-white px-3 py-2">
+                            <span className="text-rh-green">{p.key}</span>{" "}
+                            <span className="text-ink-soft">{p.label}</span>{" "}
+                            <span className="text-gold">{p.time}</span>
+                          </span>
+                        ))}
+                      </div>
                       {COLLECTION.mintDate && (
                         <div className="mt-5">
                           <Countdown to={COLLECTION.mintDate} />
