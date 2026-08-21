@@ -61,7 +61,7 @@ async function main() {
   const client = new Client({ connectionString: dbUrl, ssl: { rejectUnauthorized: false } });
   await client.connect();
   try {
-    const r = await client.query("select wallet from whitelist where tweet_ok = true");
+    const r = await client.query("select wallet from whitelist");
     for (const row of r.rows as { wallet: string }[]) {
       try {
         community.push(getAddress(row.wallet.trim()));
