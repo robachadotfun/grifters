@@ -31,6 +31,12 @@ export default function MintPage() {
         </div>
         <MintExperience />
 
+        <p className="text-center -mt-10 pb-12">
+          <a href="/gallery" className="font-pixel text-[10px] text-rh-green underline underline-offset-4 hover:text-ink">
+            SEE WHO&apos;S ALREADY MINTED →
+          </a>
+        </p>
+
         <FloydMoment compact />
 
         {/* final whitelist — last call before the list locks on-chain */}
