@@ -22,12 +22,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "GRIFTERS — 2,222 Celebrity NFTs",
   description:
-    "GRIFTERS is a collection of 2,222 pixel-art celebrity collectibles on Robinhood Chain. Minting Aug 21 from 17:00 UTC — $20 per Grifter.",
+    "GRIFTERS is a collection of 2,222 pixel-art celebrity collectibles on Robinhood Chain. Free mint is live on Robinhood Chain.",
   keywords: ["GRIFTERS", "NFT", "Robinhood Chain", "pixel art", "celebrity collectibles"],
   openGraph: {
     title: "GRIFTERS — 2,222 Celebrity NFTs",
     description:
-      "Hollywood, minted. 2,222 pixel-art celebrity collectibles on Robinhood Chain. Minting Aug 21 from 17:00 UTC — $20 per Grifter.",
+      "Hollywood, minted. 2,222 pixel-art celebrity collectibles on Robinhood Chain. Free mint is live on Robinhood Chain.",
     url: SITE_URL,
     siteName: "GRIFTERS",
     images: [
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     creator: "@griftersonchain",
     title: "GRIFTERS — 2,222 Celebrity NFTs",
     description:
-      "Hollywood, minted. 2,222 pixel-art celebrity collectibles on Robinhood Chain. Minting Aug 21 · from 17:00 UTC · $20.",
+      "Hollywood, minted. 2,222 pixel-art celebrity collectibles on Robinhood Chain. Free mint is live.",
     images: ["/og.png"],
   },
   icons: {

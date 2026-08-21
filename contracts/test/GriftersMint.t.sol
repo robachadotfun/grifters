@@ -15,7 +15,7 @@ contract GriftersMintTest is Test {
     GriftersMint mint;
 
     function setUp() public {
-        mint = new GriftersMint(PRICE, 1787331600, 1787335200, 1787338800, bytes32(uint256(1)), bytes32(uint256(2)), address(new MockReveal()), TREASURY, "ipfs://sealed");
+        mint = new GriftersMint(PRICE, 1787331600, 1787335200, 1787338800, bytes32(uint256(1)), bytes32(uint256(2)), address(new MockReveal()), TREASURY, 50, "ipfs://sealed");
     }
 
     function test_ProceedsForwardDirectlyToTreasury() public {
@@ -45,5 +45,34 @@ contract GriftersMintTest is Test {
         vm.deal(address(this), 1 ether);
         vm.expectRevert(GriftersMint.WrongPayment.selector);
         mint.mintPublic{value: PRICE - 1}(1);
+    }
+}
+
+contract GriftersFreeMintTest is Test {
+    address payable constant TREASURY = payable(0xB8D5600F77328E18C3E4220657DB709E482AD338);
+    GriftersMint mint;
+    function setUp() public {
+        mint = new GriftersMint(0, 1, 1, 1, bytes32(uint256(1)), bytes32(uint256(2)), address(new MockReveal()), TREASURY, 5, "ipfs://sealed");
+    }
+    function test_FreeMintWorksAndCapIs5() public {
+        vm.warp(100);
+        address a = address(0xA11CE);
+        vm.prank(a); mint.mintPublic(5);
+        assertEq(mint.balanceOf(a), 5);
+        vm.prank(a); vm.expectRevert(GriftersMint.WalletLimit.selector); mint.mintPublic(1);
+    }
+    function test_PayingOnFreeMintReverts() public {
+        vm.warp(100); vm.deal(address(this), 1 ether);
+        vm.expectRevert(GriftersMint.WrongPayment.selector);
+        mint.mintPublic{value: 1}(1);
+    }
+    function test_AirdropHonorsPreviousHolders() public {
+        address[] memory to = new address[](2); to[0] = address(0x1); to[1] = address(0x2);
+        uint256[] memory q = new uint256[](2); q[0] = 3; q[1] = 7;
+        mint.airdrop(to, q);
+        assertEq(mint.balanceOf(address(0x1)), 3);
+        assertEq(mint.balanceOf(address(0x2)), 7);
+        assertEq(mint.totalSupply(), 10);
+        vm.prank(address(0xBAD)); vm.expectRevert(); mint.airdrop(to, q);
     }
 }

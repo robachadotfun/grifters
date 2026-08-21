@@ -168,7 +168,7 @@ export function Hero() {
             <p className="font-pixel text-[10px] sm:text-[11px] flex items-center gap-2 flex-wrap">
               <span className="text-gold">MINT PREMIERES AUG 21</span>
               <span className="text-ink-soft">·</span>
-              <span className="text-rh-green">$20 PER GRIFTER</span>
+              <span className="text-rh-green">FREE MINT · LIVE NOW</span>
             </p>
             <p className="mt-2 font-pixel text-[9px] text-ink-soft">
               PARTNERS 17:00 · WHITELIST 18:00 · PUBLIC 19:00 UTC

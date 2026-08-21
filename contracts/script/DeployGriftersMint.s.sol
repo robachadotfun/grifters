@@ -22,9 +22,9 @@ contract DeployGriftersMint is Script {
         bytes32 communityRoot = vm.envBytes32("COMMUNITY_ROOT");
         address revealAddr = vm.envAddress("REVEAL_ADDRESS");
         address payable treasuryAddr = payable(vm.envAddress("TREASURY"));
+        uint256 maxPerWallet = vm.envUint("MAX_PER_WALLET");
         string memory sealedURI = vm.envString("SEALED_URI");
 
-        require(priceWei > 0, "PRICE_WEI not set");
         require(primaryRoot != bytes32(0), "PRIMARY_ROOT not set");
         require(communityRoot != bytes32(0), "COMMUNITY_ROOT not set");
         require(revealAddr != address(0), "REVEAL_ADDRESS not set");
@@ -41,11 +41,14 @@ contract DeployGriftersMint is Script {
             communityRoot,
             revealAddr,
             treasuryAddr,
+            maxPerWallet,
             sealedURI
         );
         vm.stopBroadcast();
 
         console.log("treasury:", address(mint.treasury()));
+        console.log("priceWei:", mint.priceWei());
+        console.log("maxPerWallet:", mint.maxPerWallet());
 
         console.log("GriftersMint:", address(mint));
     }

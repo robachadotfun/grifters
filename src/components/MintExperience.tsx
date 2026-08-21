@@ -29,9 +29,9 @@ type ProofResult = {
 } | null;
 
 const PHASE_TWEETS: Record<string, string> = {
-  PRIMARY: `Through the velvet rope FIRST. 🎬\n\nPRIMARY access confirmed for the @griftersonchain mint — partner holders open the doors Aug 21, 17:00 UTC.\n\n2,222 sealed icons · $20 · Robinhood Chain\nhttps://www.grifters.market/mint`,
-  COMMUNITY: `I'm on the list. 🎟️\n\nCOMMUNITY access confirmed for the @griftersonchain mint — whitelist doors open Aug 21, 18:00 UTC.\n\n2,222 sealed icons · $20 · Robinhood Chain\nhttps://www.grifters.market/mint`,
-  PUBLIC: `No list, no problem. 👑\n\nDoors open for EVERYONE at the @griftersonchain mint — Aug 21, 19:00 UTC.\n\n2,222 sealed icons · $20 · Robinhood Chain\nhttps://www.grifters.market/mint`,
+  PRIMARY: `Through the velvet rope FIRST. 🎬\n\nPRIMARY access confirmed for the @griftersonchain mint — partner holders open the doors Aug 21, 17:00 UTC.\n\n2,222 sealed icons · FREE mint · Robinhood Chain\nhttps://www.grifters.market/mint`,
+  COMMUNITY: `I'm on the list. 🎟️\n\nCOMMUNITY access confirmed for the @griftersonchain mint — whitelist doors open Aug 21, 18:00 UTC.\n\n2,222 sealed icons · FREE mint · Robinhood Chain\nhttps://www.grifters.market/mint`,
+  PUBLIC: `No list, no problem. 👑\n\nDoors open for EVERYONE at the @griftersonchain mint — Aug 21, 19:00 UTC.\n\n2,222 sealed icons · FREE mint · Robinhood Chain\nhttps://www.grifters.market/mint`,
 };
 
 function PhaseBadge({ result }: { result: NonNullable<ProofResult> }) {
@@ -397,10 +397,10 @@ export function MintExperience() {
               <div className="flex items-center justify-center gap-5 mb-4">
                 <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))} className="cartridge font-pixel text-2xl w-14 h-14" aria-label="Decrease quantity">−</button>
                 <span className="font-pixel text-4xl w-24 text-center" aria-live="polite">{String(qty).padStart(2, "0")}</span>
-                <button type="button" onClick={() => setQty((q) => Math.min(50 - myCount, q + 1))} className="cartridge font-pixel text-2xl w-14 h-14" aria-label="Increase quantity">+</button>
+                <button type="button" onClick={() => setQty((q) => Math.min((COLLECTION.maxPerWallet ?? 50) - myCount, q + 1))} className="cartridge font-pixel text-2xl w-14 h-14" aria-label="Increase quantity">+</button>
               </div>
               <div className="flex justify-center gap-2.5 mb-6">
-                {[1, 3, 5, 10].map((n) => (
+                {[1, 5, 10, 25].map((n) => (
                   <button key={n} type="button" onClick={() => setQty(n)} aria-pressed={qty === n} className="cartridge font-pixel text-[11px] w-11 h-11">{n}</button>
                 ))}
               </div>
@@ -411,11 +411,11 @@ export function MintExperience() {
                 className="btn-pixel w-full font-pixel text-sm min-h-[64px] border-2 border-ink transition-colors disabled:opacity-70"
                 style={{ background: "var(--rh-green)", color: "#10321f" }}
               >
-                {signing ? "CHECK WALLET" : confirming ? "MINTING..." : `MINT ${qty} — ${totalCost ?? "…"} ETH`}
+                {signing ? "CHECK WALLET" : confirming ? "MINTING..." : (priceWeiData != null && Number(priceWeiData) === 0 ? `MINT ${qty} — FREE` : `MINT ${qty} — ${totalCost ?? "…"} ETH`)}
               </button>
               <div className="mt-3.5 flex justify-between font-pixel text-[10px] text-ink-soft">
                 <span>{shortAddr(address)}</span>
-                <span>~$20 PER GRIFTER · 2,222 TOTAL</span>
+                <span>FREE MINT · 2,222 TOTAL</span>
               </div>
               {writeError && (
                 <p className="mt-3 text-sm text-red-700 border-2 border-red-200 bg-red-50 px-3 py-2" role="alert">
@@ -427,7 +427,7 @@ export function MintExperience() {
                 <div className="mt-3 border-2 border-rh-green/40 bg-rh-pale px-3 py-2.5" role="status">
                   <p className="font-pixel text-[10px] text-rh-green">MINTED ✓ — YOUR SEALED GRIFTERS ARE BELOW</p>
                   <a
-                    href={`https://x.com/intent/tweet?text=${encodeURIComponent(`Just minted my sealed GRIFTERS. 🎬 Identity hidden until the reveal — assigned by real mined entropy on Robinhood Chain.\n\n@griftersonchain · $20 · minting NOW\nhttps://www.grifters.market/mint`)}`}
+                    href={`https://x.com/intent/tweet?text=${encodeURIComponent(`Just minted my sealed GRIFTERS. 🎬 Identity hidden until the reveal — assigned by real mined entropy on Robinhood Chain.\n\n@griftersonchain · FREE mint · live NOW\nhttps://www.grifters.market/mint`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-pixel mt-2.5 inline-flex items-center justify-center w-full min-h-[42px] px-4 font-pixel text-[10px] border-2 border-ink bg-ink text-white hover:bg-rh-green hover:border-rh-green transition-colors"

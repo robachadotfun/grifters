@@ -9,7 +9,7 @@ import { PixelCrown, PixelSparkle } from "@/components/pixel/PixelIcons";
 export const metadata: Metadata = {
   title: "Mint — GRIFTERS",
   description:
-    "Mint your sealed GRIFTERS on Robinhood Chain. Partner holders 17:00 UTC · Whitelist 18:00 · Public 19:00 — Aug 21. $20 per Grifter.",
+    "Mint your sealed GRIFTERS on Robinhood Chain. Free mint — live now on Robinhood Chain.",
 };
 
 export default function MintPage() {
@@ -25,7 +25,7 @@ export default function MintPage() {
             Claim your seat.
           </h1>
           <p className="mt-5 text-xl text-ink-soft max-w-xl mx-auto">
-            2,222 sealed icons. $20 each. Identity assigned by mined entropy —
+            2,222 sealed icons. Free to mint. Identity assigned by mined entropy —
             revealed after the curtain drops.
           </p>
         </div>

@@ -37,7 +37,8 @@ contract GriftersMint is ERC721, Ownable {
     error WithdrawFailed();
 
     uint256 public constant SUPPLY = 2222;
-    uint256 public constant MAX_PER_WALLET = 50;
+    /// Per-wallet cap across all phases — set at deploy (free mints need a tight one).
+    uint256 public immutable maxPerWallet;
 
     uint256 public immutable priceWei;
     uint256 public immutable primaryOpensAt;
@@ -65,9 +66,12 @@ contract GriftersMint is ERC721, Ownable {
         bytes32 communityRoot_,
         address reveal_,
         address payable treasury_,
+        uint256 maxPerWallet_,
         string memory sealedURI_
     ) ERC721("GRIFTERS", "GRIFT") Ownable(msg.sender) {
         require(treasury_ != address(0), "treasury zero");
+        require(maxPerWallet_ > 0, "cap zero");
+        maxPerWallet = maxPerWallet_;
         priceWei = priceWei_;
         primaryOpensAt = primaryOpensAt_;
         communityOpensAt = communityOpensAt_;
@@ -107,7 +111,7 @@ contract GriftersMint is ERC721, Ownable {
 
     function _mintQty(uint256 qty) private {
         if (qty == 0 || totalSupply + qty > SUPPLY) revert SoldOut();
-        if (mintedBy[msg.sender] + qty > MAX_PER_WALLET) revert WalletLimit();
+        if (mintedBy[msg.sender] + qty > maxPerWallet) revert WalletLimit();
         if (msg.value != priceWei * qty) revert WrongPayment();
         mintedBy[msg.sender] += qty;
         uint256 start = totalSupply;
@@ -115,9 +119,25 @@ contract GriftersMint is ERC721, Ownable {
         for (uint256 i = 0; i < qty; i++) {
             _mint(msg.sender, start + i);
         }
-        // proceeds go straight to the treasury, same transaction
-        (bool ok, ) = treasury.call{value: msg.value}("");
-        if (!ok) revert WithdrawFailed();
+        // proceeds go straight to the treasury, same transaction (no-op when free)
+        if (msg.value > 0) {
+            (bool ok, ) = treasury.call{value: msg.value}("");
+            if (!ok) revert WithdrawFailed();
+        }
+    }
+
+    /// Owner re-issue — used to honor holders from a previous contract
+    /// version. Respects SUPPLY, not the per-wallet cap.
+    function airdrop(address[] calldata to, uint256[] calldata qty) external onlyOwner {
+        require(to.length == qty.length, "length");
+        for (uint256 i = 0; i < to.length; i++) {
+            if (totalSupply + qty[i] > SUPPLY) revert SoldOut();
+            uint256 start = totalSupply;
+            totalSupply = start + qty[i];
+            for (uint256 j = 0; j < qty[i]; j++) {
+                _mint(to[i], start + j);
+            }
+        }
     }
 
     // ——— metadata ———————————————————————————————————————————————————

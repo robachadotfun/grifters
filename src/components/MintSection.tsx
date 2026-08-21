@@ -351,7 +351,7 @@ export function MintSection() {
                     { dt: "NETWORK", dd: "", chain: true, cls: "" },
                     {
                       dt: "PRICE",
-                      dd: COLLECTION.mintPriceUsd != null ? `$${COLLECTION.mintPriceUsd}` : price ? `${price} ETH` : "TBA",
+                      dd: COLLECTION.mintPriceUsd === 0 ? "FREE" : COLLECTION.mintPriceUsd != null ? `$${COLLECTION.mintPriceUsd}` : price ? `${price} ETH` : "TBA",
                       cls: "text-gold",
                     },
                     { dt: "MINTED", dd: `${minted.toLocaleString()} / 2,222`, cls: "text-rh-green" },

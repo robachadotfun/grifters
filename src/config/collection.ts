@@ -18,7 +18,7 @@ export const COLLECTION = {
   /** ETH string, e.g. "0.05" — null renders as TBA */
   mintPrice: null as string | null,
   /** USD display price per mint — null renders as TBA */
-  mintPriceUsd: 20 as number | null,
+  mintPriceUsd: 0 as number | null,
   /** Mint premiere (primary phase opens) — ISO instant. Countdown targets this. */
   mintDate: "2026-08-21T17:00:00Z" as string | null,
   /** Phase schedule, all Aug 21 UTC. */
