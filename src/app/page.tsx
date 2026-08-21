@@ -10,6 +10,7 @@ import { RaritySection } from "@/components/RaritySection";
 import { Unlocks } from "@/components/Unlocks";
 import { PreReveal } from "@/components/PreReveal";
 import { ProvablySealed } from "@/components/ProvablySealed";
+import { FloydMoment } from "@/components/FloydMoment";
 import { ChainSection } from "@/components/ChainSection";
 import { HowItWorks } from "@/components/HowItWorks";
 import { MintSection } from "@/components/MintSection";
@@ -25,6 +26,7 @@ export default function Home() {
       <main>
         <Hero />
         <Ticker />
+        <FloydMoment />
         <Showcase />
         <TraitExplorer />
         <Lore />

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MintExperience } from "@/components/MintExperience";
+import { FloydMoment } from "@/components/FloydMoment";
 import { WhitelistForm } from "@/components/WhitelistForm";
 import { PixelCrown, PixelSparkle } from "@/components/pixel/PixelIcons";
 
@@ -29,6 +30,8 @@ export default function MintPage() {
           </p>
         </div>
         <MintExperience />
+
+        <FloydMoment compact />
 
         {/* final whitelist — last call before the list locks on-chain */}
         <div id="final-whitelist" className="mx-auto max-w-3xl px-4 sm:px-8 pb-24">
