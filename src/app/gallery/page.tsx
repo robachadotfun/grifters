@@ -6,7 +6,7 @@ import { PixelCrown, PixelSparkle } from "@/components/pixel/PixelIcons";
 import { COLLECTION, PREREVEAL } from "@/config/collection";
 import { getMinted } from "@/lib/minted";
 
-export const revalidate = 30;
+export const revalidate = 20;
 
 export const metadata: Metadata = {
   title: "Gallery — GRIFTERS",
@@ -17,8 +17,9 @@ const EXPLORER = process.env.NEXT_PUBLIC_EXPLORER_URL || "https://robinhoodchain
 const short = (a: string) => `${a.slice(0, 6)}…${a.slice(-4)}`;
 
 export default async function GalleryPage() {
-  const { total, tokens } = await getMinted();
-  const owners = new Set(tokens.map((t) => t.owner.toLowerCase())).size;
+  const { total, tokens, ownersKnown } = await getMinted();
+  const owners = new Set(tokens.filter((t) => t.owner).map((t) => t.owner!.toLowerCase())).size;
+  const soldOut = total >= COLLECTION.supply;
   const pct = Math.min(100, (total / COLLECTION.supply) * 100);
 
   return (
@@ -33,24 +34,26 @@ export default async function GalleryPage() {
             {total.toLocaleString()} minted.
           </h1>
           <p className="mt-5 text-xl text-ink-soft max-w-xl mx-auto">
-            {owners.toLocaleString()} wallets have claimed their seat. Every identity stays
-            sealed until the reveal.
+            {soldOut ? "Every seat is taken." : `${owners.toLocaleString()} wallets have claimed their seat.`}{" "}
+            {ownersKnown >= total && owners > 0 ? `${owners.toLocaleString()} wallets. ` : ""}Every identity stays sealed until the reveal.
           </p>
           <div className="mx-auto mt-8 max-w-md">
             <div className="h-4 border-2 border-ink/80 bg-white overflow-hidden">
               <div className="h-full" style={{ width: `${pct}%`, background: "var(--rh-green)" }} />
             </div>
             <p className="mt-2 font-pixel text-[9px] text-ink-soft">
-              {total.toLocaleString()} / {COLLECTION.supply.toLocaleString()} · UPDATES EVERY 30S
+              {total.toLocaleString()} / {COLLECTION.supply.toLocaleString()} · {soldOut ? "SOLD OUT" : "UPDATES EVERY 30S"}
             </p>
           </div>
-          <a
-            href="/mint"
-            className="btn-pixel mt-8 inline-flex items-center justify-center min-h-[52px] px-8 font-pixel text-xs border-2 border-ink transition-colors"
-            style={{ background: "var(--rh-green)", color: "#10321f" }}
-          >
-            MINT YOURS →
-          </a>
+          {!soldOut && (
+            <a
+              href="/mint"
+              className="btn-pixel mt-8 inline-flex items-center justify-center min-h-[52px] px-8 font-pixel text-xs border-2 border-ink transition-colors"
+              style={{ background: "var(--rh-green)", color: "#10321f" }}
+            >
+              MINT YOURS →
+            </a>
+          )}
         </div>
 
         <div className="mx-auto max-w-[96rem] px-4 sm:px-8 pb-24">
@@ -78,7 +81,7 @@ export default async function GalleryPage() {
                     <span className="font-pixel text-[10px]">#{t.id}</span>
                     <span className="font-pixel text-[8px] text-gold">SEALED</span>
                   </div>
-                  <p className="px-2 pb-1.5 font-pixel text-[8px] text-ink-soft">{short(t.owner)}</p>
+                  <p className="px-2 pb-1.5 font-pixel text-[8px] text-ink-soft">{t.owner ? short(t.owner) : "—"}</p>
                 </a>
               ))}
             </div>
