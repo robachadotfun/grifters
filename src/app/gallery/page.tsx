@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { PixelCrown, PixelSparkle } from "@/components/pixel/PixelIcons";
 import { COLLECTION, PREREVEAL } from "@/config/collection";
 import { getMinted } from "@/lib/minted";
+import { Countdown } from "@/components/Countdown";
 
 export const revalidate = 20;
 
@@ -45,6 +46,13 @@ export default async function GalleryPage() {
               {total.toLocaleString()} / {COLLECTION.supply.toLocaleString()} · {soldOut ? "SOLD OUT" : "UPDATES EVERY 30S"}
             </p>
           </div>
+          {soldOut && COLLECTION.revealDate && (
+            <div className="mt-8">
+              <p className="font-pixel text-[10px] text-gold mb-3">THE CURTAIN DROPS AUG 22 · 18:00 UTC</p>
+              <Countdown to={COLLECTION.revealDate} />
+              <p className="mt-3 font-pixel text-[8px] text-ink-soft">ONE MINED WORD ASSIGNS EVERY IDENTITY · MANIFEST COMMITTED ON-CHAIN</p>
+            </div>
+          )}
           {!soldOut && (
             <a
               href="/mint"

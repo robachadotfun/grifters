@@ -352,6 +352,13 @@ export function MintExperience() {
           ) : soldOut ? (
             <div className="text-center py-6">
               <p className="font-pixel text-base">SOLD OUT — 2,222 / 2,222</p>
+              {COLLECTION.revealDate && (
+                <>
+                  <p className="mt-4 font-pixel text-[10px] text-gold">REVEAL AUG 22 · 18:00 UTC</p>
+                  <div className="mt-3"><Countdown to={COLLECTION.revealDate} /></div>
+                </>
+              )}
+              <a href="/gallery" className="mt-5 inline-block font-pixel text-[10px] text-rh-green underline underline-offset-4">SEE ALL 2,222 →</a>
             </div>
           ) : !isConnected ? (
             <div className="text-center py-6">
