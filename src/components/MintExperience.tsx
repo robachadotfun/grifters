@@ -415,7 +415,7 @@ export function MintExperience() {
               </button>
               <div className="mt-3.5 flex justify-between font-pixel text-[10px] text-ink-soft">
                 <span>{shortAddr(address)}</span>
-                <span>~$20 PER GRIFTER · MAX 50/WALLET</span>
+                <span>~$20 PER GRIFTER · 2,222 TOTAL</span>
               </div>
               {writeError && (
                 <p className="mt-3 text-sm text-red-700 border-2 border-red-200 bg-red-50 px-3 py-2" role="alert">
