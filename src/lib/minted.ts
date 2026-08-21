@@ -45,7 +45,7 @@ export async function getMinted(): Promise<{ total: number; tokens: MintedToken[
   while (budget > 0 && cache.owners.size < cache.total) {
     // next unknown ids from the cursor, wrapping
     const ids: number[] = [];
-    let probe = cache.cursor;
+    const probe = cache.cursor;
     for (let n = 0; n < cache.total && ids.length < 20; n++) {
       const id = (probe + n) % cache.total;
       if (!cache.owners.has(id)) ids.push(id);
